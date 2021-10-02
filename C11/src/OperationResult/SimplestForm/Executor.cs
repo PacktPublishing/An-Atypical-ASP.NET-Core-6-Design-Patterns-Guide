@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace OperationResult.SimplestForm
+{
+    public class Executor
+    {
+        public OperationResult Operation()
+        {
+            // Randomize the success indicator
+            // This should be real logic
+            var randomNumber = new Random().Next(100);
+            var success = randomNumber % 2 == 0;
+
+            // Return the operation result
+            return new OperationResult(success);
+        }
+    }
+}

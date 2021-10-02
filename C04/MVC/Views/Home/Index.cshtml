@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var imageUri = Url.Action("ActionWithoutResultV2");
+}
+
+<p>Use the left menu to navigate through the examples.</p>
+
+<h2>The result of ActionWithoutResultV2</h2>
+<figure>
+    <img src="@imageUri" alt="Asp.Net Core logo" />
+    <figcaption>
+        The result of <em>ActionWithoutResultV2</em> displayed using the following HTML markup:
+        <code>&lt;img src="@imageUri" alt="Asp.Net Core logo" /></code>.
+    </figcaption>
+</figure>
+
+<p>You can download the image by clicking <a href="@Url.Action("DownloadTheImage")">here</a>.</p>

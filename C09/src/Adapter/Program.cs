@@ -1,24 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Adapter
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<ExternalGreeter>();
+builder.Services.AddSingleton<IGreeter, ExternalGreeterAdapter>();
+
+var app = builder.Build();
+app.MapGet("/", (IGreeter greeter) => greeter.Greeting());
+app.Run();
+
+public class ExternalGreeter
 {
-    public class Program
+    public string GreetByName(string name)
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+        return $"Adaptee says: hi {name}!";
+    }
+}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+public interface IGreeter
+{
+    string Greeting();
+}
+
+public class ExternalGreeterAdapter : IGreeter
+{
+    private readonly ExternalGreeter _adaptee;
+
+    public ExternalGreeterAdapter(ExternalGreeter adaptee)
+    {
+        _adaptee = adaptee ?? throw new ArgumentNullException(nameof(adaptee));
+    }
+
+    public string Greeting()
+    {
+        return _adaptee.GreetByName("ExternalGreeterAdapter");
     }
 }

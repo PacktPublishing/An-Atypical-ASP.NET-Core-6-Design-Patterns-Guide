@@ -1,5 +1,4 @@
-﻿using System;
-using DecoratorPlain;
+﻿using DecoratorPlain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

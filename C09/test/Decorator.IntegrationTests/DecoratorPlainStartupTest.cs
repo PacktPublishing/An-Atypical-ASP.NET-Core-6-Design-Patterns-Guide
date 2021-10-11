@@ -2,9 +2,9 @@
 
 namespace Decorator.IntegrationTests
 {
-    public class DecoratorPlainStartupTest : StartupTest<DecoratorPlain.Startup>
+    public class DecoratorPlainStartupTest : StartupTest<DecoratorPlain.IComponent>
     {
-        public DecoratorPlainStartupTest(WebApplicationFactory<DecoratorPlain.Startup> webApplicationFactory)
+        public DecoratorPlainStartupTest(WebApplicationFactory<DecoratorPlain.IComponent> webApplicationFactory)
             : base(webApplicationFactory)
         {
         }

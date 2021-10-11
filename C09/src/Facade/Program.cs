@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using OpaqueFacadeSubSystem.Abstractions;
+using TransparentFacadeSubSystem.Abstractions;
+using Facade;
 
-namespace Facade
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddOpaqueFacadeSubSystem()
+    .AddTransparentFacadeSubSystem()
+    .AddSingleton<IComponentB, UpdatedComponentB>()
+;
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
-}
+var app = builder.Build();
+app.MapGet("/opaque/a", (IOpaqueFacade opaqueFacade) => opaqueFacade.ExecuteOperationA());
+app.MapGet("/opaque/b", (IOpaqueFacade opaqueFacade) => opaqueFacade.ExecuteOperationB());
+app.MapGet("/transparent/a", (ITransparentFacade transparentFacade) => transparentFacade.ExecuteOperationA());
+app.MapGet("/transparent/b", (ITransparentFacade transparentFacade) => transparentFacade.ExecuteOperationB());
+app.Run();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,7 +29,7 @@ namespace Decorator.IntegrationTests
             response.EnsureSuccessStatusCode();
             var body = await response.Content.ReadAsStringAsync();
             Assert.Equal(
-                "Operation: <DecoratorB><DecoratorA>Hello from ComponentA</DecoratorA></DecoratorB>", 
+                "<DecoratorB><DecoratorA>Hello from ComponentA</DecoratorA></DecoratorB>", 
                 body
             );
         }

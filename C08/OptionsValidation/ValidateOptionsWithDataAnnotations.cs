@@ -29,7 +29,7 @@ namespace OptionsValidation
             var options = serviceProvider.GetService<IOptionsMonitor<Options>>();
             var error = Assert.Throws<OptionsValidationException>(() => options.CurrentValue);
             Assert.Collection(error.Failures,
-                f => Assert.Equal("DataAnnotation validation failed for members: 'MyImportantProperty' with the error: 'The MyImportantProperty field is required.'.", f)
+                f => Assert.Equal("DataAnnotation validation failed for 'Options' members: 'MyImportantProperty' with the error: 'The MyImportantProperty field is required.'.", f)
             );
         }
 

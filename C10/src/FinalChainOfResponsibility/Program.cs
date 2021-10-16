@@ -1,24 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿global using System;
+using FinalChainOfResponsibility;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FinalChainOfResponsibility
+var builder = WebApplication.CreateBuilder(args);
+// Create the chain of responsibility,
+// ordered by the most called (or the one that must be executed the faster)
+// to the less called handler (or the one that can take more time to be executed),
+// followed by the DefaultHandler.
+builder.Services.AddSingleton<IMessageHandler>(new AlarmTriggeredHandler(new AlarmPausedHandler(new AlarmStoppedHandler(new SomeMultiHandler(new DefaultHandler())))));
+
+var app = builder.Build();
+
+// "Menu" enpoint
+app.MapGet("/", () => new[] {
+    "/handle/AlarmTriggered",
+    "/handle/AlarmPaused",
+    "/handle/AlarmStopped",
+    "/handle/Foo",
+    "/handle/Bar",
+    "/handle/Baz",
+    "/handle/SomeUnhandledMessageName",
+});
+
+// Consumer (client) endpoint
+app.MapGet("/handle/{name}", (string name, string payload, IMessageHandler messageHandler) =>
 {
-    public class Program
+    var message = new Message
     {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        Name = name,
+        Payload = payload,
+    };
+    try
+    {
+        // Send the message into the chain of responsibility
+        messageHandler.Handle(message);
+        return $"Message '{message.Name}' handled successfully.";
     }
-}
+    catch (NotSupportedException ex)
+    {
+        return ex.Message;
+    }
+});
+app.Run();

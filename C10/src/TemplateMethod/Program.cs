@@ -7,10 +7,6 @@ using System.Text;
 using TemplateMethod;
 
 var builder = WebApplication.CreateBuilder(args);
-// Create the chain of responsibility,
-// ordered by the most called (or the one that must be executed the faster)
-// to the less called handler (or the one that can take more time to be executed),
-// followed by the DefaultHandler.
 builder.Services
     .AddSingleton<SearchMachine>(x => new LinearSearchMachine(1, 10, 5, 2, 123, 333, 4))
     .AddSingleton<SearchMachine>(x => new BinarySearchMachine(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))

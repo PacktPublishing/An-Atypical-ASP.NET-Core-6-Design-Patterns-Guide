@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 // Create the chain of responsibility,
-// ordered by the most called (or the one that must be executed the faster)
-// to the less called handler (or the one that can take more time to be executed),
+// ordered by the most called (or the ones to execute earlier)
+// to the less called handler (or the ones that take more time to execute),
 // followed by the DefaultHandler.
 builder.Services.AddSingleton<IMessageHandler>(new AlarmTriggeredHandler(new AlarmPausedHandler(new AlarmStoppedHandler(new DefaultHandler()))));
 

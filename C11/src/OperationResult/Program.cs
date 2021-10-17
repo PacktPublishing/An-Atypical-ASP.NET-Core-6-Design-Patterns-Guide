@@ -28,26 +28,58 @@ app.MapGet("/", () =>
 app.MapGet("/simplest-form", (OperationResult.SimplestForm.Executor executor) =>
 {
     var result = executor.Operation();
-    return result.Succeeded ? "Operation succeeded" : "Operation failed";
+    if (result.Succeeded)
+    {
+        // Handle the success
+        return "Operation succeeded";
+    }
+    else
+    {
+        // Handle the failure
+        return "Operation failed";
+    }
 });
 app.MapGet("/single-error", (OperationResult.SingleError.Executor executor) =>
 {
     var result = executor.Operation();
-    return result.Succeeded ? "Operation succeeded" : result.ErrorMessage;
+    if (result.Succeeded)
+    {
+        // Handle the success
+        return "Operation succeeded";
+    }
+    else
+    {
+        // Handle the failure
+        return result.ErrorMessage;
+    }
 });
 app.MapGet("/single-error-with-value", (OperationResult.SingleErrorWithValue.Executor executor) =>
 {
     var result = executor.Operation();
-    return result.Succeeded
-        ? $"Operation succeeded with a value of '{result.Value}'."
-        : "Operation failed";
+    if (result.Succeeded)
+    {
+        // Handle the success
+        return $"Operation succeeded with a value of '{result.Value}'.";
+    }
+    else
+    {
+        // Handle the failure
+        return "Operation failed";
+    }
 });
 app.MapGet("/multiple-errors-with-value", (OperationResult.MultipleErrorsWithValue.Executor executor) =>
 {
     var result = executor.Operation();
-    return (object)(result.Succeeded
-        ? $"Operation succeeded with a value of '{result.Value}'."
-        : result.Errors);
+    if (result.Succeeded)
+    {
+        // Handle the success
+        return $"Operation succeeded with a value of '{result.Value}'.";
+    }
+    else
+    {
+        // Handle the failure
+        return result.Errors as object;
+    }
 });
 app.MapGet("/multiple-errors-with-value-and-severity", (OperationResult.WithSeverity.Executor executor) =>
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace OperationResult.StaticFactoryMethod
 {
@@ -11,6 +12,8 @@ namespace OperationResult.StaticFactoryMethod
         }
 
         public string Message { get; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public OperationResultSeverity Severity { get; }
     }
 }

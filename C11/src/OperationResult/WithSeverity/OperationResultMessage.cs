@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace OperationResult.WithSeverity
 {
@@ -11,6 +12,8 @@ namespace OperationResult.WithSeverity
         }
 
         public string Message { get; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public OperationResultSeverity Severity { get; }
     }
 }

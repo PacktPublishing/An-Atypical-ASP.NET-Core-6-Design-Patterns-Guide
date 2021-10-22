@@ -12,9 +12,15 @@ namespace OperationResult.SingleError
             var success = randomNumber % 2 == 0;
 
             // Return the operation result
-            return success 
-                ? new OperationResult() 
-                : new OperationResult($"Something went wrong with the number '{randomNumber}'.");
+            return success
+                ? new()
+                : new() { ErrorMessage = $"Something went wrong with the number '{randomNumber}'." };
         }
+    }
+
+    public record class OperationResult
+    {
+        public bool Succeeded => string.IsNullOrWhiteSpace(ErrorMessage);
+        public string ErrorMessage { get; init; }
     }
 }

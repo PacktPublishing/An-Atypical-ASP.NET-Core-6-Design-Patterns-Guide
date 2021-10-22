@@ -1,34 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace OperationResult.WithSeverity
 {
-    public class OperationResult
+    public record class OperationResult
     {
-        private readonly List<OperationResultMessage> _messages;
+        public OperationResult() { }
         public OperationResult(params OperationResultMessage[] errors)
         {
-            _messages = new List<OperationResultMessage>(errors ?? Enumerable.Empty<OperationResultMessage>());
+            Messages = errors.ToImmutableList();
         }
 
         public bool Succeeded => !HasErrors();
         public int? Value { get; init; }
 
-        public IEnumerable<OperationResultMessage> Messages
-            => new ReadOnlyCollection<OperationResultMessage>(_messages);
-
+        public ImmutableList<OperationResultMessage> Messages { get; init; }
         public bool HasErrors()
         {
             return FindErrors().Count() > 0;
         }
 
-        public void AddMessage(OperationResultMessage message)
+        private IEnumerable<OperationResultMessage> FindErrors()
+            => Messages?.Where(x => x.Severity == OperationResultSeverity.Error);
+    }
+
+    public record class OperationResultMessage
+    {
+        public OperationResultMessage(string message, OperationResultSeverity severity)
         {
-            _messages.Add(message);
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+            Severity = severity;
         }
 
-        private IEnumerable<OperationResultMessage> FindErrors()
-            => _messages.Where(x => x.Severity == OperationResultSeverity.Error);
+        public string Message { get; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public OperationResultSeverity Severity { get; }
+    }
+
+    public enum OperationResultSeverity
+    {
+        Information = 0,
+        Warning = 1,
+        Error = 2
     }
 }

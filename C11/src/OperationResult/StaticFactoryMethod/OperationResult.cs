@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace OperationResult.StaticFactoryMethod
 {
-    public abstract class OperationResult
+    public abstract record class OperationResult
     {
         private OperationResult() { }
 
         public abstract bool Succeeded { get; }
         public virtual int? Value { get; init; }
-        public abstract IEnumerable<OperationResultMessage> Messages { get; }
+        public abstract ImmutableList<OperationResultMessage> Messages { get; }
 
         public static OperationResult Success(int? value = null)
         {
@@ -24,25 +27,42 @@ namespace OperationResult.StaticFactoryMethod
             return new FailedOperationResult(errors);
         }
 
-        public sealed class SuccessfulOperationResult : OperationResult
+        private record class SuccessfulOperationResult : OperationResult
         {
-            public override bool Succeeded => true;
-            public override IEnumerable<OperationResultMessage> Messages 
-                => Enumerable.Empty<OperationResultMessage>();
+            public override bool Succeeded { get; } = true;
+            public override ImmutableList<OperationResultMessage> Messages { get; } = ImmutableList<OperationResultMessage>.Empty;
         }
 
-        public sealed class FailedOperationResult : OperationResult
+        private record class FailedOperationResult : OperationResult
         {
-            private readonly List<OperationResultMessage> _messages;
             public FailedOperationResult(params OperationResultMessage[] errors)
             {
-                _messages = new List<OperationResultMessage>(errors ?? Enumerable.Empty<OperationResultMessage>());
+                Messages = errors.ToImmutableList();
             }
 
-            public override bool Succeeded => false;
-
-            public override IEnumerable<OperationResultMessage> Messages
-                => new ReadOnlyCollection<OperationResultMessage>(_messages);
+            public override bool Succeeded { get; } = false;
+            public override ImmutableList<OperationResultMessage> Messages { get; }
         }
+    }
+
+    public class OperationResultMessage
+    {
+        public OperationResultMessage(string message, OperationResultSeverity severity)
+        {
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+            Severity = severity;
+        }
+
+        public string Message { get; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public OperationResultSeverity Severity { get; }
+    }
+
+    public enum OperationResultSeverity
+    {
+        Information = 0,
+        Warning = 1,
+        Error = 2
     }
 }

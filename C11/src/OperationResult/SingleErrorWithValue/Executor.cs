@@ -13,11 +13,18 @@ namespace OperationResult.SingleErrorWithValue
 
             // Return the operation result
             return success
-                ? new OperationResult { Value = randomNumber }
-                : new OperationResult($"Something went wrong with the number '{randomNumber}'.")
+                ? new() { Value = randomNumber }
+                : new()
                 {
-                    Value = randomNumber
+                    ErrorMessage = $"Something went wrong with the number '{randomNumber}'.",
+                    Value = randomNumber,
                 };
         }
+    }
+    public record class OperationResult
+    {
+        public bool Succeeded => string.IsNullOrWhiteSpace(ErrorMessage);
+        public string ErrorMessage { get; init; }
+        public int? Value { get; init; }
     }
 }

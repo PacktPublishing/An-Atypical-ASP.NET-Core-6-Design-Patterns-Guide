@@ -13,8 +13,8 @@ namespace OperationResult.MultipleErrorsWithValue
 
             // Return the operation result
             return success
-                ? new OperationResult { Value = randomNumber }
-                : new OperationResult($"Something went wrong with the number '{randomNumber}'.")
+                ? new() { Value = randomNumber }
+                : new($"Something went wrong with the number '{randomNumber}'.")
                 {
                     Value = randomNumber
                 };

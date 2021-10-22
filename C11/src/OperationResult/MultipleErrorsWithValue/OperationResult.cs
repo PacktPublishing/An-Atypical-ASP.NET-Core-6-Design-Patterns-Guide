@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace OperationResult.MultipleErrorsWithValue
 {
-    public class OperationResult
+    public record class OperationResult
     {
-        private readonly List<string> _errors;
+        public OperationResult() { }
         public OperationResult(params string[] errors)
         {
-            _errors = new List<string>(errors ?? Enumerable.Empty<string>());
+            Errors = errors.ToImmutableList();
         }
 
         public bool Succeeded => !HasErrors();
         public int? Value { get; init; }
 
-        public IEnumerable<string> Errors => new ReadOnlyCollection<string>(_errors);
+        public ImmutableList<string> Errors { get; init; }
         public bool HasErrors()
         {
-            return Errors?.Count() > 0;
-        }
-
-        public void AddError(string message)
-        {
-            _errors.Add(message);
+            return Errors?.Count > 0;
         }
     }
 }

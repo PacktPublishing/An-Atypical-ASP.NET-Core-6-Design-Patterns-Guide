@@ -15,4 +15,6 @@ namespace OperationResult.SimplestForm
             return new OperationResult(success);
         }
     }
+
+    public record class OperationResult(bool Succeeded);
 }

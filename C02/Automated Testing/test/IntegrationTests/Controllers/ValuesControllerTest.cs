@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FunctionalTests.Controllers
+namespace IntegrationTests.Controllers
 {
     public class ValuesControllerTest : IClassFixture<WebApplicationFactory<Startup>>
     {

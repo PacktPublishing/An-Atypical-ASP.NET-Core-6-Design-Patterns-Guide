@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MyApp.Controllers
+namespace MyApp.IntegrationTests.Controllers
 {
     public class ValuesControllerTest : IClassFixture<WebApplicationFactory<Startup>>
     {

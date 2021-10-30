@@ -1,25 +1,30 @@
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
+using System;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace MyMinimalApiApp
 {
-    public class ProgramTest : IClassFixture<WebApplicationFactory<Program>>
+    public class ProgramTestWithoutFixture : IAsyncDisposable
     {
+        private readonly WebApplicationFactory<SomeOtherClass> _webApplicationFactory;
         private readonly HttpClient _httpClient;
 
-        public ProgramTest(WebApplicationFactory<Program> webApplicationFactory)
+        public ProgramTestWithoutFixture()
         {
-            _httpClient = webApplicationFactory.CreateClient();
+            _webApplicationFactory = new WebApplicationFactory<SomeOtherClass>();
+            _httpClient = _webApplicationFactory.CreateClient();
         }
 
-        public class Get : ProgramTest
+        public ValueTask DisposeAsync()
         {
-            public Get(WebApplicationFactory<Program> webApplicationFactory) : base(webApplicationFactory) { }
+            return ((IAsyncDisposable)_webApplicationFactory).DisposeAsync();
+        }
 
+        public class Get : ProgramTestWithoutFixture
+        {
             [Fact]
             public async Task Should_respond_a_status_200_OK()
             {

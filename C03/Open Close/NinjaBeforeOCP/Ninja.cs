@@ -1,15 +1,13 @@
-﻿using System.Numerics;
-using System.Security.Cryptography;
+﻿using NinjaShared;
+using System.Numerics;
 
 namespace NinjaBeforeOCP
 {
-    public interface IAttackable
+    public class Ninja : INinja
     {
-        public Vector2 Position { get; }
-    }
+        private readonly Weapon _sword = new Sword();
+        private readonly Weapon _shuriken = new Shuriken();
 
-    public class Ninja : IAttackable
-    {
         public string Name { get; }
         public Vector2 Position { get; private set; }
 
@@ -21,13 +19,14 @@ namespace NinjaBeforeOCP
 
         public AttackResult Attack(IAttackable target)
         {
-            if (IsCloseRange(target))
+            var distance = this.DistanceFrom(target);
+            if (_sword.CanHit(distance))
             {
-                return new AttackResult(new Sword(), this, target);
+                return new AttackResult(_sword, this, target);
             }
             else
             {
-                return new AttackResult(new Shuriken(), this, target);
+                return new AttackResult(_shuriken, this, target);
             }
         }
 
@@ -36,58 +35,6 @@ namespace NinjaBeforeOCP
             Position = new Vector2(x, y);
         }
 
-        private bool IsCloseRange(IAttackable target)
-            => RandomNumberGenerator.GetInt32(10_000) % 2 == 0;
-
-        public override string ToString() => Name;
-    }
-
-    public abstract class Weapon
-    {
-        public abstract WeaponType Type { get; }
-        public override string ToString() => GetType().Name;
-
-        public bool CanHit(float distance)
-        {
-            return !IsCloseRange(distance) && Type == WeaponType.Ranged
-                 || IsCloseRange(distance) && Type == WeaponType.Melee;
-        }
-
-        private bool IsCloseRange(float distance) => distance <= _meleeMaxDistance;
-        private readonly float _meleeMaxDistance = Vector2.Distance(Vector2.Zero, Vector2.One);
-    }
-
-    public enum WeaponType
-    {
-        Melee,
-        Ranged,
-    }
-
-    public class Sword : Weapon
-    {
-        public override WeaponType Type => WeaponType.Melee;
-    }
-
-    public class Shuriken : Weapon
-    {
-        public override WeaponType Type => WeaponType.Ranged;
-    }
-
-    public class AttackResult
-    {
-        public Weapon Weapon { get; }
-        public IAttackable Attacker { get; }
-        public IAttackable Target { get; }
-        public bool Succeeded { get; }
-        public float Distance { get; }
-
-        public AttackResult(Weapon weapon, IAttackable attacker, IAttackable target)
-        {
-            Weapon = weapon;
-            Attacker = attacker;
-            Target = target;
-            Distance = Vector2.Distance(attacker.Position, target.Position);
-            Succeeded = Weapon.CanHit(Distance);
-        }
+        public override string ToString() => $"{Name} (Position: {Position})";
     }
 }

@@ -4,4 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NinjaShared\NinjaShared.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,47 +1,43 @@
-﻿using System;
+﻿using NinjaShared;
+using System;
+using System.Numerics;
 
 namespace NinjaOCP
 {
-    public interface IAttackable { }
-
-    public class Ninja : IAttackable
+    public class Ninja : INinja
     {
-        public Weapon EquippedWeapon { get; set; }
-        public string Name { get; }
+        public Weapon MeleeWeapon { get; }
+        public Weapon RangedWeapon { get; }
 
-        public Ninja(string name)
+        public string Name { get; }
+        public Vector2 Position { get; private set; }
+
+        public Ninja(string name, Weapon meleeWeapon, Weapon rangedWeapon, Vector2? position = null)
         {
             Name = name;
+            Position = position ?? Vector2.Zero;
+            MeleeWeapon = meleeWeapon;
+            RangedWeapon = rangedWeapon;
         }
-        
+
         public AttackResult Attack(IAttackable target)
         {
-            return new AttackResult(EquippedWeapon, this, target);
+            var distance = this.DistanceFrom(target);
+            if (MeleeWeapon.CanHit(distance))
+            {
+                return new AttackResult(MeleeWeapon, this, target);
+            }
+            else
+            {
+                return new AttackResult(RangedWeapon, this, target);
+            }
         }
 
-        public override string ToString() => Name;
-    }
-
-    public class Weapon
-    {
-        public override string ToString() => GetType().Name;
-    }
-
-    public class Sword : Weapon { }
-
-    public class Shuriken : Weapon { }
-
-    public class AttackResult
-    {
-        public Weapon Weapon { get; }
-        public IAttackable Attacker { get; }
-        public IAttackable Target { get; }
-
-        public AttackResult(Weapon weapon, IAttackable attacker, IAttackable target)
+        public void MoveTo(float x, float y)
         {
-            Weapon = weapon;
-            Attacker = attacker;
-            Target = target;
+            Position = new Vector2(x, y);
         }
+
+        public override string ToString() => $"{Name} (Position: {Position})";
     }
 }

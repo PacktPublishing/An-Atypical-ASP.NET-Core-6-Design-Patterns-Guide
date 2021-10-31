@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaEmptyShell", "NinjaEmptyShell\NinjaEmptyShell.csproj", "{57AEC5AB-253F-4EF5-8E53-40214FAAF5C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NinjaEmptyShell", "NinjaEmptyShell\NinjaEmptyShell.csproj", "{57AEC5AB-253F-4EF5-8E53-40214FAAF5C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaOCP", "NinjaOCP\NinjaOCP.csproj", "{2B6474B7-B1C9-41B5-B953-830EE4895F96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NinjaOCP", "NinjaOCP\NinjaOCP.csproj", "{2B6474B7-B1C9-41B5-B953-830EE4895F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaBeforeOCP", "NinjaBeforeOCP\NinjaBeforeOCP.csproj", "{950711DB-3F8A-4B08-B06D-44FCDAA8F422}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NinjaBeforeOCP", "NinjaBeforeOCP\NinjaBeforeOCP.csproj", "{950711DB-3F8A-4B08-B06D-44FCDAA8F422}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaShared", "NinjaShared\NinjaShared.csproj", "{8322A885-6C2A-40BB-92F9-7A12801F572D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{950711DB-3F8A-4B08-B06D-44FCDAA8F422}.Release|x64.Build.0 = Release|Any CPU
 		{950711DB-3F8A-4B08-B06D-44FCDAA8F422}.Release|x86.ActiveCfg = Release|Any CPU
 		{950711DB-3F8A-4B08-B06D-44FCDAA8F422}.Release|x86.Build.0 = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|x64.Build.0 = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Debug|x86.Build.0 = Debug|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|x64.ActiveCfg = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|x64.Build.0 = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|x86.ActiveCfg = Release|Any CPU
+		{8322A885-6C2A-40BB-92F9-7A12801F572D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

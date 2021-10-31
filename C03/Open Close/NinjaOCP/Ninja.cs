@@ -24,7 +24,7 @@ namespace NinjaOCP
 
     public class Weapon
     {
-        public override string ToString() => this.GetType().Name;
+        public override string ToString() => GetType().Name;
     }
 
     public class Sword : Weapon { }

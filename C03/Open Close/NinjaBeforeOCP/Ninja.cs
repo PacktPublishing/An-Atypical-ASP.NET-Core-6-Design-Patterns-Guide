@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Security.Cryptography;
 
 namespace NinjaBeforeOCP
 {
@@ -25,7 +25,8 @@ namespace NinjaBeforeOCP
             }
         }
 
-        private bool IsCloseRange(IAttackable target) => DateTime.Now.Ticks % 2 == 0;
+        private bool IsCloseRange(IAttackable target)
+            => RandomNumberGenerator.GetInt32(10_000) % 2 == 0;
 
         public override string ToString() => Name;
     }

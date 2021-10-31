@@ -1,24 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using NinjaOCP;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
-namespace NinjaOCP
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.MapGet("/", async (HttpContext context) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    // Create actors
+    var target = new Ninja("The Unseen Mirage");
+    var ninja = new Ninja("The Blue Phantom");
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+    // First attack (Sword)
+    ninja.EquippedWeapon = new Sword();
+    var result = ninja.Attack(target);
+    await PrintAttackResult(result);
+
+    // Second attack (Shuriken)
+    ninja.EquippedWeapon = new Shuriken();
+    var result2 = ninja.Attack(target);
+    await PrintAttackResult(result2);
+
+    // Write the outcome of an AttackResult to response stream
+    async Task PrintAttackResult(AttackResult attackResult)
+    {
+        await context.Response.WriteAsync($"'{attackResult.Attacker}' attacked '{attackResult.Target}' using '{attackResult.Weapon}'!{Environment.NewLine}");
     }
-}
+});
+app.Run();

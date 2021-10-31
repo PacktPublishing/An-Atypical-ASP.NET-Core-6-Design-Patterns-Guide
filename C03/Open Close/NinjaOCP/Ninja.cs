@@ -1,5 +1,4 @@
 ﻿using NinjaShared;
-using System;
 using System.Numerics;
 
 namespace NinjaOCP

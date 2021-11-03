@@ -5,8 +5,8 @@ namespace NinjaOCP
 {
     public class Ninja : INinja
     {
-        public Weapon MeleeWeapon { get; }
-        public Weapon RangedWeapon { get; }
+        private readonly Weapon _meleeWeapon;
+        private readonly Weapon _rangedWeapon;
 
         public string Name { get; }
         public Vector2 Position { get; private set; }
@@ -15,20 +15,20 @@ namespace NinjaOCP
         {
             Name = name;
             Position = position ?? Vector2.Zero;
-            MeleeWeapon = meleeWeapon;
-            RangedWeapon = rangedWeapon;
+            _meleeWeapon = meleeWeapon;
+            _rangedWeapon = rangedWeapon;
         }
 
         public AttackResult Attack(IAttackable target)
         {
             var distance = this.DistanceFrom(target);
-            if (MeleeWeapon.CanHit(distance))
+            if (_meleeWeapon.CanHit(distance))
             {
-                return new AttackResult(MeleeWeapon, this, target);
+                return new AttackResult(_meleeWeapon, this, target);
             }
             else
             {
-                return new AttackResult(RangedWeapon, this, target);
+                return new AttackResult(_rangedWeapon, this, target);
             }
         }
 

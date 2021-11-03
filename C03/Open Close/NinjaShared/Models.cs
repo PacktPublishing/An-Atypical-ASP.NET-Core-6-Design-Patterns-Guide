@@ -2,7 +2,7 @@
 
 namespace NinjaShared
 {
-    public interface IAttacker
+    public interface IAttacker : IAttackable
     {
         AttackResult Attack(IAttackable target);
     }
@@ -16,43 +16,34 @@ namespace NinjaShared
     }
     public interface INinja : IAttackable, IMoveable, IAttacker
     {
+        string Name { get; }
     }
 
     public abstract class Weapon
     {
-        public abstract WeaponType Type { get; }
         public abstract float MinRanged { get; }
         public abstract float MaxRanged { get; }
         public override string ToString()
-            => $"{GetType().Name} (Min: {MinRanged}, Max: {MaxRanged}, Type: {Type})";
+            => $"{GetType().Name} (Min: {MinRanged}, Max: {MaxRanged})";
 
         public bool CanHit(float distance)
             => distance >= MinRanged && distance <= MaxRanged;
     }
 
-    public enum WeaponType
-    {
-        Melee,
-        Ranged,
-    }
-
     public class Sword : Weapon
     {
-        public override WeaponType Type => WeaponType.Melee;
         public override float MinRanged { get; } = 0;
         public override float MaxRanged { get; } = Vector2.Distance(Vector2.Zero, Vector2.One);
     }
 
     public class Shuriken : Weapon
     {
-        public override WeaponType Type => WeaponType.Ranged;
         public override float MinRanged { get; } = Vector2.Distance(Vector2.Zero, Vector2.One);
         public override float MaxRanged { get; } = 20;
     }
 
     public class Pistol : Weapon
     {
-        public override WeaponType Type => WeaponType.Ranged;
         public override float MinRanged { get; } = Vector2.Distance(Vector2.Zero, Vector2.One);
         public override float MaxRanged { get; } = 50;
     }
@@ -60,12 +51,12 @@ namespace NinjaShared
     public class AttackResult
     {
         public Weapon Weapon { get; }
-        public IAttackable Attacker { get; }
+        public IAttacker Attacker { get; }
         public IAttackable Target { get; }
         public bool Succeeded { get; }
         public float Distance { get; }
 
-        public AttackResult(Weapon weapon, IAttackable attacker, IAttackable target)
+        public AttackResult(Weapon weapon, IAttacker attacker, IAttackable target)
         {
             Weapon = weapon;
             Attacker = attacker;

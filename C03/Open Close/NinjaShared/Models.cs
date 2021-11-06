@@ -10,13 +10,10 @@ namespace NinjaShared
     {
         public Vector2 Position { get; }
     }
-    public interface IMoveable : IAttackable
-    {
-        void MoveTo(float x, float y);
-    }
-    public interface INinja : IAttackable, IMoveable, IAttacker
+    public interface INinja : IAttackable, IAttacker
     {
         string Name { get; }
+        void MoveTo(float x, float y);
     }
 
     public abstract class Weapon

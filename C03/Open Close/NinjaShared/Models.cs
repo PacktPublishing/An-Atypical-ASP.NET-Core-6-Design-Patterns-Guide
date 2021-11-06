@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace NinjaShared
 {
@@ -8,12 +9,8 @@ namespace NinjaShared
     }
     public interface IAttackable
     {
-        public Vector2 Position { get; }
-    }
-    public interface INinja : IAttackable, IAttacker
-    {
         string Name { get; }
-        void MoveTo(float x, float y);
+        Vector2 Position { get; set; }
     }
 
     public abstract class Weapon
@@ -47,19 +44,19 @@ namespace NinjaShared
 
     public class AttackResult
     {
-        public Weapon Weapon { get; }
-        public IAttacker Attacker { get; }
-        public IAttackable Target { get; }
+        public string Weapon { get; }
+        public string Attacker { get; }
+        public string Target { get; }
         public bool Succeeded { get; }
         public float Distance { get; }
 
         public AttackResult(Weapon weapon, IAttacker attacker, IAttackable target)
         {
-            Weapon = weapon;
-            Attacker = attacker;
-            Target = target;
+            Weapon = weapon.ToString();
+            Attacker = attacker.ToString();
+            Target = target.ToString();
             Distance = attacker.DistanceFrom(target);
-            Succeeded = Weapon.CanHit(Distance);
+            Succeeded = weapon.CanHit(Distance);
         }
     }
 
@@ -68,6 +65,12 @@ namespace NinjaShared
         public static float DistanceFrom(this IAttackable attacker, IAttackable target)
         {
             return Vector2.Distance(attacker.Position, target.Position);
+        }
+
+        public static IAttackable MoveTo(this IAttackable target, float x, float y)
+        {
+            target.Position = new Vector2(x, y);
+            return target;
         }
     }
 }

@@ -4,7 +4,8 @@ namespace NinjaShared
 {
     public static class Logic
     {
-        public static async Task ExecuteSequenceAsync(INinja theBluePhantom, INinja theUnseenMirage, Func<string, Task> writeAsync)
+        public static async Task ExecuteSequenceAsync<T>(T theBluePhantom, T theUnseenMirage, Func<string, Task> writeAsync)
+            where T : IAttackable, IAttacker
         {
             // The Blue Phantom attacks The Unseen Mirage with a first attack
             var result = theBluePhantom.Attack(theUnseenMirage);
@@ -43,7 +44,7 @@ namespace NinjaShared
                 }
             }
 
-            async Task PrintMovementAsync(INinja ninja)
+            async Task PrintMovementAsync(IAttackable ninja)
             {
                 await writeAsync($"{ninja.Name} moved to {ninja.Position}.{Environment.NewLine}");
             }

@@ -17,10 +17,9 @@ namespace NinjaShared
     {
         public abstract float MinRanged { get; }
         public abstract float MaxRanged { get; }
-        public override string ToString()
-            => $"{GetType().Name} (Min: {MinRanged}, Max: {MaxRanged})";
 
-        public bool CanHit(float distance)
+        public virtual string Name => GetType().Name;
+        public virtual bool CanHit(float distance)
             => distance >= MinRanged && distance <= MaxRanged;
     }
 
@@ -52,9 +51,9 @@ namespace NinjaShared
 
         public AttackResult(Weapon weapon, IAttacker attacker, IAttackable target)
         {
-            Weapon = weapon.ToString();
-            Attacker = attacker.ToString();
-            Target = target.ToString();
+            Weapon = $"{weapon.Name} (Min: {weapon.MinRanged}, Max: {weapon.MaxRanged})";
+            Attacker = $"{attacker.Name} (Position: {attacker.Position})";
+            Target = $"{target.Name} (Position: {target.Position})";
             Distance = attacker.DistanceFrom(target);
             Succeeded = weapon.CanHit(Distance);
         }

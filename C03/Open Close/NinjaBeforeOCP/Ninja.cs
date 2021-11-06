@@ -29,7 +29,5 @@ namespace NinjaBeforeOCP
                 return new AttackResult(_shuriken, this, target);
             }
         }
-
-        public override string ToString() => $"{Name} (Position: {Position})";
     }
 }

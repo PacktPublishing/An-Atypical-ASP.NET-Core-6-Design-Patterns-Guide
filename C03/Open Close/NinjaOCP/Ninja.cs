@@ -31,7 +31,5 @@ namespace NinjaOCP
                 return new AttackResult(_rangedWeapon, this, target);
             }
         }
-
-        public override string ToString() => $"{Name} (Position: {Position})";
     }
 }

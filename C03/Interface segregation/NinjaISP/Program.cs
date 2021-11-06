@@ -9,7 +9,7 @@ app.MapGet("/", async (HttpContext context) =>
     // Create actors
     var theUnseenMirage = new Ninja("The Unseen Mirage", new Sword(), new Pistol());
     var blackbeard = new Pirate("Blackbeard", new Kick(), new Cutlass(), new BoardingAxe(), new Blunderbus());
-    var barel = new Barel().MoveTo(20, 45);
+    var barel = new Barrel().MoveTo(20, 45);
 
     // Execute a sequence of actions
     await PrintAttackResultAsync(blackbeard.Attack(theUnseenMirage));

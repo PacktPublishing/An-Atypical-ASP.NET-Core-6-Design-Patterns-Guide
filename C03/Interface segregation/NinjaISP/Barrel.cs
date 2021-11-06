@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NinjaISP
 {
-    public class Barel : IAttackable
+    public class Barrel : IAttackable
     {
-        public string Name => nameof(Barel);
+        public string Name => nameof(Barrel);
         public Vector2 Position { get; set; }
     }
 }

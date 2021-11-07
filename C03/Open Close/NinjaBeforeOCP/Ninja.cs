@@ -1,52 +1,33 @@
-﻿using System;
+﻿using NinjaShared;
+using System.Numerics;
 
 namespace NinjaBeforeOCP
 {
-    public interface IAttackable { }
-
-    public class Ninja : IAttackable
+    public class Ninja : IAttackable, IAttacker
     {
-        public string Name { get; }
+        private readonly Weapon _sword = new Sword();
+        private readonly Weapon _shuriken = new Shuriken();
 
-        public Ninja(string name)
+        public string Name { get; }
+        public Vector2 Position { get; set; }
+
+        public Ninja(string name, Vector2? position = null)
         {
             Name = name;
+            Position = position ?? Vector2.Zero;
         }
 
         public AttackResult Attack(IAttackable target)
         {
-            if (IsCloseRange(target))
+            var distance = this.DistanceFrom(target);
+            if (_sword.CanHit(distance))
             {
-                return new AttackResult(new Sword(), this, target);
+                return new AttackResult(_sword, this, target);
             }
             else
             {
-                return new AttackResult(new Shuriken(), this, target);
+                return new AttackResult(_shuriken, this, target);
             }
-        }
-
-        private bool IsCloseRange(IAttackable target) => DateTime.Now.Ticks % 2 == 0;
-
-        public override string ToString() => Name;
-    }
-
-    public class Weapon { }
-
-    public class Sword : Weapon { }
-
-    public class Shuriken : Weapon { }
-
-    public class AttackResult
-    {
-        public Weapon Weapon { get; }
-        public IAttackable Attacker { get; }
-        public IAttackable Target { get; }
-
-        public AttackResult(Weapon weapon, IAttackable attacker, IAttackable target)
-        {
-            Weapon = weapon;
-            Attacker = attacker;
-            Target = target;
         }
     }
 }

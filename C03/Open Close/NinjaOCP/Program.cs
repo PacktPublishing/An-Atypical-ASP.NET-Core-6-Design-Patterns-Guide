@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using NinjaOCP;
+using NinjaShared;
 
-namespace NinjaOCP
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.MapGet("/", async (HttpContext context) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+    // Create actors
+    var target = new Ninja("The Unseen Mirage", new Sword(), new Pistol());
+    var ninja = new Ninja("The Blue Phantom", new Sword(), new Shuriken());
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
-}
+    // Execute the sequence of actions
+    await Logic.ExecuteSequenceAsync(ninja, target, writeAsync: s => context.Response.WriteAsync(s));
+});
+app.MapGet("/old", async (HttpContext context) =>
+{
+    // Create actors
+    var target = new Ninja("The Unseen Mirage", new Sword(), new Shuriken());
+    var ninja = new Ninja("The Blue Phantom", new Sword(), new Shuriken());
+
+    // Execute the sequence of actions
+    await Logic.ExecuteSequenceAsync(ninja, target, writeAsync: s => context.Response.WriteAsync(s));
+});
+app.Run();

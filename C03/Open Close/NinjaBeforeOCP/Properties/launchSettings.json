@@ -1,12 +1,12 @@
-﻿{
+{
   "profiles": {
-    "NinjaOCP": {
+    "NinjaBeforeOCP": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:3002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:3001"
     }
   }
 }

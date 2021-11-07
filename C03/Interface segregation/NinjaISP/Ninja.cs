@@ -1,7 +1,6 @@
-﻿using NinjaShared;
-using System.Numerics;
+﻿using System.Numerics;
 
-namespace NinjaOCP
+namespace NinjaISP
 {
     public class Ninja : IAttackable, IAttacker
     {

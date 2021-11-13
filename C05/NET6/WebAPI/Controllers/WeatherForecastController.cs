@@ -19,54 +19,38 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get() => Enumerable.Range(1, 5)
-        .Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        }).ToArray();
+    public IEnumerable<WeatherForecast> Get()
+        => GetWeatherForcasts();
 
     [HttpGet("GenericClassActionDirect")]
-    public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionDirect() => Enumerable
-        .Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        }).ToArray();
+    public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionDirect()
+        => GetWeatherForcasts();
 
     [HttpGet("GenericClassAction")]
-    public ActionResult<IEnumerable<WeatherForecast>> GenericClassAction() => Ok(Enumerable
-        .Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        }).ToArray());
+    public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionOk()
+        => Ok(GetWeatherForcasts());
 
     [HttpGet("GenericClassActionNotFound")]
     public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionNotFound()
         => NotFound();
 
-
     [HttpGet("InterfaceAction")]
     [ProducesResponseType(typeof(WeatherForecast[]), StatusCodes.Status200OK)]
-    public IActionResult InterfaceAction() => Ok(Enumerable.Range(1, 5)
-        .Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        }).ToArray());
+    public IActionResult InterfaceAction()
+        => Ok(GetWeatherForcasts());
 
     [HttpGet("ClassAction")]
     [ProducesResponseType(typeof(WeatherForecast[]), StatusCodes.Status200OK)]
-    public ActionResult ClassAction() => Ok(Enumerable.Range(1, 5)
-        .Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = _summaries[Random.Shared.Next(_summaries.Length)]
-        }).ToArray());
+    public ActionResult ClassAction()
+        => Ok(GetWeatherForcasts());
+
+    private static WeatherForecast[] GetWeatherForcasts()
+        => Enumerable.Range(1, 5)
+            .Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = _summaries[Random.Shared.Next(_summaries.Length)]
+            })
+            .ToArray();
 }

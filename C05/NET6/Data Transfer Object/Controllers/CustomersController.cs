@@ -31,7 +31,7 @@ namespace WebApi.Controllers
 
         // GET api/customers/1
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public ActionResult<CustomerDetailsDto> Get(int id)
         {
             var customer = _customerService.ReadOne(id);
             if (customer == default(Customer))

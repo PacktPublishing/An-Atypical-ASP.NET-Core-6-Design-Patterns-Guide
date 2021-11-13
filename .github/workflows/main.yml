@@ -17,6 +17,8 @@ on:
       - CODE_OF_CONDUCT.md
       - LICENSE
 
+  workflow_dispatch:
+
 env:
   BUILD_CONFIGURATION: Release
 
@@ -34,10 +36,10 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ matrix.dotnet }}
-          include-prerelease: true
+          # include-prerelease: true
 
       - name: Build
         run: find . -name "*.csproj" -exec dotnet build '{}' --configuration ${{ env.BUILD_CONFIGURATION }} \;
 
       - name: Test
-        run: find . -name "*.csproj" -exec dotnet test '{}' --configuration ${{ env.BUILD_CONFIGURATION }} --filter "FailureExpected!=true" \;
+        run: find . -name "*.csproj" -exec dotnet test '{}' --configuration ${{ env.BUILD_CONFIGURATION }} --no-build --filter "FailureExpected!=true" \;

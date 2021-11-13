@@ -1,26 +1,70 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using DataLayer;
+using ForEvolve.DependencyInjection;
+using ForEvolve.EntityFrameworkCore.Seeders;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace RichPresentationLayer
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .ScanForDIModules()
+    .FromAssemblyOf<Program>();
+builder.Services.AddControllers();
+
+var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
+// Seed temp data
+app.Seed<ProductContext>();
+
+app.Run();
+
+public class RichDomainLayerModule : DependencyInjectionModule
 {
-    public class Program
+    public RichDomainLayerModule(IServiceCollection services)
+        : base(services)
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        services.AddScoped<RichDomainLayer.IProductService, RichDomainLayer.ProductService>();
+        services.AddScoped<RichDomainLayer.IStockService, RichDomainLayer.StockService>();
+    }
+}
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+public class DataLayerModule : DependencyInjectionModule
+{
+    public DataLayerModule(IServiceCollection services)
+        : base(services)
+    {
+        services.AddDbContext<ProductContext>(options => options
+            .UseInMemoryDatabase("RichProductContextMemoryDB")
+            .ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+        );
+        services.AddForEvolveSeeders().Scan<Program>();
+    }
+}
+
+public class ProductSeeder : ISeeder<ProductContext>
+{
+    public void Seed(ProductContext db)
+    {
+        db.Products.Add(new Product
+        {
+            Id = 1,
+            Name = "Banana",
+            QuantityInStock = 50
+        });
+        db.Products.Add(new Product
+        {
+            Id = 2,
+            Name = "Apple",
+            QuantityInStock = 20
+        });
+        db.Products.Add(new Product
+        {
+            Id = 3,
+            Name = "Habanero Pepper",
+            QuantityInStock = 10
+        });
+        db.SaveChanges();
     }
 }

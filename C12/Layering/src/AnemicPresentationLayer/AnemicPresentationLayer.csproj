@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="ForEvolve.DependencyInjection.AspNetCore" Version="1.0.8" />
     <PackageReference Include="ForEvolve.EntityFrameworkCore" Version="2.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

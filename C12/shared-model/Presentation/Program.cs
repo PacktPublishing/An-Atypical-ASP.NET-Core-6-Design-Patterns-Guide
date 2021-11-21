@@ -1,5 +1,4 @@
 using Domain.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Model;
@@ -20,12 +19,16 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/products", async (IProductService productService, CancellationToken cancellationToken)
-    => (await productService.AllAsync(cancellationToken)).Select(p => new {
+app.MapGet("/products", async (IProductService productService, CancellationToken cancellationToken) =>
+{
+    var products = await productService.AllAsync(cancellationToken);
+    return products.Select(p => new
+    {
         p.Id,
         p.Name,
         p.QuantityInStock
-    }));
+    });
+});
 app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, IStockService stockService, CancellationToken cancellationToken) =>
 {
     try

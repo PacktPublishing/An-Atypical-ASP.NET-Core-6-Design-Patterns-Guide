@@ -1,5 +1,4 @@
-﻿using Data.Abstract;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Model;
 
 namespace Data.EF;

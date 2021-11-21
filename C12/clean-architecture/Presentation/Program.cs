@@ -2,7 +2,7 @@ using Core;
 using Core.Models;
 using Core.Repositories;
 using Core.Services;
-using Data.EF;
+using Infrastructure.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -78,7 +78,7 @@ app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, Rem
 
 using (var seedScope = app.Services.CreateScope())
 {
-    var db = seedScope.ServiceProvider.GetRequiredService<Data.EF.ProductContext>();
+    var db = seedScope.ServiceProvider.GetRequiredService<ProductContext>();
     await ProductSeeder.SeedAsync(db);
 }
 app.Run();
@@ -105,7 +105,7 @@ internal class StockLevel
 
 internal static class ProductSeeder
 {
-    public static Task SeedAsync(Data.EF.ProductContext db)
+    public static Task SeedAsync(ProductContext db)
     {
         db.Products.Add(new Product(
             id: 1,

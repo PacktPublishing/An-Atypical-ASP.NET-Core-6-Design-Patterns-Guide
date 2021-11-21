@@ -3,7 +3,7 @@ using Core.Models;
 using Core.Repositories;
 using Core;
 
-namespace Data.EF;
+namespace Infrastructure.Data.EF;
 
 public class ProductRepository : IProductRepository
 {

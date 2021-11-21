@@ -1,7 +1,7 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.EF;
+namespace Infrastructure.Data.EF;
 
 public class ProductContext : DbContext
 {

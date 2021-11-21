@@ -12,7 +12,7 @@
 
 
     <ItemGroup>
-        <ProjectReference Include="..\Data.EF\Infrastructure.Data.EF.csproj" />
+        <ProjectReference Include="..\Infrastructure.Data.EF\Infrastructure.Data.EF.csproj" />
     </ItemGroup>
 
 </Project>

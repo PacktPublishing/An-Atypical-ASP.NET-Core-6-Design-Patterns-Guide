@@ -3,7 +3,7 @@ using Core.Repositories;
 
 namespace Core.Services;
 
-public class StockService : IStockService
+public class StockService
 {
     private readonly IProductRepository _repository;
     public StockService(IProductRepository repository)

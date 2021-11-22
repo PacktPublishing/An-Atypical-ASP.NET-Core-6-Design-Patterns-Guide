@@ -8,11 +8,10 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
-    // Domain Layer
-    .AddScoped<IProductService, ProductService>()
-    .AddScoped<IStockService, StockService>()
+    // Core Layer
+    .AddScoped<StockService>()
 
-    // Data Layer (mapping Data.Abstract to Data.EF)
+    // Infrastructure Layer (mapping Core to Infrastructure.Data.EF)
     .AddScoped<IProductRepository, ProductRepository>()
     .AddDbContext<ProductContext>(options => options
         .UseInMemoryDatabase("ProductContextMemoryDB")
@@ -22,9 +21,9 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/products", async (IProductService productService, CancellationToken cancellationToken) =>
+app.MapGet("/products", async (IProductRepository productRepository, CancellationToken cancellationToken) =>
 {
-    var products = await productService.AllAsync(cancellationToken);
+    var products = await productRepository.AllAsync(cancellationToken);
     return products.Select(p => new
     {
         p.Id,
@@ -32,7 +31,7 @@ app.MapGet("/products", async (IProductService productService, CancellationToken
         p.QuantityInStock
     });
 });
-app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, IStockService stockService, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
 {
     try
     {
@@ -49,7 +48,7 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
         });
     }
 });
-app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, IStockService stockService, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
 {
     try
     {

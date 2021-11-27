@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Wishlist
+﻿namespace Wishlist
 {
     public class InMemoryWishListRefactored : IWishList
     {

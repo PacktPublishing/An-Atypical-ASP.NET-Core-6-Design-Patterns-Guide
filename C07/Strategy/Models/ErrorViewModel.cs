@@ -1,5 +1,3 @@
-using System;
-
 namespace Strategy.Models
 {
     public class ErrorViewModel

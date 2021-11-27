@@ -1,6 +1,6 @@
-﻿using Wishlist.Internal;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
+using Wishlist.Internal;
 
 namespace Wishlist
 {

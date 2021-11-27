@@ -1,5 +1,3 @@
-using System;
-
 namespace Factory.Models
 {
     public class ErrorViewModel

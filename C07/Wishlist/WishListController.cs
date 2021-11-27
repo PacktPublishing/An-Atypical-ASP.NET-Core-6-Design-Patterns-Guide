@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wishlist
 {
@@ -26,7 +21,7 @@ namespace Wishlist
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody,Required]CreateItem newItem)
+        public async Task<IActionResult> PostAsync([FromBody, Required] CreateItem newItem)
         {
             if (!ModelState.IsValid)
             {

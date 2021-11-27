@@ -1,9 +1,8 @@
 // #define TEST_InMemoryWishListRefactored
-using Wishlist.Internal;
-using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Threading.Tasks;
+using Wishlist.Internal;
 using Xunit;
 
 namespace Wishlist
@@ -78,7 +77,7 @@ namespace Wishlist
                 // Arrange
                 await AddOrRefreshAnItemAsync("NewItem");
                 var (_, expectedExpiryTime) = SetUtcNow();
-                
+
                 // Act
                 var result = await sut.AddOrRefreshAsync("NewItem");
 

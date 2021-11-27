@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Wishlist
+﻿namespace Wishlist
 {
     public interface IWishList
     {

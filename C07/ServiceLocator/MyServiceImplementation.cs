@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace ServiceLocator
+﻿namespace ServiceLocator
 {
     public class MyServiceImplementation : IMyService
     {

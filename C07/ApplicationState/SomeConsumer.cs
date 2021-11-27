@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ApplicationState
+﻿namespace ApplicationState
 {
     /// <remarks>
     /// This class is never used in the program.

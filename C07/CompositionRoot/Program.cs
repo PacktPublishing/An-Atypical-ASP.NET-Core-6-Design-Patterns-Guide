@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Dependency1>();
 builder.Services.AddSingleton<Dependency2>();
 builder.Services.AddSingleton<Dependency3>();

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Factory.Models;
+﻿using Factory.Models;
 using Factory.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Factory.Controllers
 {
@@ -18,7 +13,7 @@ namespace Factory.Controllers
             _homeViewModelFactory = homeViewModelFactory ?? throw new ArgumentNullException(nameof(homeViewModelFactory));
         }
 
-        public IActionResult Index([FromServices]HomePageViewModel viewModel)
+        public IActionResult Index([FromServices] HomePageViewModel viewModel)
         {
             return View(viewModel);
         }

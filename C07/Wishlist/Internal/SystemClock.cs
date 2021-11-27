@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wishlist.Internal
+﻿namespace Wishlist.Internal
 {
     public class SystemClock : ISystemClock
     {

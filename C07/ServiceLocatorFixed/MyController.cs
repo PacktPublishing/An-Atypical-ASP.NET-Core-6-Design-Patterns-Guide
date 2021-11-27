@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceLocatorFixed
 {
@@ -27,7 +25,7 @@ namespace ServiceLocatorFixed
     public class MethodInjectionController : ControllerBase
     {
         [Route("/method-injection")]
-        public IActionResult GetUsingMethodInjection([FromServices]IMyService myService)
+        public IActionResult GetUsingMethodInjection([FromServices] IMyService myService)
         {
             if (myService == null) { throw new ArgumentNullException(nameof(myService)); }
             myService.Execute();

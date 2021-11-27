@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ServiceLocator
+﻿namespace ServiceLocator
 {
     public interface IMyService : IDisposable
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wishlist
+﻿namespace Wishlist
 {
     public class WishListItem
     {

@@ -1,7 +1,6 @@
-﻿namespace Wishlist.Internal
+﻿namespace Wishlist.Internal;
+
+public class SystemClock : ISystemClock
 {
-    public class SystemClock : ISystemClock
-    {
-        public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
-    }
+    public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
 }

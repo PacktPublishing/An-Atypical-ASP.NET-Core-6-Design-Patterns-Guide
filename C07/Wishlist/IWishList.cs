@@ -1,8 +1,7 @@
-﻿namespace Wishlist
+﻿namespace Wishlist;
+
+public interface IWishList
 {
-    public interface IWishList
-    {
-        Task<WishListItem> AddOrRefreshAsync(string itemName);
-        Task<IEnumerable<WishListItem>> AllAsync();
-    }
+    Task<WishListItem> AddOrRefreshAsync(string itemName);
+    Task<IEnumerable<WishListItem>> AllAsync();
 }

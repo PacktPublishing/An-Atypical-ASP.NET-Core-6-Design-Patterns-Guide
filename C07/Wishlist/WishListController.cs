@@ -1,40 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Wishlist
+namespace Wishlist;
+
+[Route("/")]
+public class WishListController : ControllerBase
 {
-    [Route("/")]
-    public class WishListController : ControllerBase
+    private readonly IWishList _wishList;
+
+    public WishListController(IWishList wishList)
     {
-        private readonly IWishList _wishList;
+        _wishList = wishList ?? throw new ArgumentNullException(nameof(wishList));
+    }
 
-        public WishListController(IWishList wishList)
-        {
-            _wishList = wishList ?? throw new ArgumentNullException(nameof(wishList));
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetAsync()
+    {
+        var items = await _wishList.AllAsync();
+        return Ok(items);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
+    [HttpPost]
+    public async Task<IActionResult> PostAsync([FromBody, Required] CreateItem newItem)
+    {
+        if (!ModelState.IsValid)
         {
-            var items = await _wishList.AllAsync();
-            return Ok(items);
+            return BadRequest(ModelState);
         }
+        var item = await _wishList.AddOrRefreshAsync(newItem.Name);
+        return Created("/", item);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody, Required] CreateItem newItem)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var item = await _wishList.AddOrRefreshAsync(newItem.Name);
-            return Created("/", item);
-        }
-
-        public class CreateItem
-        {
-            [Required]
-            public string Name { get; set; } = "";
-        }
+    public class CreateItem
+    {
+        [Required]
+        public string Name { get; set; } = "";
     }
 }

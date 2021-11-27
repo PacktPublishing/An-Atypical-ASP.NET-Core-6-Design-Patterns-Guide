@@ -1,16 +1,15 @@
-﻿namespace ServiceLocatorFixed
-{
-    public class MyServiceImplementation : IMyService
-    {
-        public bool IsDisposed { get; private set; }
-        public void Dispose() => IsDisposed = true;
+﻿namespace ServiceLocatorFixed;
 
-        public void Execute()
+public class MyServiceImplementation : IMyService
+{
+    public bool IsDisposed { get; private set; }
+    public void Dispose() => IsDisposed = true;
+
+    public void Execute()
+    {
+        if (IsDisposed)
         {
-            if (IsDisposed)
-            {
-                throw new NullReferenceException("Some dependencies has been disposed.");
-            }
+            throw new NullReferenceException("Some dependencies has been disposed.");
         }
     }
 }

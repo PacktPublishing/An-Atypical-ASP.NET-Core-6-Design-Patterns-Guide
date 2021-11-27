@@ -1,7 +1,6 @@
-﻿namespace ServiceLocator
+﻿namespace ServiceLocator;
+
+public interface IMyService : IDisposable
 {
-    public interface IMyService : IDisposable
-    {
-        void Execute();
-    }
+    void Execute();
 }

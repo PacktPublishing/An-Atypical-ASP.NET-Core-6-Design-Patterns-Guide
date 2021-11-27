@@ -1,24 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ServiceLocator
+namespace ServiceLocator;
+
+public class MyController : ControllerBase
 {
-    public class MyController : ControllerBase
+    private readonly IServiceProvider _serviceProvider;
+
+    public MyController(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+    }
 
-        public MyController(IServiceProvider serviceProvider)
+    [Route("/")]
+    public IActionResult Get()
+    {
+        using (var myService = _serviceProvider.GetRequiredService<IMyService>())
         {
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        }
-
-        [Route("/")]
-        public IActionResult Get()
-        {
-            using (var myService = _serviceProvider.GetRequiredService<IMyService>())
-            {
-                myService.Execute();
-                return Ok("Success!");
-            }
+            myService.Execute();
+            return Ok("Success!");
         }
     }
 }

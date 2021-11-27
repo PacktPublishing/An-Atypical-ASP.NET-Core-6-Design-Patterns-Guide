@@ -1,9 +1,8 @@
-﻿namespace ApplicationState
+﻿namespace ApplicationState;
+
+public interface IApplicationState
 {
-    public interface IApplicationState
-    {
-        TItem? Get<TItem>(string key);
-        bool Has<TItem>(string key);
-        void Set<TItem>(string key, TItem value) where TItem : notnull;
-    }
+    TItem? Get<TItem>(string key);
+    bool Has<TItem>(string key);
+    void Set<TItem>(string key, TItem value) where TItem : notnull;
 }

@@ -16,13 +16,6 @@ namespace CompositionRoot.DemoFeature
         }
     }
 
-    public interface IMyFeatureDependency
-    {
-
-    }
-
-    public class MyFeatureDependency : IMyFeatureDependency
-    {
-
-    }
+    public interface IMyFeatureDependency { }
+    public class MyFeatureDependency : IMyFeatureDependency { }
 }

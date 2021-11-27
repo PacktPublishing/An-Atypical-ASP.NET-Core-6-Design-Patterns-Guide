@@ -6,9 +6,9 @@ namespace ApplicationState
 {
     public class ApplicationDictionary : IApplicationState
     {
-        private readonly Dictionary<string, object> _memoryCache = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _memoryCache = new();
 
-        public TItem Get<TItem>(string key)
+        public TItem? Get<TItem>(string key)
         {
             if (!Has<TItem>(key))
             {
@@ -23,6 +23,7 @@ namespace ApplicationState
         }
 
         public void Set<TItem>(string key, TItem value)
+            where TItem : notnull
         {
             _memoryCache[key] = value;
         }

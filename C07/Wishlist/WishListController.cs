@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace Wishlist
         public class CreateItem
         {
             [Required]
-            public string Name { get; set; }
+            public string Name { get; set; } = "";
         }
     }
 }

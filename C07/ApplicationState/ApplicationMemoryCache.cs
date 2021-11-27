@@ -23,6 +23,7 @@ namespace ApplicationState
         }
 
         public void Set<TItem>(string key, TItem value)
+            where TItem : notnull
         {
             _memoryCache.Set(key, value);
         }

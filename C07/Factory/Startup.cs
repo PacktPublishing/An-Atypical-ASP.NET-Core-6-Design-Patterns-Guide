@@ -28,7 +28,7 @@ namespace Factory
             services.AddSingleton<IHomeService, HomeService>();
             services.AddTransient(serviceProvider =>
             {
-                var homeService = serviceProvider.GetService<IHomeService>();
+                var homeService = serviceProvider.GetRequiredService<IHomeService>();
                 var data = homeService.GetHomePageData();
                 return new HomePageViewModel(data);
             });

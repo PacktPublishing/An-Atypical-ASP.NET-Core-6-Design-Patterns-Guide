@@ -17,7 +17,7 @@ namespace ServiceLocator
         [Route("/")]
         public IActionResult Get()
         {
-            using (var myService = _serviceProvider.GetService<IMyService>())
+            using (var myService = _serviceProvider.GetRequiredService<IMyService>())
             {
                 myService.Execute();
                 return Ok("Success!");

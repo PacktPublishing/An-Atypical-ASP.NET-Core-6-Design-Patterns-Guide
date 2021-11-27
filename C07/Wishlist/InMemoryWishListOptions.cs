@@ -1,11 +1,13 @@
 ﻿using Wishlist.Internal;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Wishlist
 {
     public class InMemoryWishListOptions : IConfigureOptions<InMemoryWishListOptions>, IValidateOptions<InMemoryWishListOptions>
     {
-        public ISystemClock SystemClock { get; set; }
+        [NotNull]
+        public ISystemClock? SystemClock { get; set; }
         public int ExpirationInSeconds { get; set; }
 
         void IConfigureOptions<InMemoryWishListOptions>.Configure(InMemoryWishListOptions options)

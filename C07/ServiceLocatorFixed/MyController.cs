@@ -16,7 +16,7 @@ namespace ServiceLocatorFixed
         [Route("/dispose-service")]
         public IActionResult Get()
         {
-            using (var myService = _serviceProvider.GetService<IMyService>()) // Don't
+            using (var myService = _serviceProvider.GetRequiredService<IMyService>()) // Don't
             {
                 myService.Execute();
                 return Ok("Success!");

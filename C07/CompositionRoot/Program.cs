@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Dependency1>();

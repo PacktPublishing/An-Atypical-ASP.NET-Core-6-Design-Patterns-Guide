@@ -1,12 +1,13 @@
 {
     "profiles": {
-        "Wishlist": {
-            "commandName": "Project",
-            "launchBrowser": true,
-            "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "applicationUrl": "https://localhost:7003"
-        }
+      "Wishlist": {
+        "commandName": "Project",
+        "launchBrowser": true,
+        "launchUrl": "swagger",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Development"
+        },
+        "applicationUrl": "https://localhost:7003"
+      }
     }
 }

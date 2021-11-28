@@ -8,9 +8,15 @@ builder.Services
     .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<InMemoryWishListOptions>>().Value)
 
     .AddSingleton<IWishList, InMemoryWishList>()
+
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
 ;
 
 var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.MapGet("/", async (IWishList wishList) => await wishList.AllAsync());
 app.MapPost("/", async (IWishList wishList, CreateItem? newItem) =>
 {
@@ -20,7 +26,7 @@ app.MapPost("/", async (IWishList wishList, CreateItem? newItem) =>
     }
     var item = await wishList.AddOrRefreshAsync(newItem.Name);
     return Results.Created("/", item);
-});
+}).Produces(201, typeof(WishListItem));
 app.Run();
 
 public record class CreateItem(string? Name);

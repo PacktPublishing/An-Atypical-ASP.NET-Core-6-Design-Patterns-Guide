@@ -2,14 +2,16 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Here are your data:</p>
-    <ul class="list-group">
-    @foreach (var item in Model.SomeData)
+    @if(Model != null)
     {
-        <li class="list-group-item">@item</li>
+        <p>Here are your data:</p>
+        <ul class="list-group">
+        @foreach (var item in Model.SomeData)
+        {
+            <li class="list-group-item">@item</li>
+        }
+        </ul>
     }
-    </ul>
 </div>

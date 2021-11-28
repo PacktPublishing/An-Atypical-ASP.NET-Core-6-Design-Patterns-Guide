@@ -1,16 +1,27 @@
-﻿namespace ApplicationState;
+﻿//#define USE_MEMORY_CACHE
 
-public class Program
+using ApplicationState;
+using Microsoft.AspNetCore.Mvc;
+
+var builder = WebApplication.CreateBuilder(args);
+#if USE_MEMORY_CACHE
+        builder.Services.AddMemoryCache();
+        builder.Services.AddSingleton<IApplicationState, ApplicationMemoryCache>();
+#else
+        builder.Services.AddSingleton<IApplicationState, ApplicationDictionary>();
+#endif
+var app = builder.Build();
+app.MapGet("/", (IApplicationState myAppState, string key) =>
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
+    var value = myAppState.Get<string>(key);
+    return $"{key} = {value ?? "null"}";
+});
+app.MapPost("/", (IApplicationState myAppState, SetAppState dto) =>
+{
+    myAppState.Set(dto.Key, dto.Value);
+    return $"{dto.Key} = {dto.Value}";
+});
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-}
+app.Run();
+
+public record class SetAppState(string Key, string Value);

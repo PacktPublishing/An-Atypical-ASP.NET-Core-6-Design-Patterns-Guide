@@ -1,16 +1,26 @@
-﻿namespace Wishlist;
+﻿using Microsoft.Extensions.Options;
+using Wishlist;
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .ConfigureOptions<InMemoryWishListOptions>()
+    .AddTransient<IValidateOptions<InMemoryWishListOptions>, InMemoryWishListOptions>()
+    .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<InMemoryWishListOptions>>().Value)
+
+    .AddSingleton<IWishList, InMemoryWishList>()
+;
+
+var app = builder.Build();
+app.MapGet("/", async (IWishList wishList) => await wishList.AllAsync());
+app.MapPost("/", async (IWishList wishList, CreateItem? newItem) =>
 {
-    public static void Main(string[] args)
+    if (newItem?.Name == null)
     {
-        CreateHostBuilder(args).Build().Run();
+        return Results.BadRequest();
     }
+    var item = await wishList.AddOrRefreshAsync(newItem.Name);
+    return Results.Created("/", item);
+});
+app.Run();
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-}
+public record class CreateItem(string? Name);

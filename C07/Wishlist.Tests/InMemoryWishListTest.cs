@@ -1,6 +1,7 @@
 // #define TEST_InMemoryWishListRefactored
 using Moq;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Wishlist.Internal;
 using Xunit;
@@ -9,13 +10,12 @@ namespace Wishlist;
 
 public class InMemoryWishListTest
 {
-    private readonly Mock<ISystemClock> _systemClockMock;
+    private readonly Mock<ISystemClock> _systemClockMock = new();
     private readonly InMemoryWishListOptions _options;
     private readonly IWishList sut;
 
     public InMemoryWishListTest()
     {
-        _systemClockMock = new Mock<ISystemClock>();
         _options = new InMemoryWishListOptions
         {
             SystemClock = _systemClockMock.Object,
@@ -116,7 +116,7 @@ public class InMemoryWishListTest
             await sut.AddOrRefreshAsync("Item5");
 
             // Assert
-            var result = await sut.AllAsync();
+            var result = (await sut.AllAsync()).OrderBy(x => x.Name);
             Assert.Collection(result,
                 x => Assert.Equal("Item1", x.Name),
                 x => Assert.Equal("Item2", x.Name),

@@ -1,8 +1,10 @@
-﻿namespace ApplicationState;
+﻿using System.Collections.Concurrent;
+
+namespace ApplicationState;
 
 public class ApplicationDictionary : IApplicationState
 {
-    private readonly Dictionary<string, object> _memoryCache = new();
+    private readonly ConcurrentDictionary<string, object> _memoryCache = new();
 
     public TItem? Get<TItem>(string key)
     {

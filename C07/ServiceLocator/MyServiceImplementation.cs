@@ -2,12 +2,12 @@
 
 public class MyServiceImplementation : IMyService
 {
-    public bool IsDisposed { get; private set; }
-    public void Dispose() => IsDisposed = true;
+    private bool _isDisposed = false;
+    public void Dispose() => _isDisposed = true;
 
     public void Execute()
     {
-        if (IsDisposed)
+        if (_isDisposed)
         {
             throw new NullReferenceException("Some dependencies has been disposed.");
         }

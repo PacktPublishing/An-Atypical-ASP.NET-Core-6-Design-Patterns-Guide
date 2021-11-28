@@ -1,16 +1,15 @@
-﻿namespace ServiceLocator;
+﻿using ServiceLocator;
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddSingleton<IMyService, MyServiceImplementation>()
+    .AddControllers()
+;
+var app = builder.Build();
+app.MapControllers();
+app.MapGet("minimal-api", (IMyService myService) =>
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-}
+    myService.Execute();
+    return "Success!";
+});
+app.Run();

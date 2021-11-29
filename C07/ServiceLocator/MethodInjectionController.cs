@@ -7,7 +7,7 @@ public class MethodInjectionController : ControllerBase
     [Route("/method-injection")]
     public IActionResult GetUsingMethodInjection([FromServices] IMyService myService)
     {
-        if (myService == null) { throw new ArgumentNullException(nameof(myService)); }
+        ArgumentNullException.ThrowIfNull(myService, nameof(myService));
         myService.Execute();
         return Ok("Success!");
     }

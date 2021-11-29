@@ -1,16 +1,24 @@
-namespace Factory;
+using Factory.Models;
+using Factory.Services;
 
-public class Program
-{
-    public static void Main(string[] args)
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddSingleton<IHomeService, HomeService>()
+    .AddTransient(serviceProvider =>
     {
-        CreateHostBuilder(args).Build().Run();
-    }
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-}
+        var homeService = serviceProvider.GetRequiredService<IHomeService>();
+        var data = homeService.GetHomePageData();
+        return new HomePageViewModel(data);
+    })
+    .AddSingleton<IHomeViewModelFactory, HomeViewModelFactory>()
+    .AddControllersWithViews()
+;
+var app = builder.Build();
+app.MapDefaultControllerRoute();
+app.MapGet("/", (HttpContext context) => new[] {
+    $"https://{context.Request.Host}/service-locator",
+    $"https://{context.Request.Host}/method-injection",
+    $"https://{context.Request.Host}/constructor-injection",
+    $"https://{context.Request.Host}/minimal-api",
+});
+app.Run();

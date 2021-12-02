@@ -10,7 +10,7 @@ public interface IHomeViewModelFactory
 
 public class HomeViewModelFactory : IHomeViewModelFactory
 {
-    public PrivacyViewModel CreatePrivacyViewModel() => new PrivacyViewModel
+    public PrivacyViewModel CreatePrivacyViewModel() => new()
     {
         Title = "Privacy Policy (from IHomeViewModelFactory)",
         Content = new HtmlString("<p>Use this page to detail your site's privacy policy.</p>")

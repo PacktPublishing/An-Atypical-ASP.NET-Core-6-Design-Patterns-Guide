@@ -20,20 +20,13 @@ app.MapGet("/", (HttpContext context) => new[] {
     new { expecting =  "Options 1", uri = $"https://{context.Request.Host}/snapshot/true" },
     new { expecting =  "Options 2", uri = $"https://{context.Request.Host}/snapshot/false" },
 });
-app.MapGet("/{serviceName}/{someCondition}", (string serviceName, bool someCondition, HttpContext context) =>
-{
-    var myNameService = GetMyNameService(serviceName, context.RequestServices);
-    var name = myNameService.GetName(someCondition);
-    return Results.Ok(new { name });
-
-    static IMyNameService GetMyNameService(string serviceName, IServiceProvider services) => serviceName switch
-    {
-        "options" => services.GetRequiredService<MyNameServiceUsingDoubleNameOptions>(),
-        "factory" => services.GetRequiredService<MyNameServiceUsingNamedOptionsFactory>(),
-        "monitor" => services.GetRequiredService<MyNameServiceUsingNamedOptionsMonitor>(),
-        "snapshot" => services.GetRequiredService<MyNameServiceUsingNamedOptionsSnapshot>(),
-        _ => throw new NotSupportedException($"The service named '{serviceName}' is not supported."),
-    };
-});
+app.MapGet("/options/{someCondition}", (bool someCondition, MyNameServiceUsingDoubleNameOptions service)
+    => new { name = service.GetName(someCondition) });
+app.MapGet("/factory/{someCondition}", (bool someCondition, MyNameServiceUsingNamedOptionsFactory service)
+    => new { name = service.GetName(someCondition) });
+app.MapGet("/monitor/{someCondition}", (bool someCondition, MyNameServiceUsingNamedOptionsMonitor service)
+    => new { name = service.GetName(someCondition) });
+app.MapGet("/snapshot/{someCondition}", (bool someCondition, MyNameServiceUsingNamedOptionsSnapshot service)
+    => new { name = service.GetName(someCondition) });
 app.Run();
 

@@ -2,107 +2,106 @@ using ConfigurationAndValidation;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
-namespace OptionsConfiguration
+namespace OptionsConfiguration;
+
+public class Startup
 {
-    public class Startup
+    private readonly IConfiguration _configuration;
+
+    public Startup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+    }
 
-        public Startup(IConfiguration configuration)
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.Configure<ConfigureMeOptions>(_configuration.GetSection("configureMe"));
+        services.AddSingleton<IConfigureOptions<ConfigureMeOptions>, Configure1ConfigureMeOptions>();
+        services.AddSingleton<IConfigureOptions<ConfigureMeOptions>, Configure2ConfigureMeOptions>();
+        services.Configure<ConfigureMeOptions>(options =>
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            options.Lines = options.Lines.Append("Another Configure call");
+        });
+        services.PostConfigure<ConfigureMeOptions>(options =>
+        {
+            options.Lines = options.Lines.Append("What about PostConfigure?");
+        });
+        services.PostConfigureAll<ConfigureMeOptions>(options =>
+        {
+            options.Lines = options.Lines.Append("Did you forgot about PostConfigureAll?");
+        });
+        services.ConfigureAll<ConfigureMeOptions>(options =>
+        {
+            options.Lines = options.Lines.Append("Or ConfigureAll?");
+        });
+        services.AddOptions<ConfigureMeOptions>().Validate(options =>
+        {
+            options.Lines = options.Lines.Append("Validate was not intended for this, but this is a trace isn't it?");
+            return true;
+        });
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        app.UseRouting();
+
+        app.UseEndpoints(endpoints =>
         {
-            services.Configure<ConfigureMeOptions>(_configuration.GetSection("configureMe"));
-            services.AddSingleton<IConfigureOptions<ConfigureMeOptions>, Configure1ConfigureMeOptions>();
-            services.AddSingleton<IConfigureOptions<ConfigureMeOptions>, Configure2ConfigureMeOptions>();
-            services.Configure<ConfigureMeOptions>(options =>
+            var jsonOptions = new JsonSerializerOptions
             {
-                options.Lines = options.Lines.Append("Another Configure call");
-            });
-            services.PostConfigure<ConfigureMeOptions>(options =>
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            endpoints.MapGet("/", async context =>
             {
-                options.Lines = options.Lines.Append("What about PostConfigure?");
-            });
-            services.PostConfigureAll<ConfigureMeOptions>(options =>
-            {
-                options.Lines = options.Lines.Append("Did you forgot about PostConfigureAll?");
-            });
-            services.ConfigureAll<ConfigureMeOptions>(options =>
-            {
-                options.Lines = options.Lines.Append("Or ConfigureAll?");
-            });
-            services.AddOptions<ConfigureMeOptions>().Validate(options =>
-            {
-                options.Lines = options.Lines.Append("Validate was not intended for this, but this is a trace isn't it?");
-                return true;
-            });
-        }
+                var count = 0;
+                var baseUri = $"{context.Request.Scheme}://{context.Request.Host}";
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("[");
+                await WriteUriAsync("/configure-me");
+                await context.Response.WriteAsync("]");
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                var jsonOptions = new JsonSerializerOptions
+                async Task WriteUriAsync(string uri)
                 {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
-                endpoints.MapGet("/", async context =>
-                {
-                    var count = 0;
-                    var baseUri = $"{context.Request.Scheme}://{context.Request.Host}";
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync("[");
-                    await WriteUriAsync("/configure-me");
-                    await context.Response.WriteAsync("]");
-
-                    async Task WriteUriAsync(string uri)
+                    if (count++ > 0)
                     {
-                        if (count++ > 0)
-                        {
-                            await context.Response.WriteAsync(",");
-                        }
-                        await context.Response.WriteAsync($"\"{baseUri}{uri}\"");
+                        await context.Response.WriteAsync(",");
                     }
-                });
-                endpoints.MapGet("/configure-me", async context =>
-                {
-                    var options = context.RequestServices
-                        .GetRequiredService<IOptionsMonitor<ConfigureMeOptions>>();
-                    var json = JsonSerializer.Serialize(options, jsonOptions);
-
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(json);
-                });
+                    await context.Response.WriteAsync($"\"{baseUri}{uri}\"");
+                }
             });
-        }
-    }
+            endpoints.MapGet("/configure-me", async context =>
+            {
+                var options = context.RequestServices
+                    .GetRequiredService<IOptionsMonitor<ConfigureMeOptions>>();
+                var json = JsonSerializer.Serialize(options, jsonOptions);
 
-    public class Configure1ConfigureMeOptions : IConfigureOptions<ConfigureMeOptions>
-    {
-        public void Configure(ConfigureMeOptions options)
-        {
-            options.Lines = options.Lines.Append("Added line 1!");
-        }
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(json);
+            });
+        });
     }
+}
 
-    public class Configure2ConfigureMeOptions : IConfigureOptions<ConfigureMeOptions>
+public class Configure1ConfigureMeOptions : IConfigureOptions<ConfigureMeOptions>
+{
+    public void Configure(ConfigureMeOptions options)
     {
-        public void Configure(ConfigureMeOptions options)
-        {
-            options.Lines = options.Lines.Append("Added line 2!");
-        }
+        options.Lines = options.Lines.Append("Added line 1!");
+    }
+}
+
+public class Configure2ConfigureMeOptions : IConfigureOptions<ConfigureMeOptions>
+{
+    public void Configure(ConfigureMeOptions options)
+    {
+        options.Lines = options.Lines.Append("Added line 2!");
     }
 }

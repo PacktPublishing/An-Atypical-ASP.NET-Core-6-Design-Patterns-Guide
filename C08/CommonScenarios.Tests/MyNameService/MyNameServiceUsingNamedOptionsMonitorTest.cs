@@ -1,6 +1,5 @@
-﻿namespace CommonScenarios
+﻿namespace CommonScenarios;
+
+public class MyNameServiceUsingNamedOptionsMonitorTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsMonitor>
 {
-    public class MyNameServiceUsingNamedOptionsMonitorTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsMonitor>
-    {
-    }
 }

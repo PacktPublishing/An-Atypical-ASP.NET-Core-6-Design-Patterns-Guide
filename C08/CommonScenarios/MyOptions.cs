@@ -1,7 +1,6 @@
-﻿namespace CommonScenarios
+﻿namespace CommonScenarios;
+
+public class MyOptions
 {
-    public class MyOptions
-    {
-        public string? Name { get; set; }
-    }
+    public string? Name { get; set; }
 }

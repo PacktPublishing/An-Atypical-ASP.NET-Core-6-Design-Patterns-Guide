@@ -1,6 +1,5 @@
-﻿namespace CommonScenarios
+﻿namespace CommonScenarios;
+
+public class MyNameServiceUsingNamedOptionsFactoryTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsFactory>
 {
-    public class MyNameServiceUsingNamedOptionsFactoryTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsFactory>
-    {
-    }
 }

@@ -1,7 +1,6 @@
-﻿namespace CommonScenarios
+﻿namespace CommonScenarios;
+
+public interface IMyNameService
 {
-    public interface IMyNameService
-    {
-        string? GetName(bool someCondition);
-    }
+    string? GetName(bool someCondition);
 }

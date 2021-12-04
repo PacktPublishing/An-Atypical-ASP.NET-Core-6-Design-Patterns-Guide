@@ -30,7 +30,7 @@ namespace CommonScenarios.Options
             var monitor1 = _serviceProvider.GetRequiredService<IOptionsMonitor<MyOptions>>();
             var monitor2 = _serviceProvider.GetRequiredService<IOptionsMonitor<MyOptions>>();
             Assert.Same(monitor1, monitor2);
-            
+
             var options1_1 = monitor1.Get("Options1");
             var options1_2 = monitor1.Get("Options1");
             var options2_1 = monitor2.Get("Options1");

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace CommonScenarios
+﻿namespace CommonScenarios
 {
     public class MyOptions
     {

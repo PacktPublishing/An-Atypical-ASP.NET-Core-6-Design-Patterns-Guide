@@ -13,7 +13,7 @@ namespace OptionsValidation
             services.AddOptions<Options>()
                 .Configure(o => o.MyImportantProperty = "Some important value");
             services.AddScoped(serviceProvider
-                => serviceProvider.GetService<IOptionsSnapshot<Options>>().Value);
+                => serviceProvider.GetRequiredService<IOptionsSnapshot<Options>>().Value);
             var serviceProvider = services.BuildServiceProvider();
 
             using var scope1 = serviceProvider.CreateScope();
@@ -28,7 +28,7 @@ namespace OptionsValidation
 
         private class Options
         {
-            public string MyImportantProperty { get; set; }
+            public string? MyImportantProperty { get; set; }
         }
     }
 }

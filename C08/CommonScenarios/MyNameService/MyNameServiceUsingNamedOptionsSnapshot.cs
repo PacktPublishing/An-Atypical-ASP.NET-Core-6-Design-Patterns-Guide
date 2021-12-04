@@ -13,7 +13,7 @@ namespace CommonScenarios
             _options2 = myOptions.Get("Options2");
         }
 
-        public string GetName(bool someCondition)
+        public string? GetName(bool someCondition)
         {
             return someCondition ? _options1.Name : _options2.Name;
         }

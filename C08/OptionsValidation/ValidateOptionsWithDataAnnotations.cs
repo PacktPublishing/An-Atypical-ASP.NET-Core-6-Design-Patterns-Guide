@@ -15,7 +15,7 @@ namespace OptionsValidation
                 .Configure(o => o.MyImportantProperty = "Some important value")
                 .ValidateDataAnnotations();
             var serviceProvider = services.BuildServiceProvider();
-            var options = serviceProvider.GetService<IOptionsMonitor<Options>>();
+            var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
             Assert.Equal("Some important value", options.CurrentValue.MyImportantProperty);
         }
 
@@ -26,7 +26,7 @@ namespace OptionsValidation
             services.AddOptions<Options>()
                 .ValidateDataAnnotations();
             var serviceProvider = services.BuildServiceProvider();
-            var options = serviceProvider.GetService<IOptionsMonitor<Options>>();
+            var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
             var error = Assert.Throws<OptionsValidationException>(() => options.CurrentValue);
             Assert.Collection(error.Failures,
                 f => Assert.Equal("DataAnnotation validation failed for 'Options' members: 'MyImportantProperty' with the error: 'The MyImportantProperty field is required.'.", f)
@@ -36,7 +36,7 @@ namespace OptionsValidation
         private class Options
         {
             [Required]
-            public string MyImportantProperty { get; set; }
+            public string? MyImportantProperty { get; set; }
         }
     }
 }

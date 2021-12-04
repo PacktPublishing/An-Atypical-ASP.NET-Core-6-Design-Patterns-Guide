@@ -11,7 +11,7 @@ namespace CommonScenarios
             _options = options.Value;
         }
 
-        public string GetName(bool someCondition)
+        public string? GetName(bool someCondition)
         {
             return someCondition ? _options.FirstName : _options.SecondName;
         }

@@ -15,7 +15,7 @@ namespace OptionsValidation
                 .Configure(o => o.MyImportantProperty = "Some important value");
 
             var serviceProvider = services.BuildServiceProvider();
-            var options = serviceProvider.GetService<IOptionsMonitor<Options>>();
+            var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
             Assert.Equal("Some important value", options.CurrentValue.MyImportantProperty);
         }
 
@@ -26,7 +26,7 @@ namespace OptionsValidation
             services.AddSingleton<IValidateOptions<Options>, OptionsValidator>();
             services.AddOptions<Options>();
             var serviceProvider = services.BuildServiceProvider();
-            var options = serviceProvider.GetService<IOptionsMonitor<Options>>();
+            var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
             var error = Assert.Throws<OptionsValidationException>(() => options.CurrentValue);
             Assert.Collection(error.Failures,
                 f => Assert.Equal("'MyImportantProperty' is required.", f)
@@ -35,7 +35,7 @@ namespace OptionsValidation
 
         private class Options
         {
-            public string MyImportantProperty { get; set; }
+            public string? MyImportantProperty { get; set; }
         }
 
         private class OptionsValidator : IValidateOptions<Options>

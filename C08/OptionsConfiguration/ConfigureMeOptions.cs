@@ -1,4 +1,4 @@
-﻿namespace ConfigurationAndValidation;
+﻿namespace OptionsConfiguration;
 
 public class ConfigureMeOptions
 {

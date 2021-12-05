@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddSingleton<IValidator<MyOptions>, MyOptionsValidator>()
-    .AddSingleton<IValidateOptions<MyOptions>, MyOptionsValidateOptions>()
+    .AddSingleton<IValidateOptions<MyOptions>, FluentValidateOptions<MyOptions>>()
 ;
 builder.Services
     .AddOptions<MyOptions>()
@@ -13,9 +13,7 @@ builder.Services
     .ValidateOnStart()
 ;
 var app = builder.Build();
-
 app.MapGet("/", () => "Hello World!");
-
 app.Run();
 
 public class MyOptions
@@ -31,15 +29,16 @@ public class MyOptionsValidator : AbstractValidator<MyOptions>
     }
 }
 
-public class MyOptionsValidateOptions : IValidateOptions<MyOptions>
+public class FluentValidateOptions<TOptions> : IValidateOptions<TOptions>
+    where TOptions : class
 {
-    private readonly IValidator<MyOptions> _validator;
-    public MyOptionsValidateOptions(IValidator<MyOptions> validator)
+    private readonly IValidator<TOptions> _validator;
+    public FluentValidateOptions(IValidator<TOptions> validator)
     {
         _validator = validator;
     }
 
-    public ValidateOptionsResult Validate(string name, MyOptions options)
+    public ValidateOptionsResult Validate(string name, TOptions options)
     {
         var validationResult = _validator.Validate(options);
         if (validationResult.IsValid)

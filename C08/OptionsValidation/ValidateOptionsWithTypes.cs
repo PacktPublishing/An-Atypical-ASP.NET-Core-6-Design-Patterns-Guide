@@ -12,8 +12,9 @@ public class ValidateOptionsWithTypes
         var services = new ServiceCollection();
         services.AddSingleton<IValidateOptions<Options>, OptionsValidator>();
         services.AddOptions<Options>()
-            .Configure(o => o.MyImportantProperty = "Some important value");
-
+            .Configure(o => o.MyImportantProperty = "Some important value")
+            .ValidateOnStart()
+        ;
         var serviceProvider = services.BuildServiceProvider();
         var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
         Assert.Equal("Some important value", options.CurrentValue.MyImportantProperty);
@@ -24,7 +25,7 @@ public class ValidateOptionsWithTypes
     {
         var services = new ServiceCollection();
         services.AddSingleton<IValidateOptions<Options>, OptionsValidator>();
-        services.AddOptions<Options>();
+        services.AddOptions<Options>().ValidateOnStart();
         var serviceProvider = services.BuildServiceProvider();
         var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
         var error = Assert.Throws<OptionsValidationException>(() => options.CurrentValue);

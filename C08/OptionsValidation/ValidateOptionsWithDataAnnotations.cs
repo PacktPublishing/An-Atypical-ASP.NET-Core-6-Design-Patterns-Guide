@@ -13,7 +13,9 @@ public class ValidateOptionsWithDataAnnotations
         var services = new ServiceCollection();
         services.AddOptions<Options>()
             .Configure(o => o.MyImportantProperty = "Some important value")
-            .ValidateDataAnnotations();
+            .ValidateDataAnnotations()
+            .ValidateOnStart() // eager validation 
+        ;
         var serviceProvider = services.BuildServiceProvider();
         var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
         Assert.Equal("Some important value", options.CurrentValue.MyImportantProperty);
@@ -24,7 +26,9 @@ public class ValidateOptionsWithDataAnnotations
     {
         var services = new ServiceCollection();
         services.AddOptions<Options>()
-            .ValidateDataAnnotations();
+            .ValidateDataAnnotations()
+            .ValidateOnStart() // eager validation 
+        ;
         var serviceProvider = services.BuildServiceProvider();
         var options = serviceProvider.GetRequiredService<IOptionsMonitor<Options>>();
         var error = Assert.Throws<OptionsValidationException>(() => options.CurrentValue);

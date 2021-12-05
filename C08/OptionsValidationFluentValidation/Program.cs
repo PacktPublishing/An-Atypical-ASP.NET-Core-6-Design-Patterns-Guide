@@ -45,7 +45,7 @@ public class FluentValidateOptions<TOptions> : IValidateOptions<TOptions>
         {
             return ValidateOptionsResult.Success;
         }
-        var errorMessage = validationResult.Errors.Select(x => x.ErrorMessage);
-        return ValidateOptionsResult.Fail(errorMessage);
+        var errorMessages = validationResult.Errors.Select(x => x.ErrorMessage);
+        return ValidateOptionsResult.Fail(errorMessages);
     }
 }

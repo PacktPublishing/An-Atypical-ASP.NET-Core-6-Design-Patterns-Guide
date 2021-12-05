@@ -17,8 +17,7 @@ public class Providers
     [Fact]
     public async Task CustomizeProvidersAsync()
     {
-        var args = new string[0];
-        var host = Host.CreateDefaultBuilder(args)
+        var host = Host.CreateDefaultBuilder()
             .ConfigureLogging(loggingBuilder =>
             {
                 loggingBuilder.ClearProviders();

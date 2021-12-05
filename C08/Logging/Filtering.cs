@@ -21,8 +21,7 @@ public class Filtering
     {
         // Arrange
         var lines = new List<string>();
-        var args = new string[0];
-        var host = Host.CreateDefaultBuilder(args)
+        var host = Host.CreateDefaultBuilder()
             .ConfigureLogging(loggingBuilder =>
             {
                 loggingBuilder.ClearProviders();

@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Wishlist;
 
-namespace Wishlist
+public interface IWishList
 {
-    public interface IWishList
-    {
-        Task<WishListItem> AddOrRefreshAsync(string itemName);
-        Task<IEnumerable<WishListItem>> AllAsync();
-    }
+    Task<WishListItem> AddOrRefreshAsync(string itemName);
+    Task<IEnumerable<WishListItem>> AllAsync();
 }
+public record class WishListItem(string Name, int Count, DateTimeOffset Expiration);

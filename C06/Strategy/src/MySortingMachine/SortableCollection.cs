@@ -5,7 +5,7 @@ namespace MySortingMachine
 {
     public sealed class SortableCollection
     {
-        public ISortStrategy SortStrategy { get; set; }
+        public ISortStrategy? SortStrategy { get; set; }
         public IEnumerable<string> Items { get; private set; }
 
         public SortableCollection(IEnumerable<string> items)

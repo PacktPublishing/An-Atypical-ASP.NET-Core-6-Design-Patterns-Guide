@@ -4,7 +4,7 @@ namespace Singleton
 {
     public class MySingleton
     {
-        private static MySingleton _instance;
+        private static MySingleton? _instance;
 
         private MySingleton() { }
 

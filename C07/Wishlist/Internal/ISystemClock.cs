@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Wishlist.Internal;
 
-namespace Wishlist.Internal
+public interface ISystemClock
 {
-    public interface ISystemClock
-    {
-        DateTimeOffset UtcNow { get; }
-    }
+    DateTimeOffset UtcNow { get; }
 }

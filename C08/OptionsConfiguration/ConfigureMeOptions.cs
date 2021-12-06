@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace OptionsConfiguration;
 
-namespace ConfigurationAndValidation
+public class ConfigureMeOptions
 {
-    public class ConfigureMeOptions
-    {
-        public string Title { get; set; }
-        public IEnumerable<string> Lines { get; set; }
-    }
+    public string? Title { get; set; }
+    public IEnumerable<string> Lines { get; set; } = Enumerable.Empty<string>();
 }

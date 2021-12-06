@@ -1,6 +1,5 @@
-﻿namespace CommonScenarios
+﻿namespace CommonScenarios;
+
+public class MyNameServiceUsingNamedOptionsSnapshotTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsSnapshot>
 {
-    public class MyNameServiceUsingNamedOptionsSnapshotTest : MyNameServiceTest<MyNameServiceUsingNamedOptionsSnapshot>
-    {
-    }
 }

@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿//#define USE_MEMORY_CACHE
 
-namespace ApplicationState
+using ApplicationState;
+using Microsoft.AspNetCore.Mvc;
+
+var builder = WebApplication.CreateBuilder(args);
+#if USE_MEMORY_CACHE
+        builder.Services.AddMemoryCache();
+        builder.Services.AddSingleton<IApplicationState, ApplicationMemoryCache>();
+#else
+        builder.Services.AddSingleton<IApplicationState, ApplicationDictionary>();
+#endif
+var app = builder.Build();
+app.MapGet("/", (IApplicationState myAppState, string key) =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    var value = myAppState.Get<string>(key);
+    return $"{key} = {value ?? "null"}";
+});
+app.MapPost("/", (IApplicationState myAppState, SetAppState dto) =>
+{
+    myAppState.Set(dto.Key, dto.Value);
+    return $"{dto.Key} = {dto.Value}";
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+app.Run();
+
+public record class SetAppState(string Key, string Value);

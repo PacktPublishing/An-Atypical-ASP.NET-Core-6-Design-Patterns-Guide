@@ -1,19 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿namespace ServiceLocator;
 
-namespace ServiceLocator
+public class MyServiceImplementation : IMyService
 {
-    public class MyServiceImplementation : IMyService
-    {
-        public bool IsDisposed { get; private set; }
-        public void Dispose() => IsDisposed = true;
+    private bool _isDisposed = false;
+    public void Dispose() => _isDisposed = true;
 
-        public void Execute()
+    public void Execute()
+    {
+        if (_isDisposed)
         {
-            if (IsDisposed)
-            {
-                throw new NullReferenceException("Some dependencies has been disposed.");
-            }
+            throw new NullReferenceException("Some dependencies has been disposed.");
         }
     }
 }

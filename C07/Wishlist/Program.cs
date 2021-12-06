@@ -1,28 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Options;
+using Wishlist;
 
-namespace Wishlist
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .ConfigureOptions<InMemoryWishListOptions>()
+    .AddTransient<IValidateOptions<InMemoryWishListOptions>, InMemoryWishListOptions>()
+    .AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<InMemoryWishListOptions>>().Value)
+
+    .AddSingleton<IWishList, InMemoryWishList>()
+
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
+;
+
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/", async (IWishList wishList) => await wishList.AllAsync());
+app.MapPost("/", async (IWishList wishList, CreateItem? newItem) =>
 {
-    public class Program
+    if (newItem?.Name == null)
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        return Results.BadRequest();
     }
-}
+    var item = await wishList.AddOrRefreshAsync(newItem.Name);
+    return Results.Created("/", item);
+}).Produces(201, typeof(WishListItem));
+app.Run();
+
+public record class CreateItem(string? Name);

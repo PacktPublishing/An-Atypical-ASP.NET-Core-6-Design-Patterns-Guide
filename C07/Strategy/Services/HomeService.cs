@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Strategy.Services;
 
-namespace Strategy.Services
+public interface IHomeService
 {
-    public interface IHomeService
-    {
-        IEnumerable<string> GetHomePageData();
-    }
+    IEnumerable<string> GetHomePageData();
+}
 
-    public class HomeService : IHomeService
+public class HomeService : IHomeService
+{
+    public IEnumerable<string> GetHomePageData()
     {
-        public IEnumerable<string> GetHomePageData()
-        {
-            yield return "Lorem";
-            yield return "ipsum";
-            yield return "dolor";
-            yield return "sit";
-            yield return "amet";
-        }
+        yield return "Lorem";
+        yield return "ipsum";
+        yield return "dolor";
+        yield return "sit";
+        yield return "amet";
     }
 }

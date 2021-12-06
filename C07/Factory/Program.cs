@@ -1,26 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Factory.Models;
+using Factory.Services;
 
-namespace Factory
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddSingleton<IHomeService, HomeService>()
+    .AddTransient(serviceProvider =>
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+        var homeService = serviceProvider.GetRequiredService<IHomeService>();
+        var data = homeService.GetHomePageData();
+        return new HomePageViewModel(data);
+    })
+    .AddSingleton<IHomeViewModelFactory, HomeViewModelFactory>()
+    .AddControllersWithViews()
+;
+var app = builder.Build();
+app.MapDefaultControllerRoute();
+app.MapGet("/", (HttpContext context) => new[] {
+    $"https://{context.Request.Host}/service-locator",
+    $"https://{context.Request.Host}/method-injection",
+    $"https://{context.Request.Host}/constructor-injection",
+    $"https://{context.Request.Host}/minimal-api",
+});
+app.Run();

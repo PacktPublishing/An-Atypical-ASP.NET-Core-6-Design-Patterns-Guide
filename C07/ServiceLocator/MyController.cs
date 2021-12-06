@@ -1,27 +1,20 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ServiceLocator
+namespace ServiceLocator;
+
+public class MyController : ControllerBase
 {
-    public class MyController : ControllerBase
+    private readonly IServiceProvider _serviceProvider;
+    public MyController(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider _serviceProvider;
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+    }
 
-        public MyController(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        }
-
-        [Route("/")]
-        public IActionResult Get()
-        {
-            using (var myService = _serviceProvider.GetService<IMyService>())
-            {
-                myService.Execute();
-                return Ok("Success!");
-            }
-        }
+    [Route("/service-locator")]
+    public IActionResult Get()
+    {
+        using var myService = _serviceProvider.GetRequiredService<IMyService>(); // Don't
+        myService.Execute();
+        return Ok("Success!");
     }
 }

@@ -21,6 +21,9 @@ builder.Services
 
     // Web Layer
     .AddSingleton<IMapper<Product, ProductDetails>, ProductMapper>()
+    .AddSingleton<IMapper<int, StockLevel>, StockLevelMapper>()
+    .AddSingleton<IMapper<ProductNotFoundException, ProductNotFound>, ProductNotFoundMapper>()
+    .AddSingleton<IMapper<NotEnoughStockException, NotEnoughStock>, NotEnoughStockMapper>()
 
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
@@ -36,50 +39,40 @@ app.MapGet("/products", async (IProductRepository productRepository, IMapper<Pro
     return products.Select(p => mapper.Map(p));
 }).Produces(200, typeof(ProductDetails[]));
 
-app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, IMapper<int, StockLevel> stockLevelMapper, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, CancellationToken cancellationToken) =>
 {
     try
     {
         var quantityInStock = await stockService.AddStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = new StockLevel(quantityInStock);
+        var stockLevel = stockLevelMapper.Map(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (ProductNotFoundException ex)
     {
-        return Results.NotFound(new
-        {
-            ex.Message,
-            productId,
-        });
+        return Results.NotFound(notFoundMapper.Map(ex));
     }
-});
+}).Produces(200, typeof(StockLevel))
+  .Produces(404, typeof(ProductNotFound));
 
-app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, IMapper<int, StockLevel> stockLevelMapper, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, IMapper<NotEnoughStockException, NotEnoughStock> notEnoughStockMapper, CancellationToken cancellationToken) =>
 {
     try
     {
         var quantityInStock = await stockService.RemoveStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = new StockLevel(quantityInStock);
+        var stockLevel = stockLevelMapper.Map(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (NotEnoughStockException ex)
     {
-        return Results.Conflict(new
-        {
-            ex.Message,
-            ex.AmountToRemove,
-            ex.QuantityInStock
-        });
+        return Results.Conflict(notEnoughStockMapper.Map(ex));
     }
     catch (ProductNotFoundException ex)
     {
-        return Results.NotFound(new
-        {
-            ex.Message,
-            productId,
-        });
+        return Results.NotFound(notFoundMapper.Map(ex));
     }
-});
+}).Produces(200, typeof(StockLevel))
+  .Produces(404, typeof(ProductNotFound))
+  .Produces(409, typeof(NotEnoughStock));
 
 using (var seedScope = app.Services.CreateScope())
 {
@@ -96,16 +89,6 @@ internal class AddStocksCommand
 internal class RemoveStocksCommand
 {
     public int Amount { get; set; }
-}
-
-internal class StockLevel
-{
-    public StockLevel(int quantityInStock)
-    {
-        QuantityInStock = quantityInStock;
-    }
-
-    public int QuantityInStock { get; set; }
 }
 
 internal static class ProductSeeder
@@ -131,28 +114,30 @@ internal static class ProductSeeder
     }
 }
 
-public class ProductDetails
-{
-    public ProductDetails(int id, string name, int quantityInStock)
-    {
-        Id = id;
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-        QuantityInStock = quantityInStock;
-    }
-
-    public int Id { get; }
-    public string Name { get; }
-    public int QuantityInStock { get; }
-}
-
+public record class ProductDetails(int Id, string Name, int QuantityInStock);
 public class ProductMapper : IMapper<Product, ProductDetails>
 {
     public ProductDetails Map(Product entity)
-    {
-        return new ProductDetails(
-            id: entity.Id ?? default,
-            name: entity.Name,
-            quantityInStock: entity.QuantityInStock
-        );
-    }
+        => new(entity.Id ?? default, entity.Name, entity.QuantityInStock);
+}
+
+public record class ProductNotFound(int ProductId, string Message);
+public class ProductNotFoundMapper : IMapper<ProductNotFoundException, ProductNotFound>
+{
+    public ProductNotFound Map(ProductNotFoundException exception)
+        => new(exception.ProductId, exception.Message);
+}
+
+public record class NotEnoughStock(int AmountToRemove, int QuantityInStock, string Message);
+public class NotEnoughStockMapper : IMapper<NotEnoughStockException, NotEnoughStock>
+{
+    public NotEnoughStock Map(NotEnoughStockException exception)
+        => new(exception.AmountToRemove, exception.QuantityInStock, exception.Message);
+}
+
+public record class StockLevel(int QuantityInStock);
+public class StockLevelMapper : IMapper<int, StockLevel>
+{
+    public StockLevel Map(int quantityInStock)
+        => new(quantityInStock);
 }

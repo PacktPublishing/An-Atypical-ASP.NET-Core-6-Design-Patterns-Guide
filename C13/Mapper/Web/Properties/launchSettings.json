@@ -1,10 +1,11 @@
 ﻿{
   "profiles": {
-    "Presentation": {
+    "Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:12003",
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:13001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

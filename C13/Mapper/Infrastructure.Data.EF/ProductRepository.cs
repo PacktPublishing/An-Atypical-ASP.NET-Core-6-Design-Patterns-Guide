@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core;
 using Core.Models;
 using Core.Repositories;
-using Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.EF;
 

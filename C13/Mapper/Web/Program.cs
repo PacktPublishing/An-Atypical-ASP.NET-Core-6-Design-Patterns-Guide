@@ -1,4 +1,5 @@
 using Core;
+using Core.Interfaces;
 using Core.Models;
 using Core.Repositories;
 using Core.Services;
@@ -17,20 +18,24 @@ builder.Services
         .UseInMemoryDatabase("ProductContextMemoryDB")
         .ConfigureWarnings(builder => builder.Ignore(InMemoryEventId.TransactionIgnoredWarning))
     )
+
+    // Web Layer
+    .AddSingleton<IMapper<Product, ProductDetails>, ProductMapper>()
+
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
 ;
 
 var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.MapGet("/products", async (IProductRepository productRepository, CancellationToken cancellationToken) =>
+app.MapGet("/products", async (IProductRepository productRepository, IMapper<Product, ProductDetails> mapper, CancellationToken cancellationToken) =>
 {
     var products = await productRepository.AllAsync(cancellationToken);
-    return products.Select(p => new
-    {
-        p.Id,
-        p.Name,
-        p.QuantityInStock
-    });
-});
+    return products.Select(p => mapper.Map(p));
+}).Produces(200, typeof(ProductDetails[]));
+
 app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
 {
     try
@@ -48,6 +53,7 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
         });
     }
 });
+
 app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
 {
     try
@@ -122,5 +128,31 @@ internal static class ProductSeeder
             quantityInStock: 10
         ));
         return db.SaveChangesAsync();
+    }
+}
+
+public class ProductDetails
+{
+    public ProductDetails(int id, string name, int quantityInStock)
+    {
+        Id = id;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        QuantityInStock = quantityInStock;
+    }
+
+    public int Id { get; }
+    public string Name { get; }
+    public int QuantityInStock { get; }
+}
+
+public class ProductMapper : IMapper<Product, ProductDetails>
+{
+    public ProductDetails Map(Product entity)
+    {
+        return new ProductDetails(
+            id: entity.Id ?? default,
+            name: entity.Name,
+            quantityInStock: entity.QuantityInStock
+        );
     }
 }

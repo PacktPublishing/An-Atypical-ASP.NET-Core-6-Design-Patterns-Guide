@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Core.Mappers;
 
-namespace Core.Mappers
+public class MapperNotFoundException : Exception
 {
-    public class MapperNotFoundException : Exception
+    public MapperNotFoundException(Type source, Type destination)
+        : base($"No Mapper from '{source}' to '{destination}' was found.")
     {
-        public MapperNotFoundException(Type source, Type destination)
-            : base($"No Mapper from '{source}' to '{destination}' was found.")
-        {
-        }
     }
 }

@@ -82,7 +82,7 @@ using (var seedScope = app.Services.CreateScope())
 }
 app.Run();
 
-public class AddStocksCommand 
+public class AddStocksCommand
 {
     public int Amount { get; set; }
 }

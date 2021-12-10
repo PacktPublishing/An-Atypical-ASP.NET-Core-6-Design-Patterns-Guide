@@ -81,16 +81,6 @@ using (var seedScope = app.Services.CreateScope())
 }
 app.Run();
 
-public class AddStocksCommand
-{
-    public int Amount { get; set; }
-}
-
-public class RemoveStocksCommand
-{
-    public int Amount { get; set; }
-}
-
 internal static class ProductSeeder
 {
     public static Task SeedAsync(ProductContext db)
@@ -113,6 +103,9 @@ internal static class ProductSeeder
         return db.SaveChangesAsync();
     }
 }
+
+public record class AddStocksCommand(int Amount);
+public record class RemoveStocksCommand(int Amount);
 
 public record class ProductDetails(int Id, string Name, int QuantityInStock);
 public class ProductMapper : IMapper<Product, ProductDetails>

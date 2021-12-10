@@ -81,12 +81,12 @@ using (var seedScope = app.Services.CreateScope())
 }
 app.Run();
 
-internal class AddStocksCommand
+public class AddStocksCommand
 {
     public int Amount { get; set; }
 }
 
-internal class RemoveStocksCommand
+public class RemoveStocksCommand
 {
     public int Amount { get; set; }
 }

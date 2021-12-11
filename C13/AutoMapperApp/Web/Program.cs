@@ -41,7 +41,7 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
     try
     {
         var quantityInStock = await stockService.AddStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = mapper.Map<StockLevel>(quantityInStock);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (ProductNotFoundException ex)
@@ -56,7 +56,7 @@ app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, Rem
     try
     {
         var quantityInStock = await stockService.RemoveStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = mapper.Map<StockLevel>(quantityInStock);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (NotEnoughStockException ex)
@@ -103,19 +103,18 @@ internal static class ProductSeeder
 
 public record class AddStocksCommand(int Amount);
 public record class RemoveStocksCommand(int Amount);
+public record class StockLevel(int QuantityInStock);
 
 public record class ProductDetails(int Id, string Name, int QuantityInStock);
+
 public record class ProductNotFound(int ProductId, string Message);
 public record class NotEnoughStock(int AmountToRemove, int QuantityInStock, string Message);
-public record class StockLevel(int QuantityInStock);
 
 public class WebProfile : Profile
 {
     public WebProfile()
     {
         CreateMap<Product, ProductDetails>();
-        CreateMap<int, StockLevel>()
-            .ConstructUsing(quantityInStock => new StockLevel(quantityInStock));
         CreateMap<NotEnoughStockException, NotEnoughStock>();
         CreateMap<ProductNotFoundException, ProductNotFound>();
     }

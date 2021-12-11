@@ -21,7 +21,6 @@ builder.Services
 
     // Web Layer
     .AddSingleton<IMapper<Product, ProductDetails>, ProductMapper>()
-    .AddSingleton<IMapper<int, StockLevel>, StockLevelMapper>()
     .AddSingleton<IMapper<ProductNotFoundException, ProductNotFound>, ProductNotFoundMapper>()
     .AddSingleton<IMapper<NotEnoughStockException, NotEnoughStock>, NotEnoughStockMapper>()
 
@@ -39,12 +38,12 @@ app.MapGet("/products", async (IProductRepository productRepository, IMapper<Pro
     return products.Select(p => mapper.Map(p));
 }).Produces(200, typeof(ProductDetails[]));
 
-app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, IMapper<int, StockLevel> stockLevelMapper, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, CancellationToken cancellationToken) =>
 {
     try
     {
         var quantityInStock = await stockService.AddStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = stockLevelMapper.Map(quantityInStock);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (ProductNotFoundException ex)
@@ -54,12 +53,12 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
 }).Produces(200, typeof(StockLevel))
   .Produces(404, typeof(ProductNotFound));
 
-app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, IMapper<int, StockLevel> stockLevelMapper, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, IMapper<NotEnoughStockException, NotEnoughStock> notEnoughStockMapper, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, IMapper<ProductNotFoundException, ProductNotFound> notFoundMapper, IMapper<NotEnoughStockException, NotEnoughStock> notEnoughStockMapper, CancellationToken cancellationToken) =>
 {
     try
     {
         var quantityInStock = await stockService.RemoveStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = stockLevelMapper.Map(quantityInStock);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (NotEnoughStockException ex)
@@ -129,8 +128,3 @@ public class NotEnoughStockMapper : IMapper<NotEnoughStockException, NotEnoughSt
 }
 
 public record class StockLevel(int QuantityInStock);
-public class StockLevelMapper : IMapper<int, StockLevel>
-{
-    public StockLevel Map(int quantityInStock)
-        => new(quantityInStock);
-}

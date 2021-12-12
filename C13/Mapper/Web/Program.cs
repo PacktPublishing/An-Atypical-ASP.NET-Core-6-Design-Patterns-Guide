@@ -21,8 +21,8 @@ builder.Services
 
     // Web Layer
     .AddSingleton<IMapper<Product, ProductDetails>, ProductMapper>()
-    .AddSingleton<IMapper<ProductNotFoundException, ProductNotFound>, ProductNotFoundMapper>()
-    .AddSingleton<IMapper<NotEnoughStockException, NotEnoughStock>, NotEnoughStockMapper>()
+    .AddSingleton<IMapper<ProductNotFoundException, ProductNotFound>, ExceptionsMapper>()
+    .AddSingleton<IMapper<NotEnoughStockException, NotEnoughStock>, ExceptionsMapper>()
 
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
@@ -114,15 +114,11 @@ public class ProductMapper : IMapper<Product, ProductDetails>
 }
 
 public record class ProductNotFound(int ProductId, string Message);
-public class ProductNotFoundMapper : IMapper<ProductNotFoundException, ProductNotFound>
+public record class NotEnoughStock(int AmountToRemove, int QuantityInStock, string Message);
+public class ExceptionsMapper : IMapper<ProductNotFoundException, ProductNotFound>, IMapper<NotEnoughStockException, NotEnoughStock>
 {
     public ProductNotFound Map(ProductNotFoundException exception)
         => new(exception.ProductId, exception.Message);
-}
-
-public record class NotEnoughStock(int AmountToRemove, int QuantityInStock, string Message);
-public class NotEnoughStockMapper : IMapper<NotEnoughStockException, NotEnoughStock>
-{
     public NotEnoughStock Map(NotEnoughStockException exception)
         => new(exception.AmountToRemove, exception.QuantityInStock, exception.Message);
 }

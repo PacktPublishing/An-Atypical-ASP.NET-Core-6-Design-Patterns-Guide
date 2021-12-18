@@ -2,63 +2,62 @@
 using System;
 using System.Collections.Generic;
 
-namespace Mediator
+namespace Mediator;
+
+public interface IMediator
 {
-    public interface IMediator
+    void Send(Message message);
+}
+
+public interface IColleague
+{
+    string Name { get; }
+    void ReceiveMessage(Message message);
+}
+
+public class Message
+{
+    public Message(IColleague from, string content)
     {
-        void Send(Message message);
+        Sender = from ?? throw new ArgumentNullException(nameof(from));
+        Content = content ?? throw new ArgumentNullException(nameof(content));
     }
 
-    public interface IColleague
+    public IColleague Sender { get; }
+    public string Content { get; }
+}
+
+public class ConcreteMediator : IMediator
+{
+    private readonly List<IColleague> _colleagues;
+    public ConcreteMediator(params IColleague[] colleagues)
     {
-        string Name { get; }
-        void ReceiveMessage(Message message);
+        if (colleagues == null) { throw new ArgumentNullException(nameof(colleagues)); }
+        _colleagues = new List<IColleague>(colleagues);
     }
 
-    public class Message
+    public void Send(Message message)
     {
-        public Message(IColleague from, string content)
+        foreach (var colleague in _colleagues)
         {
-            Sender = from ?? throw new ArgumentNullException(nameof(from));
-            Content = content ?? throw new ArgumentNullException(nameof(content));
-        }
-
-        public IColleague Sender { get; }
-        public string Content { get; }
-    }
-
-    public class ConcreteMediator : IMediator
-    {
-        private readonly List<IColleague> _colleagues;
-        public ConcreteMediator(params IColleague[] colleagues)
-        {
-            if (colleagues == null) { throw new ArgumentNullException(nameof(colleagues)); }
-            _colleagues = new List<IColleague>(colleagues);
-        }
-
-        public void Send(Message message)
-        {
-            foreach (var colleague in _colleagues)
-            {
-                colleague.ReceiveMessage(message);
-            }
+            colleague.ReceiveMessage(message);
         }
     }
+}
 
-    public class ConcreteColleague : IColleague
+public class ConcreteColleague : IColleague
+{
+    private readonly IMessageWriter<Message> _messageWriter;
+    public ConcreteColleague(string name, IMessageWriter<Message> messageWriter)
     {
-        private readonly IMessageWriter<Message> _messageWriter;
-        public ConcreteColleague(string name, IMessageWriter<Message> messageWriter)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            _messageWriter = messageWriter ?? throw new ArgumentNullException(nameof(messageWriter));
-        }
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        _messageWriter = messageWriter ?? throw new ArgumentNullException(nameof(messageWriter));
+    }
 
-        public string Name { get; }
+    public string Name { get; }
 
-        public void ReceiveMessage(Message message)
-        {
-            _messageWriter.Write(message);
-        }
+    public void ReceiveMessage(Message message)
+    {
+        _messageWriter.Write(message);
     }
 }

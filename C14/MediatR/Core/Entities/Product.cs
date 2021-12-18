@@ -1,4 +1,4 @@
-﻿namespace Core.Models;
+﻿namespace Core.Entities;
 public class Product
 {
     public Product(string name, int quantityInStock, int? id = null)

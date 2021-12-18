@@ -1,16 +1,16 @@
 using Core;
-using Core.Models;
+using Core.Entities;
 using Core.Repositories;
-using Core.Services;
+using Core.UseCases;
 using Infrastructure.Data.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
     // Core Layer
-    .AddScoped<StockService>()
     .AddMediatR(typeof(NotEnoughStockException).Assembly)
 
     // Infrastructure Layer (mapping Core to Infrastructure.Data.EF)
@@ -33,12 +33,13 @@ app.MapGet("/products", async (IProductRepository productRepository, Cancellatio
         p.QuantityInStock
     });
 });
-app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
+
+app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocks.Command command, IMediator mediator, CancellationToken cancellationToken) =>
 {
     try
     {
-        var quantityInStock = await stockService.AddStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = new StockLevel(quantityInStock);
+        command.ProductId = productId;
+        var stockLevel = await mediator.Send(command, cancellationToken);
         return Results.Ok(stockLevel);
     }
     catch (ProductNotFoundException ex)
@@ -50,12 +51,12 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
         });
     }
 });
-app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocksCommand command, StockService stockService, CancellationToken cancellationToken) =>
+app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, RemoveStocks.Command command, IMediator mediator, CancellationToken cancellationToken) =>
 {
     try
     {
-        var quantityInStock = await stockService.RemoveStockAsync(productId, command.Amount, cancellationToken);
-        var stockLevel = new StockLevel(quantityInStock);
+        command.ProductId = productId;
+        var stockLevel = await mediator.Send(command, cancellationToken);
         return Results.Ok(stockLevel);
     }
     catch (NotEnoughStockException ex)
@@ -83,26 +84,6 @@ using (var seedScope = app.Services.CreateScope())
     await ProductSeeder.SeedAsync(db);
 }
 app.Run();
-
-internal class AddStocksCommand
-{
-    public int Amount { get; set; }
-}
-
-internal class RemoveStocksCommand
-{
-    public int Amount { get; set; }
-}
-
-internal class StockLevel
-{
-    public StockLevel(int quantityInStock)
-    {
-        QuantityInStock = quantityInStock;
-    }
-
-    public int QuantityInStock { get; set; }
-}
 
 internal static class ProductSeeder
 {

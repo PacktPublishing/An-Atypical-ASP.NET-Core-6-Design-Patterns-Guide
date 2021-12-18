@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Entities;
 
 namespace Core.Repositories;
 

@@ -21,7 +21,6 @@ builder.Services
 ;
 
 var app = builder.Build();
-
 app.MapGet("/products", async (IProductRepository productRepository, CancellationToken cancellationToken) =>
 {
     var products = await productRepository.AllAsync(cancellationToken);
@@ -32,7 +31,6 @@ app.MapGet("/products", async (IProductRepository productRepository, Cancellatio
         p.QuantityInStock
     });
 });
-
 app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddStocks.Command command, IMediator mediator, CancellationToken cancellationToken) =>
 {
     try

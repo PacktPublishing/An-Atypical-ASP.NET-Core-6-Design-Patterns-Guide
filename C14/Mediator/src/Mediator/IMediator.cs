@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-
-namespace Mediator;
+﻿namespace Mediator;
 
 public interface IMediator
 {

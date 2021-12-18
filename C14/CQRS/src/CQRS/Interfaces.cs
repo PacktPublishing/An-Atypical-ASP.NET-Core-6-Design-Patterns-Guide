@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CQRS;
+﻿namespace CQRS;
 
 public interface IParticipant
 {

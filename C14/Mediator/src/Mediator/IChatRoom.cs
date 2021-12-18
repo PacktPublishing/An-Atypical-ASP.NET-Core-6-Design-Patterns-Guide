@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mediator;
+﻿namespace Mediator;
 
 public interface IChatRoom
 {
@@ -57,7 +51,7 @@ public class User : IParticipant
 
     public void Send(string message)
     {
-        if(_chatRoom == null)
+        if (_chatRoom == null)
         {
             throw new ChatRoomNotJoinedException();
         }

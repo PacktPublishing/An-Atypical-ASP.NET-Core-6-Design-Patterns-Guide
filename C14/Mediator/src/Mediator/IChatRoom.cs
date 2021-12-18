@@ -34,7 +34,7 @@ public class ChatMessage
 
 public class User : IParticipant
 {
-    private IChatRoom _chatRoom;
+    private IChatRoom? _chatRoom;
     private readonly IMessageWriter<ChatMessage> _messageWriter;
 
     public User(IMessageWriter<ChatMessage> messageWriter, string name)
@@ -57,8 +57,18 @@ public class User : IParticipant
 
     public void Send(string message)
     {
+        if(_chatRoom == null)
+        {
+            throw new ChatRoomNotJoinedException();
+        }
         _chatRoom.Send(new ChatMessage(this, message));
     }
+}
+
+public class ChatRoomNotJoinedException : Exception
+{
+    public ChatRoomNotJoinedException()
+        : base("You must join a chat room before sending a message.") { }
 }
 
 public class ChatRoom : IChatRoom

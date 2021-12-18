@@ -46,8 +46,8 @@ public class Participant : IParticipant
 
 public class ChatRoom : IChatRoom
 {
-    private readonly List<IParticipant> _participants = new List<IParticipant>();
-    private readonly List<ChatMessage> _chatMessages = new List<ChatMessage>();
+    private readonly List<IParticipant> _participants = new();
+    private readonly List<ChatMessage> _chatMessages = new();
 
     public ChatRoom(string name)
     {
@@ -84,7 +84,7 @@ public class ChatRoom : IChatRoom
 
 public class Mediator : IMediator
 {
-    private readonly HandlerDictionary _handlers = new HandlerDictionary();
+    private readonly HandlerDictionary _handlers = new();
 
     public void Register<TCommand>(ICommandHandler<TCommand> commandHandler)
         where TCommand : ICommand
@@ -117,8 +117,8 @@ public class Mediator : IMediator
 
     private class HandlerList
     {
-        private readonly List<object> _commandHandlers = new List<object>();
-        private readonly List<object> _queryHandlers = new List<object>();
+        private readonly List<object> _commandHandlers = new();
+        private readonly List<object> _queryHandlers = new();
 
         public void Add<TCommand>(ICommandHandler<TCommand> handler)
             where TCommand : ICommand
@@ -159,7 +159,7 @@ public class Mediator : IMediator
 
     private class HandlerDictionary
     {
-        private readonly Dictionary<Type, HandlerList> _handlers = new Dictionary<Type, HandlerList>();
+        private readonly Dictionary<Type, HandlerList> _handlers = new();
 
         public void AddHandler<TCommand>(ICommandHandler<TCommand> handler)
             where TCommand : ICommand

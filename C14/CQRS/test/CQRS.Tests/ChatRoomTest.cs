@@ -5,9 +5,9 @@ namespace CQRS.Tests;
 public class ChatRoomTest
 {
     private readonly IMediator _mediator = new Mediator();
-    private readonly TestMessageWriter _reagenMessageWriter = new TestMessageWriter();
-    private readonly TestMessageWriter _garnerMessageWriter = new TestMessageWriter();
-    private readonly TestMessageWriter _corneliaMessageWriter = new TestMessageWriter();
+    private readonly TestMessageWriter _reagenMessageWriter = new();
+    private readonly TestMessageWriter _garnerMessageWriter = new();
+    private readonly TestMessageWriter _corneliaMessageWriter = new();
 
     private readonly IChatRoom _room1 = new ChatRoom("Room 1");
     private readonly IChatRoom _room2 = new ChatRoom("Room 2");

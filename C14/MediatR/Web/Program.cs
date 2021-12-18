@@ -6,7 +6,6 @@ using Infrastructure.Data.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

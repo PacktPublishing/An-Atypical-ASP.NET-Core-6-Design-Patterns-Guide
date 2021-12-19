@@ -49,6 +49,23 @@ public class StocksTest
             Assert.NotNull(peppers);
             Assert.Equal(20, peppers!.QuantityInStock);
         }
+
+        [Fact]
+        public async Task Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId()
+        {
+            // Arrange
+            await using var application = new VerticalAppApplication(databaseName: nameof(Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId));
+            await application.SeedAsync(SeederDelegate);
+            using var requestScope = application.Services.CreateScope();
+            var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ProductNotFoundException>(() => mediator.Send(new AddStocks.Command
+            {
+                ProductId = 6,
+                Amount = 1
+            }));
+        }
     }
 
     public class RemoveStocksTest : StocksTest
@@ -91,6 +108,23 @@ public class StocksTest
             {
                 ProductId = 5,
                 Amount = 11
+            }));
+        }
+
+        [Fact]
+        public async Task Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId()
+        {
+            // Arrange
+            await using var application = new VerticalAppApplication(databaseName: nameof(Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId));
+            await application.SeedAsync(SeederDelegate);
+            using var requestScope = application.Services.CreateScope();
+            var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ProductNotFoundException>(() => mediator.Send(new RemoveStocks.Command
+            {
+                ProductId = 6,
+                Amount = 1
             }));
         }
     }

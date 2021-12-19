@@ -19,9 +19,20 @@ public class StocksController : ControllerBase
         [FromBody] AddStocks.Command command
     )
     {
-        command.ProductId = productId;
-        var result = await _mediator.Send(command);
-        return Ok(result);
+        try
+        {
+            command.ProductId = productId;
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+        catch (ProductNotFoundException ex)
+        {
+            return NotFound(new
+            {
+                ex.Message,
+                productId,
+            });
+        }
     }
 
     [HttpPost("remove-stocks")]
@@ -43,6 +54,14 @@ public class StocksController : ControllerBase
                 ex.Message,
                 ex.AmountToRemove,
                 ex.QuantityInStock
+            });
+        }
+        catch (ProductNotFoundException ex)
+        {
+            return NotFound(new
+            {
+                ex.Message,
+                productId,
             });
         }
     }

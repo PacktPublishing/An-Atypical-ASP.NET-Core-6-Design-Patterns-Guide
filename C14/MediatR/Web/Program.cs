@@ -36,7 +36,8 @@ app.MapPost("/products/{productId:int}/add-stocks", async (int productId, AddSto
     try
     {
         command.ProductId = productId;
-        var stockLevel = await mediator.Send(command, cancellationToken);
+        var quantityInStock = await mediator.Send(command, cancellationToken);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (ProductNotFoundException ex)
@@ -53,7 +54,8 @@ app.MapPost("/products/{productId:int}/remove-stocks", async (int productId, Rem
     try
     {
         command.ProductId = productId;
-        var stockLevel = await mediator.Send(command, cancellationToken);
+        var quantityInStock = await mediator.Send(command, cancellationToken);
+        var stockLevel = new StockLevel(quantityInStock);
         return Results.Ok(stockLevel);
     }
     catch (NotEnoughStockException ex)
@@ -104,3 +106,5 @@ internal static class ProductSeeder
         return db.SaveChangesAsync();
     }
 }
+
+public record class StockLevel(int QuantityInStock);

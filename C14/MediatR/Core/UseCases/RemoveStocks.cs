@@ -5,15 +5,13 @@ namespace Core.UseCases;
 
 public class RemoveStocks
 {
-    public class Command : IRequest<StockLevel>
+    public class Command : IRequest<int>
     {
         public int ProductId { get; set; }
         public int Amount { get; set; }
     }
 
-    public record class StockLevel(int QuantityInStock);
-
-    public class Handler : IRequestHandler<Command, StockLevel>
+    public class Handler : IRequestHandler<Command, int>
     {
         private readonly IProductRepository _productRepository;
         public Handler(IProductRepository productRepository)
@@ -21,7 +19,7 @@ public class RemoveStocks
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
 
-        public async Task<StockLevel> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<int> Handle(Command request, CancellationToken cancellationToken)
         {
             var product = await _productRepository.FindByIdAsync(request.ProductId, cancellationToken);
             if (product == null)
@@ -30,7 +28,7 @@ public class RemoveStocks
             }
             product.RemoveStock(request.Amount);
             await _productRepository.UpdateAsync(product, cancellationToken);
-            return new StockLevel(product.QuantityInStock);
+            return product.QuantityInStock;
         }
     }
 }

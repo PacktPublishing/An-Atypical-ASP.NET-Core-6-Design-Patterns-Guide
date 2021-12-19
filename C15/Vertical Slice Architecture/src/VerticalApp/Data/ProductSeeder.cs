@@ -1,16 +1,15 @@
-﻿using ForEvolve.EntityFrameworkCore.Seeders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VerticalApp.Models;
 
-namespace VerticalApp.Data.Seeders
+namespace VerticalApp.Data
 {
-    public class ProductSeeder : ISeeder<ProductContext>
+    internal static class ProductSeeder
     {
-        public void Seed(ProductContext db)
+        public static Task SeedAsync(ProductContext db)
         {
             db.Products.Add(new Product
             {
@@ -30,7 +29,7 @@ namespace VerticalApp.Data.Seeders
                 Name = "Habanero Pepper",
                 QuantityInStock = 10
             });
-            db.SaveChanges();
+            return db.SaveChangesAsync();
         }
     }
 }

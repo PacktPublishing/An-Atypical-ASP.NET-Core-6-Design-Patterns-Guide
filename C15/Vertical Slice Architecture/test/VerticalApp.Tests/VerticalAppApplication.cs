@@ -18,10 +18,10 @@ internal class VerticalAppApplication : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-                // Override the default ProductContext options to make
-                // a different InMemory database per test case so there is no
-                // seed conflicts.
-                services.AddScoped(sp =>
+            // Override the default ProductContext options to make
+            // a different InMemory database per test case so there is no
+            // seed conflicts.
+            services.AddScoped(sp =>
             {
                 return new DbContextOptionsBuilder<ProductContext>()
                     .UseInMemoryDatabase(_databaseName)

@@ -2,21 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace VerticalApp
+namespace VerticalApp;
+
+public class FluentValidationExceptionFilter : IExceptionFilter
 {
-    public class FluentValidationExceptionFilter : IExceptionFilter
+    public void OnException(ExceptionContext context)
     {
-        public void OnException(ExceptionContext context)
+        if (context.Exception is ValidationException ex)
         {
-            if (context.Exception is ValidationException ex)
+            context.Result = new BadRequestObjectResult(new
             {
-                context.Result = new BadRequestObjectResult(new
-                {
-                    ex.Message,
-                    ex.Errors,
-                });
-                context.ExceptionHandled = true;
-            }
+                ex.Message,
+                ex.Errors,
+            });
+            context.ExceptionHandled = true;
         }
     }
 }

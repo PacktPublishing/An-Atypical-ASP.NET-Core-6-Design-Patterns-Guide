@@ -1,7 +1,6 @@
-﻿namespace Mediator
+﻿namespace Mediator;
+
+public interface IMessageWriter<TMessage>
 {
-    public interface IMessageWriter<TMessage>
-    {
-        void Write(TMessage message);
-    }
+    void Write(TMessage message);
 }

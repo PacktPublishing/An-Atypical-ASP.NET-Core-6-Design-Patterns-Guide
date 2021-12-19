@@ -1,7 +1,6 @@
-﻿namespace CQRS
+﻿namespace CQRS;
+
+public interface IMessageWriter
 {
-    public interface IMessageWriter
-    {
-        void Write(IChatRoom chatRoom, ChatMessage message);
-    }
+    void Write(IChatRoom chatRoom, ChatMessage message);
 }

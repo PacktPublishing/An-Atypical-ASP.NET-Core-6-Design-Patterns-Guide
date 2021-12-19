@@ -1,80 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CQRS;
 
-namespace CQRS
+public class JoinChatRoom
 {
-    public class JoinChatRoom
+    public class Command : ICommand
     {
-        public class Command : ICommand
+        public Command(IChatRoom chatRoom, IParticipant requester)
         {
-            public Command(IChatRoom chatRoom, IParticipant requester)
-            {
-                ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
-                Requester = requester ?? throw new ArgumentNullException(nameof(requester));
-            }
-
-            public IChatRoom ChatRoom { get; }
-            public IParticipant Requester { get; }
+            ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
+            Requester = requester ?? throw new ArgumentNullException(nameof(requester));
         }
 
-        public class Handler : ICommandHandler<Command>
-        {
-            public void Handle(Command command)
-            {
-                command.ChatRoom.Add(command.Requester);
-            }
-        }
+        public IChatRoom ChatRoom { get; }
+        public IParticipant Requester { get; }
     }
 
-    public class LeaveChatRoom
+    public class Handler : ICommandHandler<Command>
     {
-        public class Command : ICommand
+        public void Handle(Command command)
         {
-            public Command(IChatRoom chatRoom, IParticipant requester)
-            {
-                ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
-                Requester = requester ?? throw new ArgumentNullException(nameof(requester));
-            }
-
-            public IChatRoom ChatRoom { get; }
-            public IParticipant Requester { get; }
-        }
-
-        public class Handler : ICommandHandler<Command>
-        {
-            public void Handle(Command command)
-            {
-                command.ChatRoom.Remove(command.Requester);
-            }
+            command.ChatRoom.Add(command.Requester);
         }
     }
+}
 
-    public class SendChatMessage
+public class LeaveChatRoom
+{
+    public class Command : ICommand
     {
-        public class Command : ICommand
+        public Command(IChatRoom chatRoom, IParticipant requester)
         {
-            public Command(IChatRoom chatRoom, ChatMessage message)
-            {
-                ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
-                Message = message ?? throw new ArgumentNullException(nameof(message));
-            }
-
-            public IChatRoom ChatRoom { get; }
-            public ChatMessage Message { get; }
+            ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
+            Requester = requester ?? throw new ArgumentNullException(nameof(requester));
         }
 
-        public class Handler : ICommandHandler<Command>
+        public IChatRoom ChatRoom { get; }
+        public IParticipant Requester { get; }
+    }
+
+    public class Handler : ICommandHandler<Command>
+    {
+        public void Handle(Command command)
         {
-            public void Handle(Command command)
+            command.ChatRoom.Remove(command.Requester);
+        }
+    }
+}
+
+public class SendChatMessage
+{
+    public class Command : ICommand
+    {
+        public Command(IChatRoom chatRoom, ChatMessage message)
+        {
+            ChatRoom = chatRoom ?? throw new ArgumentNullException(nameof(chatRoom));
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+        }
+
+        public IChatRoom ChatRoom { get; }
+        public ChatMessage Message { get; }
+    }
+
+    public class Handler : ICommandHandler<Command>
+    {
+        public void Handle(Command command)
+        {
+            command.ChatRoom.Add(command.Message);
+            foreach (var participant in command.ChatRoom.ListParticipants())
             {
-                command.ChatRoom.Add(command.Message);
-                foreach (var participant in command.ChatRoom.ListParticipants())
-                {
-                    participant.NewMessageReceivedFrom(command.ChatRoom, command.Message);
-                }
+                participant.NewMessageReceivedFrom(command.ChatRoom, command.Message);
             }
         }
     }

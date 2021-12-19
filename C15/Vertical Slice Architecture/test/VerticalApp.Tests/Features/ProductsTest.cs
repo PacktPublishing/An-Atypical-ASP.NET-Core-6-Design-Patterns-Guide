@@ -13,13 +13,11 @@ using Xunit;
 
 namespace VerticalApp.Features.Products
 {
-    public class ProductsTest : BaseIntegrationTest
+    public class ProductsTest
     {
-        public ProductsTest()
-            : base(databaseName: "ProductsTest") { }
-
-        protected async override Task SeedAsync(ProductContext db)
+        private async Task SeederDelegate(ProductContext db)
         {
+            db.Products.RemoveRange(db.Products.ToArray());
             await db.Products.AddAsync(new Product
             {
                 Id = 1,
@@ -47,15 +45,16 @@ namespace VerticalApp.Features.Products
             public async Task Should_return_all_products()
             {
                 // Arrange
-                var serviceProvider = _services.BuildServiceProvider();
-                using var scope = serviceProvider.CreateScope();
-                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                await using var application = new VerticalAppApplication(databaseName: nameof(Should_return_all_products));
+                await application.SeedAsync(SeederDelegate);
+                using var requestScope = application.Services.CreateScope();
+                var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
 
                 // Act
                 var result = await mediator.Send(new ListAllProducts.Command());
 
                 // Assert
-                using var assertScope = serviceProvider.CreateScope();
+                using var assertScope = application.Services.CreateScope();
                 var db = assertScope.ServiceProvider.GetRequiredService<ProductContext>();
                 Assert.Collection(result,
                     product => Assert.Equal("Banana", product.Name),

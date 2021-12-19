@@ -48,12 +48,16 @@ public class AddStocks
 
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var product = await _db.Products.FindAsync(request.ProductId);
-            product.QuantityInStock += request.Amount;
-            await _db.SaveChangesAsync();
+            var product = await _db.Products.FindAsync(new object[] { request.ProductId }, cancellationToken);
+            if (product == null)
+            {
+                throw new ProductNotFoundException(request.ProductId);
+            }
 
-            var result = _mapper.Map<Result>(product);
-            return result;
+            product.QuantityInStock += request.Amount;
+            await _db.SaveChangesAsync(cancellationToken);
+
+            return _mapper.Map<Result>(product);
         }
     }
 }

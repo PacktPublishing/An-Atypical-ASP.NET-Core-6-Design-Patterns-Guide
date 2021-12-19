@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using System.Diagnostics.CodeAnalysis;
 using VerticalApp.Data;
 using VerticalApp.Models;
 
@@ -11,12 +12,7 @@ public class ListAllProducts
     {
     }
 
-    public class Result
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int QuantityInStock { get; set; }
-    }
+    public record class Result([NotNull] int? Id, string Name, int QuantityInStock);
 
     public class MapperProfile : Profile
     {

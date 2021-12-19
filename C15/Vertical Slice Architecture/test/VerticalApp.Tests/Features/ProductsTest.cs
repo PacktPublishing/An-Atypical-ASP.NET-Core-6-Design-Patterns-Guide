@@ -8,27 +8,24 @@ namespace VerticalApp.Features.Products;
 
 public class ProductsTest
 {
-    private async Task SeederDelegate(ProductContext db)
+    private static async Task SeederDelegate(ProductContext db)
     {
         db.Products.RemoveRange(db.Products.ToArray());
-        await db.Products.AddAsync(new Product
-        {
-            Id = 1,
-            Name = "Banana",
-            QuantityInStock = 50
-        });
-        await db.Products.AddAsync(new Product
-        {
-            Id = 2,
-            Name = "Scotch Bottle",
-            QuantityInStock = 20
-        });
-        await db.Products.AddAsync(new Product
-        {
-            Id = 3,
-            Name = "Habanero Pepper",
-            QuantityInStock = 10
-        });
+        await db.Products.AddAsync(new Product(
+            id: 1,
+            name: "Banana",
+            quantityInStock: 50
+        ));
+        await db.Products.AddAsync(new Product(
+            id: 2,
+            name: "Scotch Bottle",
+            quantityInStock: 20
+        ));
+        await db.Products.AddAsync(new Product(
+            id: 3,
+            name: "Habanero Pepper",
+            quantityInStock: 10
+        ));
         await db.SaveChangesAsync();
     }
 

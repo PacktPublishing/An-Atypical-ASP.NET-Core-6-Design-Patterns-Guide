@@ -48,16 +48,20 @@ public class RemoveStocks
 
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
-            var product = await _db.Products.FindAsync(request.ProductId);
+            var product = await _db.Products.FindAsync(new object[] { request.ProductId }, cancellationToken);
+            if (product == null)
+            {
+                throw new ProductNotFoundException(request.ProductId);
+            }
             if (request.Amount > product.QuantityInStock)
             {
                 throw new NotEnoughStockException(product.QuantityInStock, request.Amount);
             }
-            product.QuantityInStock -= request.Amount;
-            await _db.SaveChangesAsync();
 
-            var result = _mapper.Map<Result>(product);
-            return result;
+            product.QuantityInStock -= request.Amount;
+            await _db.SaveChangesAsync(cancellationToken);
+
+            return _mapper.Map<Result>(product);
         }
     }
 }

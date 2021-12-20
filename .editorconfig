@@ -15,7 +15,7 @@ indent_style = space
 #Formatting - indentation
 
 # Namespace
-csharp_style_namespace_declarations = file_scoped
+csharp_style_namespace_declarations = file_scoped:warning
 
 #size of soft tabs (spaces)
 indent_size = 4

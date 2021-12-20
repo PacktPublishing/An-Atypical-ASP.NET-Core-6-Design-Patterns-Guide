@@ -8,10 +8,12 @@ namespace VerticalApp;
 
 internal class VerticalAppApplication : WebApplicationFactory<Program>
 {
+    private readonly Action<IServiceCollection>? _afterConfigureServices;
     private readonly string _databaseName;
-    public VerticalAppApplication(string databaseName)
+    public VerticalAppApplication(string databaseName, Action<IServiceCollection>? afterConfigureServices = null)
     {
         _databaseName = databaseName;
+        _afterConfigureServices = afterConfigureServices;
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
@@ -28,6 +30,7 @@ internal class VerticalAppApplication : WebApplicationFactory<Program>
                     .UseApplicationServiceProvider(sp)
                     .Options;
             });
+            _afterConfigureServices?.Invoke(services);
         });
         return base.CreateHost(builder);
     }

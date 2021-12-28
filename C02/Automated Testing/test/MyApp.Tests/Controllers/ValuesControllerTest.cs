@@ -1,26 +1,25 @@
 ﻿using Xunit;
 
-namespace MyApp.Controllers
+namespace MyApp.Controllers;
+
+public class ValuesControllerTest
 {
-    public class ValuesControllerTest
+    public class Get : ValuesControllerTest
     {
-        public class Get : ValuesControllerTest
+        [Fact]
+        public void Should_return_the_expected_strings()
         {
-            [Fact]
-            public void Should_return_the_expected_strings()
-            {
-                // Arrange
-                var sut = new ValuesController();
+            // Arrange
+            var sut = new ValuesController();
 
-                // Act
-                var result = sut.Get();
+            // Act
+            var result = sut.Get();
 
-                // Assert
-                Assert.Collection(result.Value,
-                    x => Assert.Equal("value1", x),
-                    x => Assert.Equal("value2", x)
-                );
-            }
+            // Assert
+            Assert.Collection(result.Value,
+                x => Assert.Equal("value1", x),
+                x => Assert.Equal("value2", x)
+            );
         }
     }
 }

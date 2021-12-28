@@ -5,46 +5,45 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MyMinimalApiApp
+namespace MyMinimalApiApp;
+
+public class ProgramTestWithoutFixture : IAsyncDisposable
 {
-    public class ProgramTestWithoutFixture : IAsyncDisposable
+    private readonly WebApplicationFactory<SomeOtherClass> _webApplicationFactory;
+    private readonly HttpClient _httpClient;
+
+    public ProgramTestWithoutFixture()
     {
-        private readonly WebApplicationFactory<SomeOtherClass> _webApplicationFactory;
-        private readonly HttpClient _httpClient;
+        _webApplicationFactory = new WebApplicationFactory<SomeOtherClass>();
+        _httpClient = _webApplicationFactory.CreateClient();
+    }
 
-        public ProgramTestWithoutFixture()
+    public ValueTask DisposeAsync()
+    {
+        return ((IAsyncDisposable)_webApplicationFactory).DisposeAsync();
+    }
+
+    public class Get : ProgramTestWithoutFixture
+    {
+        [Fact]
+        public async Task Should_respond_a_status_200_OK()
         {
-            _webApplicationFactory = new WebApplicationFactory<SomeOtherClass>();
-            _httpClient = _webApplicationFactory.CreateClient();
+            // Act
+            var result = await _httpClient.GetAsync("/");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
-        public ValueTask DisposeAsync()
+        [Fact]
+        public async Task Should_respond_hello_world()
         {
-            return ((IAsyncDisposable)_webApplicationFactory).DisposeAsync();
-        }
+            // Act
+            var result = await _httpClient.GetAsync("/");
 
-        public class Get : ProgramTestWithoutFixture
-        {
-            [Fact]
-            public async Task Should_respond_a_status_200_OK()
-            {
-                // Act
-                var result = await _httpClient.GetAsync("/");
-
-                // Assert
-                Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            }
-
-            [Fact]
-            public async Task Should_respond_hello_world()
-            {
-                // Act
-                var result = await _httpClient.GetAsync("/");
-
-                // Assert
-                var contentText = await result.Content.ReadAsStringAsync();
-                Assert.Equal("Hello World!", contentText);
-            }
+            // Assert
+            var contentText = await result.Content.ReadAsStringAsync();
+            Assert.Equal("Hello World!", contentText);
         }
     }
 }

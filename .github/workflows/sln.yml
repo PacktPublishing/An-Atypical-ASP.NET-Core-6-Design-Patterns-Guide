@@ -39,7 +39,7 @@ jobs:
           # include-prerelease: true
 
       - name: Create solution
-        run: dotnet new sln -n "Atypical ASP.NET 6.sln"
+        run: dotnet new sln -n "Atypical ASP.NET 6"
 
       - name: Add all projects to solutions
         run: find . -name "*.csproj" -exec dotnet sln "Atypical ASP.NET 6.sln" add '{}' \;

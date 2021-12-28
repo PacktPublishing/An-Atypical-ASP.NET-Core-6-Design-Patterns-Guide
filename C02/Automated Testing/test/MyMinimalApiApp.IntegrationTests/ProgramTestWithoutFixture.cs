@@ -39,11 +39,10 @@ public class ProgramTestWithoutFixture : IAsyncDisposable
         public async Task Should_respond_hello_world()
         {
             // Act
-            var result = await _httpClient.GetAsync("/");
+            var result = await _httpClient.GetStringAsync("/");
 
             // Assert
-            var contentText = await result.Content.ReadAsStringAsync();
-            Assert.Equal("Hello World!", contentText);
+            Assert.Equal("Hello World!", result);
         }
     }
 }

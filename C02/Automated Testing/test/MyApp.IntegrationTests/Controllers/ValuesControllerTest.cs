@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
@@ -34,12 +35,10 @@ public class ValuesControllerTest : IClassFixture<WebApplicationFactory<Startup>
         public async Task Should_respond_the_expected_strings()
         {
             // Act
-            var result = await _httpClient.GetAsync("/api/values");
+            var result = await _httpClient.GetFromJsonAsync<string[]>("/api/values");
 
             // Assert
-            var contentText = await result.Content.ReadAsStringAsync();
-            var content = JsonSerializer.Deserialize<string[]>(contentText);
-            Assert.Collection(content,
+            Assert.Collection(result,
                 x => Assert.Equal("value1", x),
                 x => Assert.Equal("value2", x)
             );

@@ -39,7 +39,7 @@ public class xUnitFeaturesTest
             object obj1 = new MyClass { Name = "Object 1" };
             object obj2 = new MyClass { Name = "Object 1" };
             object obj3 = obj1;
-            object obj4 = default(MyClass);
+            object? obj4 = default(MyClass);
 
             Assert.Equal(expected: 2, actual: 2);
             Assert.NotEqual(expected: 2, actual: 1);
@@ -67,12 +67,12 @@ public class xUnitFeaturesTest
 
         private record class MyClass
         {
-            public string Name { get; set; }
+            public string? Name { get; set; }
         }
 
         private class SomeCustomException : Exception
         {
-            public string Name { get; set; }
+            public string? Name { get; set; }
         }
     }
 
@@ -97,7 +97,7 @@ public class xUnitFeaturesTest
                 new object[] { 3, 3, true },
             };
 
-        public static TheoryData<int, int, bool> TypedData => new TheoryData<int, int, bool>
+        public static TheoryData<int, int, bool> TypedData => new()
             {
                 { 3, 2, false },
                 { 2, 3, false },
@@ -130,7 +130,7 @@ public class xUnitFeaturesTest
                     new object[] { start + 1, start + 1, true },
                 };
 
-            public static TheoryData<int, int, bool> TypedData => new TheoryData<int, int, bool>
+            public static TheoryData<int, int, bool> TypedData => new()
                 {
                     { 20, 30, false },
                     { 40, 50, false },

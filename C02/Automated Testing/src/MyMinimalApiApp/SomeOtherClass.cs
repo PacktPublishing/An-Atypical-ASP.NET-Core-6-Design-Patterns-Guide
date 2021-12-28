@@ -1,7 +1,6 @@
-﻿namespace MyMinimalApiApp
-{
-    public class SomeOtherClass
-    {
+﻿namespace MyMinimalApiApp;
 
-    }
+public class SomeOtherClass
+{
+
 }

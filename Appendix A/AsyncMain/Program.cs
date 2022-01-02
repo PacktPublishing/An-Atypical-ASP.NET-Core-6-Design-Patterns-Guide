@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AsyncMain
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            Console.WriteLine("Entering Main");
-            var myService = new MyService();
-            await myService.ExecuteAsync();
-            Console.WriteLine("Exiting Main");
-        }
-    }
+namespace AsyncMain;
 
-    public class MyService
+internal class Program
+{
+    private static async Task Main(string[] args)
     {
-        public Task ExecuteAsync()
-        {
-            Console.WriteLine("Inside MyService.ExecuteAsync()");
-            return Task.CompletedTask;
-        }
+        Console.WriteLine("Entering Main");
+        var myService = new MyService();
+        await myService.ExecuteAsync();
+        Console.WriteLine("Exiting Main");
+    }
+}
+
+public class MyService
+{
+    public Task ExecuteAsync()
+    {
+        Console.WriteLine("Inside MyService.ExecuteAsync()");
+        return Task.CompletedTask;
     }
 }

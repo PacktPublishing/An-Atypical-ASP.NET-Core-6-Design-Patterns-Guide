@@ -1,5 +1,3 @@
-using System;
-
 var current = new Forecast(DateTime.UtcNow, 20, "Sunny");
 var (date, temperatureC, summary, temperatureF) = current;
 
@@ -8,7 +6,7 @@ Console.WriteLine($"temperatureC: {temperatureC}");
 Console.WriteLine($"summary: {summary}");
 Console.WriteLine($"temperatureF: {temperatureF}");
 
-public record Forecast(DateTime Date, int TemperatureC, string Summary)
+public record class Forecast(DateTime Date, int TemperatureC, string Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 

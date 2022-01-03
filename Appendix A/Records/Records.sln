@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equality", "Equality\Equali
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forecast", "Forecast\Forecast.csproj", "{6F8264E0-2CCC-4413-BAA2-0FAE9205A3A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructureType", "StructureType\StructureType.csproj", "{A6C1A848-5A11-4176-A6A8-2590EF14CB8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{6F8264E0-2CCC-4413-BAA2-0FAE9205A3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F8264E0-2CCC-4413-BAA2-0FAE9205A3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F8264E0-2CCC-4413-BAA2-0FAE9205A3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6C1A848-5A11-4176-A6A8-2590EF14CB8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C1A848-5A11-4176-A6A8-2590EF14CB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C1A848-5A11-4176-A6A8-2590EF14CB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C1A848-5A11-4176-A6A8-2590EF14CB8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

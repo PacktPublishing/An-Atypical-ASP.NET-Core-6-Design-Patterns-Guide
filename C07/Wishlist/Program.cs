@@ -26,7 +26,7 @@ app.MapPost("/", async (IWishList wishList, CreateItem? newItem) =>
     }
     var item = await wishList.AddOrRefreshAsync(newItem.Name);
     return Results.Created("/", item);
-}).Produces(201, typeof(WishListItem));
+}).Produces(201, typeof(WishListItem)).Produces(400);
 app.Run();
 
 public record class CreateItem(string? Name);

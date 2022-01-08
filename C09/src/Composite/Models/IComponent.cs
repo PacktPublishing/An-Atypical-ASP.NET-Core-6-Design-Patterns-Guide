@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿namespace Composite.Models;
 
-namespace Composite.Models
+public interface IComponent
 {
-    public interface IComponent
-    {
-        void Add(IComponent bookComponent);
-        void Remove(IComponent bookComponent);
-        string Display();
-        int Count();
-        string Type { get; }
-    }
+    void Add(IComponent bookComponent);
+    void Remove(IComponent bookComponent);
+    string Display();
+    int Count();
+    string Type { get; }
 }

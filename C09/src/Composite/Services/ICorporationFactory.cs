@@ -1,9 +1,8 @@
 ﻿using Composite.Models;
 
-namespace Composite.Services
+namespace Composite.Services;
+
+public interface ICorporationFactory
 {
-    public interface ICorporationFactory
-    {
-        Corporation Create();
-    }
+    Corporation Create();
 }

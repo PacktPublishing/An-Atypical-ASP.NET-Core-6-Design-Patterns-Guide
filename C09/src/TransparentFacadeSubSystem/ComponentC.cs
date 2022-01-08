@@ -1,11 +1,9 @@
-﻿using System;
-using TransparentFacadeSubSystem.Abstractions;
+﻿using TransparentFacadeSubSystem.Abstractions;
 
-namespace TransparentFacadeSubSystem
+namespace TransparentFacadeSubSystem;
+
+public class ComponentC : IComponentC
 {
-    public class ComponentC : IComponentC
-    {
-        public string OperationE() => "Component C, Operation E";
-        public string OperationF() => "Component C, Operation F";
-    }
+    public string OperationE() => "Component C, Operation E";
+    public string OperationF() => "Component C, Operation F";
 }

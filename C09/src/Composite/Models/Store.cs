@@ -1,9 +1,8 @@
-﻿namespace Composite.Models
-{
-    public class Store : BookComposite
-    {
-        public Store(string name) : base(name) { }
+﻿namespace Composite.Models;
 
-        protected override string HeadingTagName => "h2";
-    }
+public class Store : BookComposite
+{
+    public Store(string name) : base(name) { }
+
+    protected override string HeadingTagName => "h2";
 }

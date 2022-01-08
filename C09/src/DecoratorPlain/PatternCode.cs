@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DecoratorPlain;
+﻿namespace DecoratorPlain;
 
 public interface IComponent
 {

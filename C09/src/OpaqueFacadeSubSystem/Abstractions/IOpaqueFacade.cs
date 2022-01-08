@@ -1,8 +1,7 @@
-﻿namespace OpaqueFacadeSubSystem.Abstractions
+﻿namespace OpaqueFacadeSubSystem.Abstractions;
+
+public interface IOpaqueFacade
 {
-    public interface IOpaqueFacade
-    {
-        string ExecuteOperationA();
-        string ExecuteOperationB();
-    }
+    string ExecuteOperationA();
+    string ExecuteOperationB();
 }

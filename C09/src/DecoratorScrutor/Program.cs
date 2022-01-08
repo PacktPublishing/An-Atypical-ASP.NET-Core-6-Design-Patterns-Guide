@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using DecoratorScrutor;
+﻿using DecoratorScrutor;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

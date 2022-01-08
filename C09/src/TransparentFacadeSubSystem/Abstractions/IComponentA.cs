@@ -1,8 +1,7 @@
-﻿namespace TransparentFacadeSubSystem.Abstractions
+﻿namespace TransparentFacadeSubSystem.Abstractions;
+
+public interface IComponentA
 {
-    public interface IComponentA
-    {
-        string OperationA();
-        string OperationB();
-    }
+    string OperationA();
+    string OperationB();
 }

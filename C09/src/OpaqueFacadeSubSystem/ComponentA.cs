@@ -1,8 +1,7 @@
-﻿namespace OpaqueFacadeSubSystem
+﻿namespace OpaqueFacadeSubSystem;
+
+internal class ComponentA
 {
-    internal class ComponentA
-    {
-        public string OperationA() => "Component A, Operation A";
-        public string OperationB() => "Component A, Operation B";
-    }
+    public string OperationA() => "Component A, Operation A";
+    public string OperationB() => "Component A, Operation B";
 }

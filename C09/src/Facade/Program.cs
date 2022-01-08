@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Facade;
 using OpaqueFacadeSubSystem.Abstractions;
 using TransparentFacadeSubSystem.Abstractions;
-using Facade;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

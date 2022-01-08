@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
-namespace DecoratorScrutor
+namespace DecoratorScrutor;
+
+public class ComponentATest
 {
-    public class ComponentATest
+    public class Operation : ComponentATest
     {
-        public class Operation : ComponentATest
+        [Fact]
+        public void Should_return_Hello_from_ComponentA()
         {
-            [Fact]
-            public void Should_return_Hello_from_ComponentA()
-            {
-                // Arrange
-                var sut = new ComponentA();
+            // Arrange
+            var sut = new ComponentA();
 
-                // Act
-                var result = sut.Operation();
+            // Act
+            var result = sut.Operation();
 
-                // Assert
-                Assert.Equal("Hello from ComponentA", result);
-            }
+            // Assert
+            Assert.Equal("Hello from ComponentA", result);
         }
     }
 }

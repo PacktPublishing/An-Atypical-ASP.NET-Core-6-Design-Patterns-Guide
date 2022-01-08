@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Decorator.IntegrationTests
+namespace Decorator.IntegrationTests;
+
+public class DecoratorScrutorStartupTest : StartupTest<DecoratorScrutor.IComponent>
 {
-    public class DecoratorScrutorStartupTest : StartupTest<DecoratorScrutor.IComponent>
+    public DecoratorScrutorStartupTest(WebApplicationFactory<DecoratorScrutor.IComponent> webApplicationFactory)
+        : base(webApplicationFactory)
     {
-        public DecoratorScrutorStartupTest(WebApplicationFactory<DecoratorScrutor.IComponent> webApplicationFactory)
-            : base(webApplicationFactory)
-        {
-        }
     }
 }

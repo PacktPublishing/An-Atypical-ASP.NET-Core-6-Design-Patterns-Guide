@@ -2,7 +2,7 @@
 
 public class SomeMultiHandler : MultipleMessageHandlerBase
 {
-    public SomeMultiHandler(IMessageHandler next = null)
+    public SomeMultiHandler(IMessageHandler? next = null)
         : base(next) { }
 
     protected override string[] HandledMessagesName

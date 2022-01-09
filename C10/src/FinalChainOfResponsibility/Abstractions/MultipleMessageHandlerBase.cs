@@ -2,7 +2,7 @@
 
 public abstract class MultipleMessageHandlerBase : MessageHandlerBase
 {
-    public MultipleMessageHandlerBase(IMessageHandler next = null)
+    public MultipleMessageHandlerBase(IMessageHandler? next = null)
         : base(next) { }
 
     protected override bool CanHandle(Message message)

@@ -2,8 +2,8 @@
 
 public class AlarmPausedHandler : IMessageHandler
 {
-    private readonly IMessageHandler _next;
-    public AlarmPausedHandler(IMessageHandler next = null)
+    private readonly IMessageHandler? _next;
+    public AlarmPausedHandler(IMessageHandler? next = null)
     {
         _next = next;
     }

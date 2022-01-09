@@ -1,9 +1,11 @@
-﻿namespace FinalChainOfResponsibility;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FinalChainOfResponsibility;
 
 public abstract class MessageHandlerBase : IMessageHandler
 {
-    private readonly IMessageHandler _next;
-    public MessageHandlerBase(IMessageHandler next = null)
+    private readonly IMessageHandler? _next;
+    public MessageHandlerBase(IMessageHandler? next = null)
     {
         _next = next;
     }
@@ -20,6 +22,7 @@ public abstract class MessageHandlerBase : IMessageHandler
         }
     }
 
+    [MemberNotNullWhen(true, nameof(_next))]
     private bool HasNext()
     {
         return _next != null;

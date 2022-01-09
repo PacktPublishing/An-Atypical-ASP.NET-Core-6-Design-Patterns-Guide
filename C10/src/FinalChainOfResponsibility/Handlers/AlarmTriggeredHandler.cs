@@ -4,7 +4,7 @@ public class AlarmTriggeredHandler : SingleMessageHandlerBase
 {
     protected override string HandledMessageName => "AlarmTriggered";
 
-    public AlarmTriggeredHandler(IMessageHandler next = null)
+    public AlarmTriggeredHandler(IMessageHandler? next = null)
         : base(next) { }
 
     protected override void Process(Message message)

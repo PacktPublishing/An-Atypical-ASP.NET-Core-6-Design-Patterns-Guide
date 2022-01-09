@@ -23,7 +23,7 @@ app.MapGet("/", (IEnumerable<SearchMachine> searchMachines) =>
             var wasFound = index.HasValue;
             if (wasFound)
             {
-                sb.AppendLine($"The element '{value}' was found at index {index.Value}.");
+                sb.AppendLine($"The element '{value}' was found at index {index!.Value}.");
             }
             else
             {

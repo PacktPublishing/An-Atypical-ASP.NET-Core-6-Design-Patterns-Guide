@@ -2,8 +2,8 @@
 
 public class AlarmTriggeredHandler : IMessageHandler
 {
-    private readonly IMessageHandler _next;
-    public AlarmTriggeredHandler(IMessageHandler next = null)
+    private readonly IMessageHandler? _next;
+    public AlarmTriggeredHandler(IMessageHandler? next = null)
     {
         _next = next;
     }

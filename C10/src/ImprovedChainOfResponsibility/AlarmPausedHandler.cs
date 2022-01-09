@@ -4,7 +4,7 @@ public class AlarmPausedHandler : MessageHandlerBase
 {
     protected override string HandledMessageName => "AlarmPaused";
 
-    public AlarmPausedHandler(IMessageHandler next = null) : base(next) { }
+    public AlarmPausedHandler(IMessageHandler? next = null) : base(next) { }
 
     protected override void Process(Message message)
     {

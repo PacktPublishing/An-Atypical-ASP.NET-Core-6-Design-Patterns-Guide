@@ -1,22 +1,21 @@
 ﻿using System.Collections.Immutable;
 
-namespace OperationResult.MultipleErrorsWithValue
+namespace OperationResult.MultipleErrorsWithValue;
+
+public record class OperationResult
 {
-    public record class OperationResult
+    public OperationResult() { }
+    public OperationResult(params string[] errors)
     {
-        public OperationResult() { }
-        public OperationResult(params string[] errors)
-        {
-            Errors = errors.ToImmutableList();
-        }
+        Errors = errors.ToImmutableList();
+    }
 
-        public bool Succeeded => !HasErrors();
-        public int? Value { get; init; }
+    public bool Succeeded => !HasErrors();
+    public int? Value { get; init; }
 
-        public ImmutableList<string> Errors { get; init; }
-        public bool HasErrors()
-        {
-            return Errors?.Count > 0;
-        }
+    public ImmutableList<string> Errors { get; init; }
+    public bool HasErrors()
+    {
+        return Errors?.Count > 0;
     }
 }

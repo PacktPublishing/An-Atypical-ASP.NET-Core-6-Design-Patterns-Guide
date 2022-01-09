@@ -1,47 +1,46 @@
 ﻿using System.Collections.Immutable;
 using System.Text.Json.Serialization;
 
-namespace OperationResult.WithSeverity
+namespace OperationResult.WithSeverity;
+
+public record class OperationResult
 {
-    public record class OperationResult
+    public OperationResult() { }
+    public OperationResult(params OperationResultMessage[] errors)
     {
-        public OperationResult() { }
-        public OperationResult(params OperationResultMessage[] errors)
-        {
-            Messages = errors.ToImmutableList();
-        }
-
-        public bool Succeeded => !HasErrors();
-        public int? Value { get; init; }
-
-        public ImmutableList<OperationResultMessage> Messages { get; init; }
-        public bool HasErrors()
-        {
-            return FindErrors().Count() > 0;
-        }
-
-        private IEnumerable<OperationResultMessage> FindErrors()
-            => Messages?.Where(x => x.Severity == OperationResultSeverity.Error);
+        Messages = errors.ToImmutableList();
     }
 
-    public record class OperationResultMessage
+    public bool Succeeded => !HasErrors();
+    public int? Value { get; init; }
+
+    public ImmutableList<OperationResultMessage> Messages { get; init; }
+    public bool HasErrors()
     {
-        public OperationResultMessage(string message, OperationResultSeverity severity)
-        {
-            Message = message ?? throw new ArgumentNullException(nameof(message));
-            Severity = severity;
-        }
-
-        public string Message { get; }
-
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public OperationResultSeverity Severity { get; }
+        return FindErrors().Count() > 0;
     }
 
-    public enum OperationResultSeverity
+    private IEnumerable<OperationResultMessage> FindErrors()
+        => Messages?.Where(x => x.Severity == OperationResultSeverity.Error);
+}
+
+public record class OperationResultMessage
+{
+    public OperationResultMessage(string message, OperationResultSeverity severity)
     {
-        Information = 0,
-        Warning = 1,
-        Error = 2
+        Message = message ?? throw new ArgumentNullException(nameof(message));
+        Severity = severity;
     }
+
+    public string Message { get; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public OperationResultSeverity Severity { get; }
+}
+
+public enum OperationResultSeverity
+{
+    Information = 0,
+    Warning = 1,
+    Error = 2
 }

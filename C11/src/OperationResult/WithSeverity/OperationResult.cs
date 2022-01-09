@@ -5,7 +5,10 @@ namespace OperationResult.WithSeverity;
 
 public record class OperationResult
 {
-    public OperationResult() { }
+    public OperationResult()
+    {
+        Messages = ImmutableList<OperationResultMessage>.Empty;
+    }
     public OperationResult(params OperationResultMessage[] errors)
     {
         Messages = errors.ToImmutableList();
@@ -17,11 +20,11 @@ public record class OperationResult
     public ImmutableList<OperationResultMessage> Messages { get; init; }
     public bool HasErrors()
     {
-        return FindErrors().Count() > 0;
+        return FindErrors().Any();
     }
 
     private IEnumerable<OperationResultMessage> FindErrors()
-        => Messages?.Where(x => x.Severity == OperationResultSeverity.Error);
+        => Messages.Where(x => x.Severity == OperationResultSeverity.Error);
 }
 
 public record class OperationResultMessage

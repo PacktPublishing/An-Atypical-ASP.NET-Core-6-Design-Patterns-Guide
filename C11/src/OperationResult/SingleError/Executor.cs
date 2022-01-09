@@ -19,5 +19,5 @@ public class Executor
 public record class OperationResult
 {
     public bool Succeeded => string.IsNullOrWhiteSpace(ErrorMessage);
-    public string ErrorMessage { get; init; }
+    public string? ErrorMessage { get; init; }
 }

@@ -1,7 +1,6 @@
-﻿namespace ImprovedChainOfResponsibility
+﻿namespace ImprovedChainOfResponsibility;
+
+public interface IMessageHandler
 {
-    public interface IMessageHandler
-    {
-        void Handle(Message message);
-    }
+    void Handle(Message message);
 }

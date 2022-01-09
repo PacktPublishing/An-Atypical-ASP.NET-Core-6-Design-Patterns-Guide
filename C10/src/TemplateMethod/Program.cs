@@ -1,5 +1,4 @@
-﻿global using System;
-using System.Text;
+﻿using System.Text;
 using TemplateMethod;
 
 var builder = WebApplication.CreateBuilder(args);

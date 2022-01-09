@@ -9,9 +9,9 @@ public record class OperationResult
     {
         Messages = ImmutableList<OperationResultMessage>.Empty;
     }
-    public OperationResult(params OperationResultMessage[] errors)
+    public OperationResult(params OperationResultMessage[] messages)
     {
-        Messages = errors.ToImmutableList();
+        Messages = messages.ToImmutableList();
     }
 
     public bool Succeeded => !HasErrors();

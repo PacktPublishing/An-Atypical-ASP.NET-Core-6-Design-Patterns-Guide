@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OperationResult.MultipleErrorsWithValue
+﻿namespace OperationResult.MultipleErrorsWithValue
 {
     public class Executor
     {

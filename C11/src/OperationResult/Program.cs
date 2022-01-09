@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http.Json;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
-
-var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddSingleton<OperationResult.SimplestForm.Executor>()
     .AddSingleton<OperationResult.SingleError.Executor>()

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OperationResult.SingleError
+﻿namespace OperationResult.SingleError
 {
     public class Executor
     {

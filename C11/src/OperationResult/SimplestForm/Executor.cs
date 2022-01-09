@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OperationResult.SimplestForm
+﻿namespace OperationResult.SimplestForm
 {
     public class Executor
     {

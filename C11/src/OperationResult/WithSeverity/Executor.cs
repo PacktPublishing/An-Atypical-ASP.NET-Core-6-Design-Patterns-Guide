@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OperationResult.WithSeverity
+﻿namespace OperationResult.WithSeverity
 {
     public class Executor
     {

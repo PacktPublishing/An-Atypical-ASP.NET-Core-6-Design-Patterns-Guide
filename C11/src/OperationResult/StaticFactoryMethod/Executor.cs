@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OperationResult.StaticFactoryMethod
+﻿namespace OperationResult.StaticFactoryMethod
 {
     public class Executor
     {

@@ -8,8 +8,6 @@ public abstract record class OperationResult
     private OperationResult() { }
 
     public abstract bool Succeeded { get; }
-    public virtual int? Value { get; init; }
-    public abstract ImmutableList<OperationResultMessage> Messages { get; }
 
     public static OperationResult Success(int? value = null)
     {
@@ -24,7 +22,7 @@ public abstract record class OperationResult
     private record class SuccessfulOperationResult : OperationResult
     {
         public override bool Succeeded { get; } = true;
-        public override ImmutableList<OperationResultMessage> Messages { get; } = ImmutableList<OperationResultMessage>.Empty;
+        public virtual int? Value { get; init; }
     }
 
     private record class FailedOperationResult : OperationResult
@@ -35,7 +33,7 @@ public abstract record class OperationResult
         }
 
         public override bool Succeeded { get; } = false;
-        public override ImmutableList<OperationResultMessage> Messages { get; }
+        public ImmutableList<OperationResultMessage> Messages { get; }
     }
 }
 

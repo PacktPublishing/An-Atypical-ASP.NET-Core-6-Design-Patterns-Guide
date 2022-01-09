@@ -1,20 +1,17 @@
-﻿using System;
+﻿namespace OperationResult.SimplestForm;
 
-namespace OperationResult.SimplestForm
+public class Executor
 {
-    public class Executor
+    public OperationResult Operation()
     {
-        public OperationResult Operation()
-        {
-            // Randomize the success indicator
-            // This should be real logic
-            var randomNumber = new Random().Next(100);
-            var success = randomNumber % 2 == 0;
+        // Randomize the success indicator
+        // This should be real logic
+        var randomNumber = new Random().Next(100);
+        var success = randomNumber % 2 == 0;
 
-            // Return the operation result
-            return new OperationResult(success);
-        }
+        // Return the operation result
+        return new OperationResult(success);
     }
-
-    public record class OperationResult(bool Succeeded);
 }
+
+public record class OperationResult(bool Succeeded);

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TemplateMethod
+﻿namespace TemplateMethod
 {
     public abstract class SearchMachine
     {

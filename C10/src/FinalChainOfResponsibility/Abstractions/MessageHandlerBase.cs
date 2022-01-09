@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace FinalChainOfResponsibility
+﻿namespace FinalChainOfResponsibility
 {
     public abstract class MessageHandlerBase : IMessageHandler
     {

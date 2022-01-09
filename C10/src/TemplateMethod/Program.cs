@@ -1,8 +1,4 @@
 ﻿global using System;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 using System.Text;
 using TemplateMethod;
 

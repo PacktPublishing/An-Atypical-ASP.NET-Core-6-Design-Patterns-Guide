@@ -1,7 +1,5 @@
 ﻿global using System;
 using ImprovedChainOfResponsibility;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 // Create the chain of responsibility,

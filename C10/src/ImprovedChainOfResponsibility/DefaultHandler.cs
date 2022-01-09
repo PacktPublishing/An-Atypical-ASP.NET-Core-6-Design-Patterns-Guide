@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ImprovedChainOfResponsibility
+﻿namespace ImprovedChainOfResponsibility
 {
     public class DefaultHandler : IMessageHandler
     {

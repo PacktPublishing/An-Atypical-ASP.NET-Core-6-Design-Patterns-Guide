@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ChainOfResponsibility
+﻿namespace ChainOfResponsibility
 {
     public class DefaultHandler : IMessageHandler
     {

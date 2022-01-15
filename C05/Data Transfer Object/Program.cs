@@ -1,16 +1,15 @@
-﻿namespace WebApi;
+﻿var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
 
-public class Program
+var app = builder.Build();
+if (app.Environment.IsDevelopment())
 {
-    public static void Main(string[] args)
-    {
-        CreateHostBuilder(args).Build().Run();
-    }
-
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseHsts();
+}
+app.UseHttpsRedirection();
+app.MapControllers();
+app.Run();

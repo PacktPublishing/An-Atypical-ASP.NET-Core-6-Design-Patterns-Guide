@@ -6,70 +6,69 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModels.Controllers
+namespace ViewModels.Controllers;
+
+public class StudentsController : Controller
 {
-    public class StudentsController : Controller
+    private readonly StudentService _studentService = new StudentService();
+
+    public async Task<IActionResult> Index()
     {
-        private readonly StudentService _studentService = new StudentService();
+        // Get data from the data store
+        var students = await _studentService.ReadAllAsync();
 
-        public async Task<IActionResult> Index()
+        // Create the ViewModel, based on the data
+        var viewModel = new StudentListViewModel
         {
-            // Get data from the data store
-            var students = await _studentService.ReadAllAsync();
-
-            // Create the ViewModel, based on the data
-            var viewModel = new StudentListViewModel
-            {
-                Students = students.Select(student => new StudentListItemViewModel
-                {
-                    Id = student.Id,
-                    Name = student.Name,
-                    ClassCount = student.Classes.Count()
-                })
-            };
-
-            // Return the View
-            return View(viewModel);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateStudentViewModel model)
-        {
-            // Create the student
-            await _studentService.CreateAsync(model.Name);
-
-            // Redirect back to the list
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            var student = await _studentService.ReadOneAsync(id);
-            var viewModel = new EditStudentViewModel
+            Students = students.Select(student => new StudentListItemViewModel
             {
                 Id = student.Id,
-                Form = new StudentFormViewModel
-                {
-                    Name = student.Name,
-                },
-                Classes = student.Classes.Select(x => x.Name)
-            };
-            return View(viewModel);
-        }
+                Name = student.Name,
+                ClassCount = student.Classes.Count()
+            })
+        };
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditStudentViewModel model)
+        // Return the View
+        return View(viewModel);
+    }
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateStudentViewModel model)
+    {
+        // Create the student
+        await _studentService.CreateAsync(model.Name);
+
+        // Redirect back to the list
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var student = await _studentService.ReadOneAsync(id);
+        var viewModel = new EditStudentViewModel
         {
-            // Update the student
-            await _studentService.UpdateAsync(model.Id, model.Form.Name);
+            Id = student.Id,
+            Form = new StudentFormViewModel
+            {
+                Name = student.Name,
+            },
+            Classes = student.Classes.Select(x => x.Name)
+        };
+        return View(viewModel);
+    }
 
-            // Redirect back to the list
-            return RedirectToAction(nameof(Index));
-        }
+    [HttpPost]
+    public async Task<IActionResult> Edit(EditStudentViewModel model)
+    {
+        // Update the student
+        await _studentService.UpdateAsync(model.Id, model.Form.Name);
+
+        // Redirect back to the list
+        return RedirectToAction(nameof(Index));
     }
 }

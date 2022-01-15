@@ -4,7 +4,7 @@
     "DTO": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/clients",
+      "launchUrl": "customers",
       "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

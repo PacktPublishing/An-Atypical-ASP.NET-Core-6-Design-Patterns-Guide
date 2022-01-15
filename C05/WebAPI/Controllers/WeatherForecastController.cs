@@ -20,15 +20,15 @@ public class WeatherForecastController : ControllerBase
 
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
-        => GetWeatherForcasts();
+        => GetWeatherForecasts();
 
     [HttpGet("GenericClassActionDirect")]
     public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionDirect()
-        => GetWeatherForcasts();
+        => GetWeatherForecasts();
 
     [HttpGet("GenericClassAction")]
     public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionOk()
-        => Ok(GetWeatherForcasts());
+        => Ok(GetWeatherForecasts());
 
     [HttpGet("GenericClassActionNotFound")]
     public ActionResult<IEnumerable<WeatherForecast>> GenericClassActionNotFound()
@@ -37,14 +37,14 @@ public class WeatherForecastController : ControllerBase
     [HttpGet("InterfaceAction")]
     [ProducesResponseType(typeof(WeatherForecast[]), StatusCodes.Status200OK)]
     public IActionResult InterfaceAction()
-        => Ok(GetWeatherForcasts());
+        => Ok(GetWeatherForecasts());
 
     [HttpGet("ClassAction")]
     [ProducesResponseType(typeof(WeatherForecast[]), StatusCodes.Status200OK)]
     public ActionResult ClassAction()
-        => Ok(GetWeatherForcasts());
+        => Ok(GetWeatherForecasts());
 
-    private static WeatherForecast[] GetWeatherForcasts()
+    private static WeatherForecast[] GetWeatherForecasts()
         => Enumerable.Range(1, 5)
             .Select(index => new WeatherForecast
             {

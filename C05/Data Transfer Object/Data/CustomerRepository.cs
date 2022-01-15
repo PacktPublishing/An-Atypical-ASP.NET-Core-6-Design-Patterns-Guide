@@ -1,21 +1,16 @@
 ﻿using WebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace WebApi.Services
+namespace WebApi.Services;
+
+public class CustomerRepository
 {
-    public class CustomerRepository
+    public IEnumerable<Customer> ReadAll()
     {
-        public IEnumerable<Customer> ReadAll()
+        yield return new Customer
         {
-            yield return new Customer
-            {
-                Id = 1,
-                Name = "Jonny Boy Inc.",
-                Contracts = new List<Contract>
+            Id = 1,
+            Name = "Jonny Boy Inc.",
+            Contracts = new List<Contract>
                 {
                     new Contract
                     {
@@ -52,12 +47,12 @@ namespace WebApi.Services
                         }
                     }
                 }
-            };
-            yield return new Customer
-            {
-                Id = 2,
-                Name = "Some mega-corporation",
-                Contracts = new List<Contract>
+        };
+        yield return new Customer
+        {
+            Id = 2,
+            Name = "Some mega-corporation",
+            Contracts = new List<Contract>
                 {
                     new Contract
                     {
@@ -77,12 +72,11 @@ namespace WebApi.Services
                         }
                     }
                 }
-            };
-        }
+        };
+    }
 
-        public Customer ReadOne(int id)
-        {
-            return ReadAll().FirstOrDefault(x => x.Id == id);
-        }
+    public Customer ReadOne(int id)
+    {
+        return ReadAll().FirstOrDefault(x => x.Id == id);
     }
 }

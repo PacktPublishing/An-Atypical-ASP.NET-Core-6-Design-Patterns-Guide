@@ -21,7 +21,7 @@ app.MapGet("/customers", (CustomerRepository customerService) => {
 });
 app.MapGet("/customers/{id:int}", (CustomerRepository customerService, int id) => {
     var customer = customerService.ReadOne(id);
-    if (customer == default(Customer))
+    if (customer == default)
     {
         return Results.NotFound();
     }

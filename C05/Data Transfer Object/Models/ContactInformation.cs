@@ -1,9 +1,6 @@
-﻿namespace WebApi.Models
-{
-    public class ContactInformation
-    {
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public string Email { get; set; }
-    }
-}
+﻿namespace WebApi.Models;
+public record class ContactInformation(
+    string Firstname,
+    string Lastname,
+    string Email
+);

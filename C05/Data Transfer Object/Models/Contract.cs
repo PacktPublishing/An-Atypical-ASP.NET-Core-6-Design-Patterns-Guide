@@ -1,12 +1,9 @@
-﻿namespace WebApi.Models
-{
-    public class Contract
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+﻿namespace WebApi.Models;
 
-        public ContractWork Work { get; set; }
-        public ContactInformation PrimaryContact { get; set; }
-    }
-}
+public record class Contract(
+    int Id,
+    string Name,
+    string Description,
+    ContractWork Work,
+    ContactInformation PrimaryContact
+);

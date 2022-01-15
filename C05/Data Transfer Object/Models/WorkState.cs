@@ -1,9 +1,8 @@
-﻿namespace WebApi.Models
+﻿namespace WebApi.Models;
+
+public enum WorkState
 {
-    public enum WorkState
-    {
-        New,
-        InProgress,
-        Completed
-    }
+    New,
+    InProgress,
+    Completed
 }

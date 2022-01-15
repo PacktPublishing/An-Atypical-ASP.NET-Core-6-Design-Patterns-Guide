@@ -1,4 +1,4 @@
-﻿namespace WebApi.Models;
+﻿namespace DTOs.Models;
 
 public record class Contract(
     int Id,

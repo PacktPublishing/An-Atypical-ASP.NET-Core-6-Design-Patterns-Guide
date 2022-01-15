@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebApi.Models;
+namespace DTOs.Models;
 
 public record class CustomerSummaryDto(
     [property: JsonPropertyName("id")] int Id,

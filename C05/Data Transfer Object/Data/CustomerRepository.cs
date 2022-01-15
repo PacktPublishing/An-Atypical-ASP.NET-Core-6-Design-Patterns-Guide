@@ -1,6 +1,6 @@
-﻿using WebApi.Models;
+﻿using DTOs.Models;
 
-namespace WebApi.Services;
+namespace DTOs.Services;
 
 public class CustomerRepository
 {

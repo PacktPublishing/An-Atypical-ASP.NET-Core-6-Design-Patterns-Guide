@@ -6,7 +6,7 @@
 <h2>Students list</h2>
 <p><a asp-action="Create" class="btn btn-default">Create a student</a></p>
 <ul class="list-group">
-    @foreach (var item in Model.Students)
+    @foreach (var item in Model!.Students)
     {
         <li class="list-group-item">
             <span class="badge">@Html.DisplayFor(modelItem => item.ClassCount)</span>

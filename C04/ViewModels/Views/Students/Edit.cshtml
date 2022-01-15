@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-8">
         <h3>Classes</h3>
-        @if (Model.Classes.Count() > 0)
+        @if (Model!.Classes.Count() > 0)
         {
             <ul class="list-group">
                 @foreach (var className in Model.Classes)

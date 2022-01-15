@@ -10,23 +10,21 @@ namespace ViewModels.Controllers;
 
 public class StudentsController : Controller
 {
-    private readonly StudentService _studentService = new StudentService();
+    private readonly StudentService _studentService = new();
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> IndexAsync()
     {
         // Get data from the data store
         var students = await _studentService.ReadAllAsync();
 
         // Create the ViewModel, based on the data
-        var viewModel = new StudentListViewModel
-        {
-            Students = students.Select(student => new StudentListItemViewModel
-            {
-                Id = student.Id,
-                Name = student.Name,
-                ClassCount = student.Classes.Count()
-            })
-        };
+        var viewModel = new StudentListViewModel(
+            Students: students.Select(student => new StudentListItemViewModel(
+                Id: student.Id,
+                Name: student.Name,
+                ClassCount: student.Classes.Count()
+            ))
+        );
 
         // Return the View
         return View(viewModel);
@@ -38,7 +36,7 @@ public class StudentsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateStudentViewModel model)
+    public async Task<IActionResult> CreateAsync(CreateStudentViewModel model)
     {
         // Create the student
         await _studentService.CreateAsync(model.Name);
@@ -47,23 +45,23 @@ public class StudentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> EditAsync(int id)
     {
         var student = await _studentService.ReadOneAsync(id);
-        var viewModel = new EditStudentViewModel
+        if(student == null)
         {
-            Id = student.Id,
-            Form = new StudentFormViewModel
-            {
-                Name = student.Name,
-            },
-            Classes = student.Classes.Select(x => x.Name)
-        };
+            return NotFound();
+        }
+        var viewModel = new EditStudentViewModel(
+            Id: student.Id,
+            Form: new StudentFormViewModel(student.Name),
+            Classes: student.Classes.Select(x => x.Name)
+        );
         return View(viewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(EditStudentViewModel model)
+    public async Task<IActionResult> EditAsync(EditStudentViewModel model)
     {
         // Update the student
         await _studentService.UpdateAsync(model.Id, model.Form.Name);

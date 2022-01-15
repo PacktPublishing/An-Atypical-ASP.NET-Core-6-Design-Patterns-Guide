@@ -15,13 +15,12 @@ public class CustomersController : ControllerBase
     public ActionResult<IEnumerable<CustomerSummaryDto>> Get()
     {
         var customers = _customerService.ReadAll();
-        var dto = customers.Select(customer => new CustomerSummaryDto
-        {
-            Id = customer.Id,
-            Name = customer.Name,
-            TotalNumberOfContracts = customer.Contracts.Count,
-            NumberOfOpenContracts = customer.Contracts.Count(x => x.Work.State != WorkState.Completed)
-        }).ToArray();
+        var dto = customers.Select(customer => new CustomerSummaryDto(
+            Id: customer.Id,
+            Name: customer.Name,
+            TotalNumberOfContracts: customer.Contracts.Count,
+            NumberOfOpenContracts: customer.Contracts.Count(x => x.Work.State != WorkState.Completed)
+        )).ToArray();
         return dto;
     }
 
@@ -34,27 +33,25 @@ public class CustomersController : ControllerBase
         {
             return NotFound();
         }
-        var dto = new CustomerDetailsDto
-        {
-            Id = customer.Id,
-            Name = customer.Name,
-            Contracts = customer.Contracts.Select(contract => new ContractDetailsDto
-            {
-                Id = contract.Id,
-                Name = contract.Name,
-                Description = contract.Description,
+        var dto = new CustomerDetailsDto(
+            Id: customer.Id,
+            Name: customer.Name,
+            Contracts: customer.Contracts.Select(contract => new ContractDetailsDto(
+                Id: contract.Id,
+                Name: contract.Name,
+                Description: contract.Description,
 
                 // Flattening PrimaryContact
-                PrimaryContactEmail = contract.PrimaryContact.Email,
-                PrimaryContactFirstname = contract.PrimaryContact.Firstname,
-                PrimaryContactLastname = contract.PrimaryContact.Lastname,
+                PrimaryContactEmail: contract.PrimaryContact.Email,
+                PrimaryContactFirstname: contract.PrimaryContact.Firstname,
+                PrimaryContactLastname: contract.PrimaryContact.Lastname,
 
                 // Flattening Work
-                WorkDone = contract.Work.Done,
-                WorkState = contract.Work.State,
-                WorkTotal = contract.Work.Total
-            })
-        };
+                WorkDone: contract.Work.Done,
+                WorkState: contract.Work.State,
+                WorkTotal: contract.Work.Total
+            ))
+        );
         return Ok(dto);
     }
 }

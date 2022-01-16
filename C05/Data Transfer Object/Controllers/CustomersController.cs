@@ -8,13 +8,13 @@ namespace DTOs.Controllers;
 [ApiController]
 public class CustomersController : ControllerBase
 {
-    private readonly CustomerRepository _customerService = new CustomerRepository();
+    private readonly CustomerRepository _customerRepository = new();
 
-    // GET api/customers
+    // GET customers
     [HttpGet]
     public ActionResult<IEnumerable<CustomerSummaryDto>> Get()
     {
-        var customers = _customerService.ReadAll();
+        var customers = _customerRepository.ReadAll();
         var dto = customers.Select(customer => new CustomerSummaryDto(
             Id: customer.Id,
             Name: customer.Name,
@@ -24,12 +24,12 @@ public class CustomersController : ControllerBase
         return dto;
     }
 
-    // GET api/customers/1
+    // GET customers/1
     [HttpGet("{id}")]
     public ActionResult<CustomerDetailsDto> Get(int id)
     {
-        var customer = _customerService.ReadOne(id);
-        if (customer == default(Customer))
+        var customer = _customerRepository.ReadOne(id);
+        if (customer == default)
         {
             return NotFound();
         }

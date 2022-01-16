@@ -12,8 +12,6 @@ public record class ContractDetailsDto(
     [property: JsonPropertyName("primaryContactLastname")] string PrimaryContactLastname,
     [property: JsonPropertyName("primaryContactEmail")] string PrimaryContactEmail
 );
-
-
 /*
 //
 // The preceding record class is very similar to the

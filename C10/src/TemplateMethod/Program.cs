@@ -1,9 +1,4 @@
-﻿global using System;
-
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using TemplateMethod;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +23,7 @@ app.MapGet("/", (IEnumerable<SearchMachine> searchMachines) =>
             var wasFound = index.HasValue;
             if (wasFound)
             {
-                sb.AppendLine($"The element '{value}' was found at index {index.Value}.");
+                sb.AppendLine($"The element '{value}' was found at index {index!.Value}.");
             }
             else
             {

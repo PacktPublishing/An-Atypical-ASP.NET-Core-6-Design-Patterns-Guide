@@ -1,16 +1,15 @@
-﻿namespace FinalChainOfResponsibility
+﻿namespace FinalChainOfResponsibility;
+
+public class SomeMultiHandler : MultipleMessageHandlerBase
 {
-    public class SomeMultiHandler : MultipleMessageHandlerBase
+    public SomeMultiHandler(IMessageHandler? next = null)
+        : base(next) { }
+
+    protected override string[] HandledMessagesName
+        => new[] { "Foo", "Bar", "Baz" };
+
+    protected override void Process(Message message)
     {
-        public SomeMultiHandler(IMessageHandler next = null)
-            : base(next) { }
-
-        protected override string[] HandledMessagesName
-            => new string[] { "Foo", "Bar", "Baz" };
-
-        protected override void Process(Message message)
-        {
-            // Do something clever with the Payload
-        }
+        // Do something clever with the Payload
     }
 }

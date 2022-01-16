@@ -1,8 +1,3 @@
-﻿namespace ImprovedChainOfResponsibility
-{
-    public class Message
-    {
-        public string Name { get; set; }
-        public string Payload { get; set; }
-    }
-}
+﻿namespace ImprovedChainOfResponsibility;
+
+public record class Message(string Name, string? Payload);

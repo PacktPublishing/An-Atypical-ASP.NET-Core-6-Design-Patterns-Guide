@@ -1,7 +1,6 @@
-﻿namespace FinalChainOfResponsibility
+﻿namespace FinalChainOfResponsibility;
+
+public interface IMessageHandler
 {
-    public interface IMessageHandler
-    {
-        void Handle(Message message);
-    }
+    void Handle(Message message);
 }

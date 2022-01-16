@@ -1,7 +1,4 @@
-﻿global using System;
-using ImprovedChainOfResponsibility;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using ImprovedChainOfResponsibility;
 
 var builder = WebApplication.CreateBuilder(args);
 // Create the chain of responsibility,
@@ -12,7 +9,7 @@ builder.Services.AddSingleton<IMessageHandler>(new AlarmTriggeredHandler(new Ala
 
 var app = builder.Build();
 
-// "Menu" enpoint
+// "Menu" endpoint
 app.MapGet("/", () => new[] {
     "/handle/AlarmTriggered",
     "/handle/AlarmPaused",
@@ -21,13 +18,9 @@ app.MapGet("/", () => new[] {
 });
 
 // Consumer (client) endpoint
-app.MapGet("/handle/{name}", (string name, string payload, IMessageHandler messageHandler) =>
+app.MapGet("/handle/{name}", (string name, string? payload, IMessageHandler messageHandler) =>
 {
-    var message = new Message
-    {
-        Name = name,
-        Payload = payload,
-    };
+    var message = new Message(name, payload);
     try
     {
         // Send the message into the chain of responsibility

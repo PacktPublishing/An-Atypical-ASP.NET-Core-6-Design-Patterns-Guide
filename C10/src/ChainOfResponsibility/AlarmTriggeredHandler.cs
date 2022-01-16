@@ -1,23 +1,22 @@
-﻿namespace ChainOfResponsibility
-{
-    public class AlarmTriggeredHandler : IMessageHandler
-    {
-        private readonly IMessageHandler _next;
-        public AlarmTriggeredHandler(IMessageHandler next = null)
-        {
-            _next = next;
-        }
+﻿namespace ChainOfResponsibility;
 
-        public void Handle(Message message)
+public class AlarmTriggeredHandler : IMessageHandler
+{
+    private readonly IMessageHandler? _next;
+    public AlarmTriggeredHandler(IMessageHandler? next = null)
+    {
+        _next = next;
+    }
+
+    public void Handle(Message message)
+    {
+        if (message.Name == "AlarmTriggered")
         {
-            if (message.Name == "AlarmTriggered")
-            {
-                // Do something clever with the Payload
-            }
-            else if (_next != null)
-            {
-                _next.Handle(message);
-            }
+            // Do something clever with the Payload
+        }
+        else if (_next != null)
+        {
+            _next.Handle(message);
         }
     }
 }

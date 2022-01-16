@@ -11,9 +11,10 @@ public abstract class SearchMachine
 
     public int? IndexOf(int value)
     {
+        if (Values.Length == 0) { return null; }
         var result = Find(value);
         if (result < 0) { return null; }
         return result;
     }
-    public abstract int Find(int value);
+    protected abstract int? Find(int value);
 }

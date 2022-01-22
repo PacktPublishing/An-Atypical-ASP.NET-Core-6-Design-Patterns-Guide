@@ -1,31 +1,29 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
-namespace WASM
+namespace WASM;
+
+public class PlainComponent : IComponent
 {
-    public class PlainComponent : IComponent
+    [Parameter]
+    public string? Text { get; set; }
+
+    public void Attach(RenderHandle renderHandle)
     {
-        [Parameter]
-        public string Text { get; set; }
-
-        public void Attach(RenderHandle renderHandle)
+        renderHandle.Render(builder =>
         {
-            renderHandle.Render(builder =>
-            {
-                builder.OpenElement(0, "h4");
-                builder.AddAttribute(1, "class", "hello-world");
-                builder.AddContent(2, Text);
-                builder.CloseElement();
-            });
-        }
+            builder.OpenElement(0, "h4");
+            builder.AddAttribute(1, "class", "hello-world");
+            builder.AddContent(2, Text);
+            builder.CloseElement();
+        });
+    }
 
-        public Task SetParametersAsync(ParameterView parameters)
+    public Task SetParametersAsync(ParameterView parameters)
+    {
+        if (parameters.TryGetValue("Text", out string? text))
         {
-            if (parameters.TryGetValue("Text", out string text))
-            {
-                Text = text;
-            }
-            return Task.CompletedTask;
+            Text = text;
         }
+        return Task.CompletedTask;
     }
 }

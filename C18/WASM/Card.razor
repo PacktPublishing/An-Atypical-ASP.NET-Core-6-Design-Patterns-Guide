@@ -6,11 +6,11 @@
 
 @code{
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> Attributes { get; set; }
+    public Dictionary<string, object> Attributes { get; set; } = new();
 
     [Parameter]
-    public string Class { get; set; }
+    public string? Class { get; set; }
 }

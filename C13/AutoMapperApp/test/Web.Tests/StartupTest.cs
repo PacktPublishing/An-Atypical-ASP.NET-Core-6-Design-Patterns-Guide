@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
+using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace Web;
@@ -16,7 +17,7 @@ public class StartupTest
     public async Task The_products_endpoint_should_be_reachable()
     {
         // Arrange
-        await using var application = new AutoMapperAppWebApplication(databaseName: nameof(The_products_endpoint_should_be_reachable));
+        await using var application = new AutoMapperAppWebApplication();
         using var client = application.CreateClient();
 
         // Act
@@ -30,7 +31,7 @@ public class StartupTest
     public async Task AutoMapper_configuration_is_valid()
     {
         // Arrange
-        await using var application = new AutoMapperAppWebApplication(databaseName: nameof(AutoMapper_configuration_is_valid));
+        await using var application = new AutoMapperAppWebApplication();
         var mapper = application.Services.GetRequiredService<IMapper>();
         mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }
@@ -39,9 +40,9 @@ public class StartupTest
 internal class AutoMapperAppWebApplication : WebApplicationFactory<Program>
 {
     private readonly string _databaseName;
-    public AutoMapperAppWebApplication(string databaseName)
+    public AutoMapperAppWebApplication([CallerMemberName]string? databaseName = default)
     {
-        _databaseName = databaseName;
+        _databaseName = databaseName ?? nameof(AutoMapperAppWebApplication);
     }
 
     protected override IHost CreateHost(IHostBuilder builder)

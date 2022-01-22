@@ -15,7 +15,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> AllAsync(CancellationToken cancellationToken)
     {
-        return (await _db.Products.ToArrayAsync(cancellationToken));
+        return await _db.Products.ToArrayAsync(cancellationToken);
     }
 
     public async Task CreateAsync(Product product, CancellationToken cancellationToken)

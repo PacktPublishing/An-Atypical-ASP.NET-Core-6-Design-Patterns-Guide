@@ -3,7 +3,7 @@
 public class Book
 {
     public int Id { get; set; }
-    public string Title { get; set; }
+    public string? Title { get; set; }
 }
 
 public class BookStore
@@ -29,7 +29,7 @@ public class BookStore
 
     public void Create(Book book)
     {
-        if (book.Id != default(int))
+        if (book.Id != default)
         {
             throw new Exception("A new book cannot be created with an id.");
         }
@@ -47,7 +47,7 @@ public class BookStore
         _books[index] = book;
     }
 
-    public Book Load(int bookId)
+    public Book? Load(int bookId)
     {
         return _books.FirstOrDefault(x => x.Id == bookId);
     }

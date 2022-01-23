@@ -1,11 +1,11 @@
 ﻿namespace SRP;
 
-class Program
+public class Program
 {
-    private static readonly BookStore _bookStore = new BookStore();
-    private static readonly BookPresenter _bookPresenter = new BookPresenter();
+    private static readonly BookStore _bookStore = new();
+    private static readonly BookPresenter _bookPresenter = new();
 
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         var run = true;
         do
@@ -71,7 +71,7 @@ class Program
     private static void FetchAndDisplayBook()
     {
         var book = _bookStore.Load(1);
-        _bookPresenter.Display(book);
+        _bookPresenter.Display(book!);
     }
 
     private static void FailToFetchBook()

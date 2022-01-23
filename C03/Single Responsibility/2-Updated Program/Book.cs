@@ -3,7 +3,7 @@
 public class Book
 {
     public int Id { get; set; }
-    public string Title { get; set; }
+    public string? Title { get; set; }
 }
 
 public class BookStore
@@ -43,7 +43,7 @@ public class BookStore
         }
     }
 
-    public Book Load(int bookId)
+    public Book? Load(int bookId)
     {
         return _books.FirstOrDefault(x => x.Id == bookId);
     }

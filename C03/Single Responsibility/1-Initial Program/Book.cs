@@ -3,7 +3,7 @@
 public class Book
 {
     public int Id { get; set; }
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     private static int _lastId = 0;
 
@@ -24,7 +24,7 @@ public class Book
 
     public Book(int? id = null)
     {
-        Id = id ?? default(int);
+        Id = id ?? default;
     }
 
     public void Save()
@@ -46,7 +46,7 @@ public class Book
     public void Load()
     {
         // Validate that an Id is set
-        if (Id == default(int))
+        if (Id == default)
         {
             throw new Exception("You must set the Id to the Book Id you want to load.");
         }

@@ -27,7 +27,7 @@ public class BookStore
 
     public IEnumerable<Book> Books => _books;
 
-    public void Create(Book book)
+    public void Add(Book book)
     {
         if (book.Id != default)
         {

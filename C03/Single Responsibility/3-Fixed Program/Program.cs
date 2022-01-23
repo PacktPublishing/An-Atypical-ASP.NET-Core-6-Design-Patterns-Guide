@@ -76,7 +76,8 @@ public class Program
 
     private static void FailToFetchBook()
     {
-        // This cannot happen anymore, this has been fixed automatically.
+        // This cannot happen anymore,
+        // this has been fixed automatically.
     }
 
     private static void BookDoesNotExist()
@@ -95,7 +96,7 @@ public class Program
             Id = 4,
             Title = "Some out of order book"
         };
-        _bookStore.Create(book); // Exception: A new book cannot be created with an id.
+        _bookStore.Add(book); // Exception: A new book cannot be created with an id.
         _bookPresenter.Display(book);
     }
 
@@ -104,14 +105,13 @@ public class Program
         Console.WriteLine("This is now possible, but we need a new Presenter; not 100% there yet!");
     }
 
-
     private static void CreateBook()
     {
         Console.Clear();
         Console.WriteLine("Please enter the book title: ");
         var title = Console.ReadLine();
         var book = new Book { Title = title };
-        _bookStore.Create(book);
+        _bookStore.Add(book);
     }
 
     private static void ListAllBooks()

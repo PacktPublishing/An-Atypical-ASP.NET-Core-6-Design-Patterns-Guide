@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SRP;
 
-namespace SRP
+public class Book
 {
-    public class Book
+    public int Id { get; set; }
+    public string Title { get; set; }
+
+    private static int _lastId = 0;
+
+    public static List<Book> Books { get; }
+    public static int NextId => ++_lastId;
+
+    static Book()
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-
-        private static int _lastId = 0;
-
-        public static List<Book> Books { get; }
-        public static int NextId => ++_lastId;
-
-        static Book()
-        {
-            Books = new List<Book>
+        Books = new List<Book>
             {
                 new Book
                 {
@@ -26,54 +20,53 @@ namespace SRP
                     Title = "Some cool computer book"
                 }
             };
-        }
+    }
 
-        public Book(int? id = null)
+    public Book(int? id = null)
+    {
+        Id = id ?? default(int);
+    }
+
+    public void Save()
+    {
+        // Create the book when it does not exist, 
+        // otherwise, find its index and replace it 
+        // by the current object.
+        if (Books.Any(x => x.Id == Id))
         {
-            Id = id ?? default(int);
+            var index = Books.FindIndex(x => x.Id == Id);
+            Books[index] = this;
         }
-
-        public void Save()
+        else
         {
-            // Create the book when it does not exist, 
-            // otherwise, find its index and replace it 
-            // by the current object.
-            if (Books.Any(x => x.Id == Id))
-            {
-                var index = Books.FindIndex(x => x.Id == Id);
-                Books[index] = this;
-            }
-            else
-            {
-                Books.Add(this);
-            }
+            Books.Add(this);
         }
+    }
 
-        public void Load()
+    public void Load()
+    {
+        // Validate that an Id is set
+        if (Id == default(int))
         {
-            // Validate that an Id is set
-            if (Id == default(int))
-            {
-                throw new Exception("You must set the Id to the Book Id you want to load.");
-            }
-
-            // Get the book
-            var book = Books.FirstOrDefault(x => x.Id == Id);
-
-            // Make sure it exist
-            if (book == null)
-            {
-                throw new Exception("This book does not exist.");
-            }
-
-            // Copy the book properties to the current object
-            Id = book.Id; // this should already be set
-            Title = book.Title;
+            throw new Exception("You must set the Id to the Book Id you want to load.");
         }
 
-        public void Display()
+        // Get the book
+        var book = Books.FirstOrDefault(x => x.Id == Id);
+
+        // Make sure it exist
+        if (book == null)
         {
-            Console.WriteLine($"Book: {Title} ({Id})");
+            throw new Exception("This book does not exist.");
         }
+
+        // Copy the book properties to the current object
+        Id = book.Id; // this should already be set
+        Title = book.Title;
+    }
+
+    public void Display()
+    {
+        Console.WriteLine($"Book: {Title} ({Id})");
     }
 }

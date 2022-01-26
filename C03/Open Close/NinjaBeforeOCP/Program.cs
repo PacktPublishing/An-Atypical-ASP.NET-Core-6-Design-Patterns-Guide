@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using NinjaBeforeOCP;
+﻿using NinjaBeforeOCP;
 using NinjaShared;
 
 var builder = WebApplication.CreateBuilder(args);

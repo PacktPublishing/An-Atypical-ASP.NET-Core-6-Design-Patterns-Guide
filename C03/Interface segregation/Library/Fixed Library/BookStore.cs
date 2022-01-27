@@ -5,7 +5,7 @@ namespace ISP;
 public interface IBookReader
 {
     IEnumerable<Book> Books { get; }
-    Book Find(int bookId);
+    Book? Find(int bookId);
 }
 
 public interface IBookWriter
@@ -36,14 +36,14 @@ public class BookStore : IBookReader, IBookWriter
 
     public IEnumerable<Book> Books => new ReadOnlyCollection<Book>(_books);
 
-    public Book Find(int bookId)
+    public Book? Find(int bookId)
     {
         return _books.FirstOrDefault(x => x.Id == bookId);
     }
 
     public void Create(Book book)
     {
-        if (book.Id != default(int))
+        if (book.Id != default)
         {
             throw new Exception("A new book cannot be created with an id.");
         }

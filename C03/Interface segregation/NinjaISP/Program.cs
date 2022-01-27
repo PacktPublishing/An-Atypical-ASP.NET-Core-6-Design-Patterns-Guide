@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using NinjaISP;
+﻿using NinjaISP;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -8,7 +6,7 @@ app.MapGet("/", async (HttpContext context) =>
 {
     // Create actors
     var theUnseenMirage = new Ninja("The Unseen Mirage", new Sword(), new Pistol());
-    var blackbeard = new Pirate("Blackbeard", new Kick(), new Cutlass(), new BoardingAxe(), new Blunderbus());
+    var blackbeard = new Pirate("Blackbeard", new Kick(), new Cutlass(), new BoardingAxe(), new Blunderbuss());
     var barel = new Barrel().MoveTo(20, 45);
 
     // Execute a sequence of actions
@@ -30,7 +28,7 @@ app.MapGet("/", async (HttpContext context) =>
     await PrintAttackResultAsync(blackbeard.Attack(theUnseenMirage));
     await PrintAttackResultAsync(blackbeard.Attack(barel));
 
-    // Utilites
+    // Utilities
     async Task PrintAttackResultAsync(AttackResult attackResult)
     {
         if (attackResult.Succeeded)

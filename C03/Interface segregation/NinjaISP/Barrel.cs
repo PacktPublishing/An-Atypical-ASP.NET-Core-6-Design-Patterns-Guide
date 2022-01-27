@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace NinjaISP
+namespace NinjaISP;
+
+public class Barrel : IAttackable
 {
-    public class Barrel : IAttackable
-    {
-        public string Name => nameof(Barrel);
-        public Vector2 Position { get; set; }
-    }
+    public string Name => nameof(Barrel);
+    public Vector2 Position { get; set; }
 }

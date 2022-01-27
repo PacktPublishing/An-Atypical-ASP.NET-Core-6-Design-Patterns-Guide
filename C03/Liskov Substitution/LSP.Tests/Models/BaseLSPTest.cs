@@ -7,7 +7,7 @@ public abstract class BaseLSPTest
 {
     protected abstract HallOfFame sut { get; }
 
-    public static TheoryData<Ninja> NinjaWithAtLeast100Kills => new TheoryData<Ninja>
+    public static TheoryData<Ninja> NinjaWithAtLeast100Kills => new()
     {
         new Ninja { Kills = 100 },
         new Ninja { Kills = 101 },

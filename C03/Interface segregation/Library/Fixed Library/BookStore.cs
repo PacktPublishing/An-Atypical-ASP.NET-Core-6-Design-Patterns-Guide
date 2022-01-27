@@ -1,79 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
-namespace ISP
+namespace ISP;
+
+public interface IBookReader
 {
-    public interface IBookReader
+    IEnumerable<Book> Books { get; }
+    Book Find(int bookId);
+}
+
+public interface IBookWriter
+{
+    void Create(Book book);
+    void Replace(Book book);
+    void Remove(Book book);
+}
+
+public class BookStore : IBookReader, IBookWriter
+{
+    private static int _lastId = 0;
+
+    private static List<Book> _books;
+    private static int NextId => ++_lastId;
+
+    static BookStore()
     {
-        IEnumerable<Book> Books { get; }
-        Book Find(int bookId);
+        _books = new List<Book>
+        {
+            new Book
+            {
+                Id = NextId,
+                Title = "Some cool computer book"
+            }
+        };
     }
 
-    public interface IBookWriter
+    public IEnumerable<Book> Books => new ReadOnlyCollection<Book>(_books);
+
+    public Book Find(int bookId)
     {
-        void Create(Book book);
-        void Replace(Book book);
-        void Remove(Book book);
+        return _books.FirstOrDefault(x => x.Id == bookId);
     }
 
-    public class BookStore : IBookReader, IBookWriter
+    public void Create(Book book)
     {
-        private static int _lastId = 0;
-
-        private static List<Book> _books;
-        private static int NextId => ++_lastId;
-
-        static BookStore()
+        if (book.Id != default(int))
         {
-            _books = new List<Book>
-            {
-                new Book
-                {
-                    Id = NextId,
-                    Title = "Some cool computer book"
-                }
-            };
+            throw new Exception("A new book cannot be created with an id.");
         }
+        book.Id = NextId;
+        _books.Add(book);
+    }
 
-        public IEnumerable<Book> Books => new ReadOnlyCollection<Book>(_books);
-
-        public Book Find(int bookId)
+    public void Replace(Book book)
+    {
+        if (_books.Any(x => x.Id == book.Id))
         {
-            return _books.FirstOrDefault(x => x.Id == bookId);
+            throw new Exception($"Book {book.Id} does not exist!");
         }
+        var index = _books.FindIndex(x => x.Id == book.Id);
+        _books[index] = book;
+    }
 
-        public void Create(Book book)
+    public void Remove(Book book)
+    {
+        if (_books.Any(x => x.Id == book.Id))
         {
-            if (book.Id != default(int))
-            {
-                throw new Exception("A new book cannot be created with an id.");
-            }
-            book.Id = NextId;
-            _books.Add(book);
+            throw new Exception($"Book {book.Id} does not exist!");
         }
-
-        public void Replace(Book book)
-        {
-            if (_books.Any(x => x.Id == book.Id))
-            {
-                throw new Exception($"Book {book.Id} does not exist!");
-            }
-            var index = _books.FindIndex(x => x.Id == book.Id);
-            _books[index] = book;
-        }
-
-        public void Remove(Book book)
-        {
-            if (_books.Any(x => x.Id == book.Id))
-            {
-                throw new Exception($"Book {book.Id} does not exist!");
-            }
-            var index = _books.FindIndex(x => x.Id == book.Id);
-            _books.RemoveAt(index);
-        }
+        var index = _books.FindIndex(x => x.Id == book.Id);
+        _books.RemoveAt(index);
     }
 }

@@ -1,23 +1,21 @@
 ﻿using LSP.Models;
-using System;
 
-namespace LSP.Examples.Update2
+namespace LSP.Examples.Update2;
+
+public class HallOfHeroes : HallOfFame
 {
-    public class HallOfHeroes : HallOfFame
+    public override void Add(Ninja ninja)
     {
-        public override void Add(Ninja ninja)
+        if (InternalMembers.Contains(ninja))
         {
-            if (InternalMembers.Contains(ninja))
-            {
-                throw new DuplicateNinjaException();
-            }
-            InternalMembers.Add(ninja);
+            throw new DuplicateNinjaException();
         }
+        InternalMembers.Add(ninja);
     }
+}
 
-    public class DuplicateNinjaException : Exception
-    {
-        public DuplicateNinjaException()
-            : base("Cannot add the same ninja twice!") { }
-    }
+public class DuplicateNinjaException : Exception
+{
+    public DuplicateNinjaException()
+        : base("Cannot add the same ninja twice!") { }
 }

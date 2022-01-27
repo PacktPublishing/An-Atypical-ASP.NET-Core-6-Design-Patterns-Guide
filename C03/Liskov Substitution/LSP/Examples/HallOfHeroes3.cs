@@ -1,35 +1,33 @@
 ﻿using LSP.Models;
-using System;
 
-namespace LSP.Examples.Update3
+namespace LSP.Examples.Update3;
+
+public class HallOfHeroes : HallOfFame
 {
-    public class HallOfHeroes : HallOfFame
+    public event EventHandler<AddingDuplicateNinjaEventArgs> AddingDuplicateNinja;
+
+    public override void Add(Ninja ninja)
     {
-        public event EventHandler<AddingDuplicateNinjaEventArgs> AddingDuplicateNinja;
-
-        public override void Add(Ninja ninja)
+        if (InternalMembers.Contains(ninja))
         {
-            if (InternalMembers.Contains(ninja))
-            {
-                OnAddingDuplicateNinja(new AddingDuplicateNinjaEventArgs(ninja));
-                return;
-            }
-            InternalMembers.Add(ninja);
+            OnAddingDuplicateNinja(new AddingDuplicateNinjaEventArgs(ninja));
+            return;
         }
-
-        protected virtual void OnAddingDuplicateNinja(AddingDuplicateNinjaEventArgs e)
-        {
-            AddingDuplicateNinja?.Invoke(this, e);
-        }
+        InternalMembers.Add(ninja);
     }
 
-    public class AddingDuplicateNinjaEventArgs : EventArgs
+    protected virtual void OnAddingDuplicateNinja(AddingDuplicateNinjaEventArgs e)
     {
-        public Ninja DuplicatedNinja { get; }
+        AddingDuplicateNinja?.Invoke(this, e);
+    }
+}
 
-        public AddingDuplicateNinjaEventArgs(Ninja ninja)
-        {
-            DuplicatedNinja = ninja ?? throw new ArgumentNullException(nameof(ninja));
-        }
+public class AddingDuplicateNinjaEventArgs : EventArgs
+{
+    public Ninja DuplicatedNinja { get; }
+
+    public AddingDuplicateNinjaEventArgs(Ninja ninja)
+    {
+        DuplicatedNinja = ninja ?? throw new ArgumentNullException(nameof(ninja));
     }
 }

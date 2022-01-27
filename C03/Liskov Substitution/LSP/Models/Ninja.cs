@@ -1,7 +1,6 @@
-﻿namespace LSP.Models
+﻿namespace LSP.Models;
+
+public class Ninja
 {
-    public class Ninja
-    {
-        public int Kills { get; set; }
-    }
+    public int Kills { get; set; }
 }

@@ -23,7 +23,7 @@ public class BookStore : IBookReader, IBookWriter
 
     public IEnumerable<Book> Books => new ReadOnlyCollection<Book>(_books);
 
-    public Book Find(int bookId)
+    public Book? Find(int bookId)
     {
         return _books.FirstOrDefault(x => x.Id == bookId);
     }

@@ -4,15 +4,20 @@ namespace DIP.Core;
 
 public class AdminService
 {
-    public IBookReader _bookReader;
-    public IBookWriter _bookWriter;
+    private readonly IBookReader _bookReader;
+    private readonly IBookWriter _bookWriter;
+    public AdminService(IBookReader bookReader, IBookWriter bookWriter)
+    {
+        _bookReader = bookReader;
+        _bookWriter = bookWriter;
+    }
 
     public Task<IEnumerable<Book>> FindAllAsync()
     {
         return Task.FromResult(_bookReader.Books);
     }
 
-    public Task<Book> FindAsync(int bookId)
+    public Task<Book?> FindAsync(int bookId)
     {
         var book = _bookReader.Find(bookId);
         return Task.FromResult(book);

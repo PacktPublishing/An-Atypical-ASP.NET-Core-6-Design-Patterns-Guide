@@ -3,5 +3,5 @@
 public interface IBookReader
 {
     IEnumerable<Book> Books { get; }
-    Book Find(int bookId);
+    Book? Find(int bookId);
 }

@@ -3,13 +3,13 @@ using DIP.Data.InMemory;
 
 namespace DIP.App;
 
-class Program
+public class Program
 {
-    private static BookPresenter presenter = new BookPresenter();
+    private static BookPresenter presenter = new();
 
-    static async Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        var isPublic = args?.Length == 0 || args[0] != "admin";
+        var isPublic = args?.Length == 0 || args?[0] != "admin";
         Console.WriteLine($"isPublic: {isPublic}");
         if (isPublic)
         {
@@ -44,23 +44,21 @@ class Program
 
     private static class Composer
     {
-        private readonly static BookStore BookStore = new BookStore();
+        private readonly static BookStore BookStore = new();
 
         public static AdminService CreateAdminService()
         {
-            return new AdminService
-            {
-                _bookReader = BookStore,
-                _bookWriter = BookStore
-            };
+            return new AdminService(
+                bookReader: BookStore,
+                bookWriter: BookStore
+            );
         }
 
         public static PublicService CreatePublicService()
         {
-            return new PublicService
-            {
-                _bookReader = BookStore
-            };
+            return new PublicService(
+                bookReader: BookStore
+            );
         }
     }
 }

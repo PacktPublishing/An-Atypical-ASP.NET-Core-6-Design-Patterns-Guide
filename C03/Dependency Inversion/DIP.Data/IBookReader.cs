@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+﻿namespace DIP.Data;
 
-namespace DIP.Data
+public interface IBookReader
 {
-    public interface IBookReader
-    {
-        IEnumerable<Book> Books { get; }
-        Book Find(int bookId);
-    }
+    IEnumerable<Book> Books { get; }
+    Book Find(int bookId);
 }

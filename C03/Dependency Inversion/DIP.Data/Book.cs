@@ -1,8 +1,7 @@
-﻿namespace DIP.Data
+﻿namespace DIP.Data;
+
+public class Book
 {
-    public class Book
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-    }
+    public int Id { get; set; }
+    public string Title { get; set; }
 }

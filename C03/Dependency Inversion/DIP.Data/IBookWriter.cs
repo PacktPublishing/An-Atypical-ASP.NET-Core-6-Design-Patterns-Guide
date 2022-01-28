@@ -1,9 +1,8 @@
-﻿namespace DIP.Data
+﻿namespace DIP.Data;
+
+public interface IBookWriter
 {
-    public interface IBookWriter
-    {
-        void Create(Book book);
-        void Replace(Book book);
-        void Remove(Book book);
-    }
+    void Create(Book book);
+    void Replace(Book book);
+    void Remove(Book book);
 }

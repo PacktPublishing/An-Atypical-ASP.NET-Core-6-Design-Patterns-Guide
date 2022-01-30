@@ -204,7 +204,7 @@ public class ChatRoomTest
 
     private class TestMessageWriter : IMessageWriter
     {
-        public List<(IChatRoom chatRoom, ChatMessage message)> Output { get; } = new List<(IChatRoom, ChatMessage)>();
+        public List<(IChatRoom chatRoom, ChatMessage message)> Output { get; } = new();
 
         public void Write(IChatRoom chatRoom, ChatMessage message)
         {

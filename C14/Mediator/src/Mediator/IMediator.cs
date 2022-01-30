@@ -28,7 +28,7 @@ public class ConcreteMediator : IMediator
     private readonly List<IColleague> _colleagues;
     public ConcreteMediator(params IColleague[] colleagues)
     {
-        ArgumentNullException.ThrowIfNull(colleagues, nameof(colleagues));
+        ArgumentNullException.ThrowIfNull(colleagues);
         _colleagues = new List<IColleague>(colleagues);
     }
 

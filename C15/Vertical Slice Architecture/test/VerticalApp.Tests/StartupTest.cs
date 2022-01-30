@@ -10,7 +10,7 @@ public class StartupTest
     public async Task AutoMapper_configuration_is_valid()
     {
         // Arrange
-        await using var application = new VerticalAppApplication(databaseName: nameof(AutoMapper_configuration_is_valid));
+        await using var application = new VerticalAppApplication();
         var mapper = application.Services.GetRequiredService<IMapper>();
         mapper.ConfigurationProvider.AssertConfigurationIsValid();
     }

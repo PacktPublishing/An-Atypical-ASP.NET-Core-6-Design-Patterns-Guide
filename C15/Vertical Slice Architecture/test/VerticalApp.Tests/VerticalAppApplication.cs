@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
 using VerticalApp.Data;
 
 namespace VerticalApp;
@@ -10,9 +11,9 @@ internal class VerticalAppApplication : WebApplicationFactory<Program>
 {
     private readonly Action<IServiceCollection>? _afterConfigureServices;
     private readonly string _databaseName;
-    public VerticalAppApplication(string databaseName, Action<IServiceCollection>? afterConfigureServices = null)
+    public VerticalAppApplication([CallerMemberName] string? databaseName = null, Action<IServiceCollection>? afterConfigureServices = null)
     {
-        _databaseName = databaseName;
+        _databaseName = databaseName ?? nameof(VerticalAppApplication);
         _afterConfigureServices = afterConfigureServices;
     }
 

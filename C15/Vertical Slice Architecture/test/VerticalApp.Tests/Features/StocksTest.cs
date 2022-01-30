@@ -35,7 +35,7 @@ public class StocksTest
         public async Task Should_increment_QuantityInStock_by_the_specified_amount()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_increment_QuantityInStock_by_the_specified_amount));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
@@ -59,7 +59,7 @@ public class StocksTest
         public async Task Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
@@ -79,7 +79,7 @@ public class StocksTest
         public async Task Should_decrement_QuantityInStock_by_the_specified_amount()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_decrement_QuantityInStock_by_the_specified_amount));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
@@ -103,7 +103,7 @@ public class StocksTest
         public async Task Should_throw_a_NotEnoughStockException_when_the_resulting_QuantityInStock_would_be_less_than_zero()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_throw_a_NotEnoughStockException_when_the_resulting_QuantityInStock_would_be_less_than_zero));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
@@ -120,7 +120,7 @@ public class StocksTest
         public async Task Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_throw_a_ProductNotFoundException_when_no_product_is_found_for_the_specified_ProductId));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();
@@ -149,7 +149,6 @@ public class StocksTest
                     .Callback((IRequest<AddStocks.Result> request, CancellationToken cancellationToken) => addStocksCommand = request as AddStocks.Command)
                 ;
                 await using var application = new VerticalAppApplication(
-                    databaseName: nameof(Should_send_a_valid_AddStocks_Command_to_the_mediator),
                     afterConfigureServices: services => services
                         .AddSingleton(mediatorMock.Object)
                 );
@@ -187,7 +186,6 @@ public class StocksTest
                     .Callback((IRequest<RemoveStocks.Result> request, CancellationToken cancellationToken) => removeStocksCommand = request as RemoveStocks.Command)
                 ;
                 await using var application = new VerticalAppApplication(
-                    databaseName: nameof(Should_send_a_valid_RemoveStocks_Command_to_the_mediator),
                     afterConfigureServices: services => services
                         .AddSingleton(mediatorMock.Object)
                 );

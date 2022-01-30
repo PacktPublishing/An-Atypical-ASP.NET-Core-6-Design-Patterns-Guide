@@ -35,7 +35,7 @@ public class ProductsTest
         public async Task Should_return_all_products()
         {
             // Arrange
-            await using var application = new VerticalAppApplication(databaseName: nameof(Should_return_all_products));
+            await using var application = new VerticalAppApplication();
             await application.SeedAsync(SeederDelegate);
             using var requestScope = application.Services.CreateScope();
             var mediator = requestScope.ServiceProvider.GetRequiredService<IMediator>();

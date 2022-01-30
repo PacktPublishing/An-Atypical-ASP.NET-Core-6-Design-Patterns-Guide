@@ -4,7 +4,7 @@ using MediatR;
 namespace VerticalApp;
 
 public class ThrowFluentValidationExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IBaseRequest
+    where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     public ThrowFluentValidationExceptionBehavior(IEnumerable<IValidator<TRequest>> validators)

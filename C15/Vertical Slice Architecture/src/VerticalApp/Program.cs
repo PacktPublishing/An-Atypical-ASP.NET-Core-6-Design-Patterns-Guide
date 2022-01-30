@@ -22,7 +22,7 @@ builder.Services
 
     // Web/MVC
     .AddControllers(options => options.Filters.Add<FluentValidationExceptionFilter>())
-        .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(currentAssembly));
+        .AddFluentValidation(config => config.RegisterValidatorsFromAssembly(currentAssembly, lifetime: ServiceLifetime.Singleton));
 ;
 
 var app = builder.Build();

@@ -13,7 +13,6 @@ public abstract class SearchMachine
     {
         if (Values.Length == 0) { return null; }
         var result = Find(value);
-        if (result < 0) { return null; }
         return result;
     }
     protected abstract int? Find(int value);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using TransformTemplateView.Data;
 using TransformTemplateView.Data.Models;
 
@@ -16,18 +17,18 @@ public class EditModel : PageModel
     }
 
     [BindProperty]
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id == null)
+        if (id is null)
         {
             return NotFound();
         }
 
         Employee = await _context.Employees.FirstOrDefaultAsync(m => m.Id == id);
 
-        if (Employee == null)
+        if (Employee is null)
         {
             return NotFound();
         }
@@ -36,7 +37,7 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid)
+        if (!ModelIsValid())
         {
             return Page();
         }
@@ -49,21 +50,24 @@ public class EditModel : PageModel
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!EmployeeExists(Employee.Id))
+            if (!EmployeeExists(Employee))
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+            throw;
         }
 
         return RedirectToPage("./Index");
     }
 
-    private bool EmployeeExists(int id)
+    [MemberNotNullWhen(true, nameof(Employee))]
+    private bool ModelIsValid()
     {
-        return _context.Employees.Any(e => e.Id == id);
+        return ModelState.IsValid;
+    }
+
+    private bool EmployeeExists(Employee employee)
+    {
+        return _context.Employees.Any(e => e.Id == employee.Id);
     }
 }

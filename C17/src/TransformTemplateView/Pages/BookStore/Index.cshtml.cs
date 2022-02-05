@@ -14,7 +14,7 @@ public class IndexModel : PageModel
         _corporationFactory = corporationFactory ?? throw new ArgumentNullException(nameof(corporationFactory));
     }
 
-    public ReadOnlyCollection<IComponent> Components { get; private set; }
+    public ReadOnlyCollection<IComponent> Components { get; private set; } = new(Array.Empty<IComponent>());
 
     public void OnGet()
     {

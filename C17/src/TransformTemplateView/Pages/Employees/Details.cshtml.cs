@@ -15,18 +15,18 @@ public class DetailsModel : PageModel
         _context = context;
     }
 
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id == null)
+        if (id is null)
         {
             return NotFound();
         }
 
         Employee = await _context.Employees.FirstOrDefaultAsync(m => m.Id == id);
 
-        if (Employee == null)
+        if (Employee is null)
         {
             return NotFound();
         }

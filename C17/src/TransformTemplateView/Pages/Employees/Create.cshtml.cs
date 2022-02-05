@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics.CodeAnalysis;
 using TransformTemplateView.Data;
 using TransformTemplateView.Data.Models;
 
@@ -19,11 +20,11 @@ public class CreateModel : PageModel
     }
 
     [BindProperty]
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid)
+        if (!ModelIsValid())
         {
             return Page();
         }
@@ -32,5 +33,11 @@ public class CreateModel : PageModel
         await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
+    }
+
+    [MemberNotNullWhen(true, nameof(Employee))]
+    private bool ModelIsValid()
+    {
+        return ModelState.IsValid;
     }
 }

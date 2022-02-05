@@ -1,9 +1,8 @@
 ﻿using PageController.Data.Models;
 
-namespace PageController.Pages.Employees
+namespace PageController.Pages.Employees;
+
+public interface ICreateOrEditModel
 {
-    public interface ICreateOrEditModel
-    {
-        Employee Employee { get; set; }
-    }
+    Employee Employee { get; set; }
 }

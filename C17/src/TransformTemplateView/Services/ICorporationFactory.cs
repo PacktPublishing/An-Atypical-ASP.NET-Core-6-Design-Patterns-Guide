@@ -1,9 +1,8 @@
 ﻿using TransformTemplateView.Models;
 
-namespace TransformTemplateView.Services
+namespace TransformTemplateView.Services;
+
+public interface ICorporationFactory
 {
-    public interface ICorporationFactory
-    {
-        Corporation Create();
-    }
+    Corporation Create();
 }

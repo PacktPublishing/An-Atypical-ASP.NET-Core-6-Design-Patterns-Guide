@@ -1,40 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PageController.Data;
 using PageController.Data.Models;
 
-namespace PageController.Pages.Employees
+namespace PageController.Pages.Employees;
+
+public class DetailsModel : PageModel
 {
-    public class DetailsModel : PageModel
+    private readonly EmployeeDbContext _context;
+
+    public DetailsModel(EmployeeDbContext context)
     {
-        private readonly EmployeeDbContext _context;
+        _context = context;
+    }
 
-        public DetailsModel(EmployeeDbContext context)
+    public Employee Employee { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(int? id)
+    {
+        if (id == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        public Employee Employee { get; set; }
+        Employee = await _context.Employees.FirstOrDefaultAsync(m => m.Id == id);
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        if (Employee == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Employee = await _context.Employees.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Employee == null)
-            {
-                return NotFound();
-            }
-            return Page();
+            return NotFound();
         }
+        return Page();
     }
 }

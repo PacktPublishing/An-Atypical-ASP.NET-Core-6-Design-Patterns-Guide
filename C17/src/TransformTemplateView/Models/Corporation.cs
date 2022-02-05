@@ -1,7 +1,6 @@
-﻿namespace TransformTemplateView.Models
+﻿namespace TransformTemplateView.Models;
+
+public class Corporation : BookComposite
 {
-    public class Corporation : BookComposite
-    {
-        public Corporation(string name) : base(name) { }
-    }
+    public Corporation(string name) : base(name) { }
 }

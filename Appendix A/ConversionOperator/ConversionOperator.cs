@@ -24,7 +24,7 @@ public class Tests
     [Fact]
     public void Value_should_be_set_implicitly_using_local_function()
     {
-        var result1 = (SomeGenericClass<string>)"Test"; //GetValue("Test");
+        var result1 = GetValue("Test");
         Assert.IsType<SomeGenericClass<string>>(result1);
         Assert.Equal("Test", result1.Value);
 

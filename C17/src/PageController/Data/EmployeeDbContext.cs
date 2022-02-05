@@ -9,5 +9,5 @@ public class EmployeeDbContext : DbContext
         : base(options)
     {
     }
-    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Employee> Employees => Set<Employee>();
 }

@@ -4,5 +4,5 @@ namespace PageController.Pages.Employees;
 
 public interface ICreateOrEditModel
 {
-    Employee Employee { get; set; }
+    Employee? Employee { get; set; }
 }

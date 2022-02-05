@@ -16,7 +16,7 @@ public class DeleteModel : PageModel
     }
 
     [BindProperty]
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {

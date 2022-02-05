@@ -73,7 +73,7 @@
         <div class="container">
             &copy; 2019 - PageController - <a asp-area="" asp-page="/Privacy">Privacy</a>
             | <cache>@(new Random().Next())</cache>
-            | <cache vary-by-user="true">Hello @this.User.Identity.Name!</cache>
+            | <cache vary-by-user="true">Hello @User?.Identity?.Name!</cache>
             | <partial name="Employees/_PieceOfUI" model="new PieceOfUIViewModel(true)" />
         </div>
     </footer>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PageController.Data;
 using PageController.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PageController.Pages.Employees;
 
@@ -19,11 +20,11 @@ public class CreateModel : PageModel, ICreateOrEditModel
     }
 
     [BindProperty]
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid)
+        if (!ModelIsValid())
         {
             return Page();
         }
@@ -32,5 +33,12 @@ public class CreateModel : PageModel, ICreateOrEditModel
         await _context.SaveChangesAsync();
 
         return RedirectToPage("./Index");
+    }
+
+
+    [MemberNotNullWhen(true, nameof(Employee))]
+    private bool ModelIsValid()
+    {
+        return ModelState.IsValid;
     }
 }

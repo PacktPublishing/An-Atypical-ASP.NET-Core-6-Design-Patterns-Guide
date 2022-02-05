@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PageController.Data;
 using PageController.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PageController.Pages.Employees;
 
@@ -16,7 +17,7 @@ public class EditModel : PageModel, ICreateOrEditModel
     }
 
     [BindProperty]
-    public Employee Employee { get; set; }
+    public Employee? Employee { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -36,11 +37,10 @@ public class EditModel : PageModel, ICreateOrEditModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid)
+        if (!ModelIsValid())
         {
             return Page();
         }
-
         _context.Attach(Employee).State = EntityState.Modified;
 
         try
@@ -49,7 +49,7 @@ public class EditModel : PageModel, ICreateOrEditModel
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!EmployeeExists(Employee.Id))
+            if (!EmployeeExists(Employee))
             {
                 return NotFound();
             }
@@ -62,8 +62,19 @@ public class EditModel : PageModel, ICreateOrEditModel
         return RedirectToPage("./Index");
     }
 
-    private bool EmployeeExists(int id)
+    [MemberNotNullWhen(true, nameof(Employee))]
+    private bool ModelIsValid()
     {
-        return _context.Employees.Any(e => e.Id == id);
+        return ModelState.IsValid;
+    }
+
+    [MemberNotNullWhen(true, nameof(Employee))]
+    private bool EmployeeExists(Employee? employee)
+    {
+        if (employee == null)
+        {
+            return false;
+        }
+        return _context.Employees.Any(e => e.Id == employee.Id);
     }
 }

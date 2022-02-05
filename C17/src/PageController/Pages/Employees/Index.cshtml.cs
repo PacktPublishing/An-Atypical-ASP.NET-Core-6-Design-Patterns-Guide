@@ -14,7 +14,7 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public IList<Employee> Employee { get;set; }
+    public List<Employee> Employee { get; set; } = new();
 
     public async Task OnGetAsync()
     {

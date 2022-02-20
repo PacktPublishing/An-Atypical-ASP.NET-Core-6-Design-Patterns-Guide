@@ -9,7 +9,7 @@ public class MyServiceImplementation : IMyService
     {
         if (_isDisposed)
         {
-            throw new NullReferenceException("Some dependencies has been disposed.");
+            throw new NullReferenceException("Some dependencies have been disposed.");
         }
     }
 }

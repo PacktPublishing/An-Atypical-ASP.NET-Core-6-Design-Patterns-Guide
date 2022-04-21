@@ -1,33 +1,27 @@
-## $5 Tech Unlocked 2021!
-
-## [Buy and download this product for only $5 on PacktPub.com](https://www.packtpub.com/)
-
-_The $5 campaign runs from **December 15th 2020** to **January 13th 2021.**_
-
-# An Atypical ASP.NET Core 5 Design Patterns Guide
+# An Atypical ASP.NET Core 6 Design Patterns Guide, Second Edition
 
 <a href="https://www.packtpub.com/product/an-atypical-asp-net-core-5-design-patterns-guide/9781789346091?utm_source=github&utm_medium=repository&utm_campaign=9781789346091"><img src="https://github.com/PacktPublishing/ASP.NET-Core-5-Design-Patterns/blob/main/smaller.png?raw=true" alt="An Atypical ASP.NET Core 5 Design Patterns Guide" height="256px" align="right"></a>
 
-This is the code repository for [An Atypical ASP.NET Core 5 Design Patterns Guide](https://www.packtpub.com/product/an-atypical-asp-net-core-5-design-patterns-guide/9781789346091?utm_source=github&utm_medium=repository&utm_campaign=9781789346091), published by Packt.
+This is the code repository for [An Atypical ASP.NET Core 6 Design Patterns Guide](https://www.packtpub.com/product/an-atypical-asp-net-core-6-design-patterns-guide-second-edition/9781803249841), published by Packt.
 
-**A SOLID adventure into architectural principles, design patterns, .NET 5, and C#**
+**A SOLID adventure into architectural principles and design patterns using .NET 6 and C# 10**
 
 ## What is this book about?
 
-Design patterns are a set of solutions to many of the common problems occurring in software development. Knowledge of these design patterns helps developers and professionals to craft software solutions of any scale.
+Thoroughly updated for ASP.NET Core 6, with further coverage of microservices, data contracts, and event-driven architecture, this book gives you the tools to build and glue reliable components together to improve your programmatic masterpiece.
 
 This book covers the following exciting features:
 
--   Apply the SOLID principles for building flexible and maintainable software
--   Get to grips with .NET 5 dependency injection
--   Work with GoF design patterns such as strategy, decorator, and composite
--   Explore the MVC patterns for designing web APIs and web applications using Razor
--   Discover layering techniques and tenets of clean architecture
+- Apply the SOLID principles for building flexible and maintainable software
+- Get to grasp .NET dependency Injection
+- Work with GoF design patterns such as strategy, decorator, façade, and composite
+- Explore the MVC patterns for designing web APIs and web applications using Razor
+- Discover layering techniques and tenets of clean architecture
+- Become familiar with CQRS and vertical slice architecture as an alternate to layering
+- Understand microservices and when they can benefit your applications
+- Build an ASP.NET user interfaces from server-side to client-side Blazor
 
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1789346096) today!
-
-<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
-alt="https://www.packtpub.com/" border="5" /></a>
+If you feel this book is for you, get your [copy](https://www.amazon.com/Atypical-ASP-NET-Design-Patterns-Guide/dp/1803249846) today!
 
 ## Instructions and Navigations
 
@@ -59,34 +53,19 @@ With the following software and hardware list you can run all code files present
 
 | Chapter | Software required                         | OS required                        |
 | ------- | ----------------------------------------- | ---------------------------------- |
-| 1-18    | .NET 5                                    | Windows, Mac OS X, and Linux (Any) |
-| 1-18    | ASP.NET Core 5                            | Windows, Mac OS X, and Linux (Any) |
-| 1-18    | C# 9.0                                    | Windows, Mac OS X, and Linux (Any) |
+| 1-18    | .NET 6                                    | Windows, Mac OS X, and Linux (Any) |
+| 1-18    | ASP.NET Core 6                            | Windows, Mac OS X, and Linux (Any) |
+| 1-18    | C# 10                                     | Windows, Mac OS X, and Linux (Any) |
 | 1-18    | xUnit                                     | Windows, Mac OS X, and Linux (Any) |
 | 1-18    | Multiple other .NET open source libraries | Windows, Mac OS X, and Linux (Any) |
 
 ### Introduction
 
-This repository contains the code of `An Atypical ASP.NET Core 5 Design Patterns Guide`.
+This repository contains the code of `An Atypical ASP.NET Core 6 Design Patterns Guide`.
 It also contains pointers to help you find your way around the repository.
 This repo is also there to rectify any mistake that could have been made in the book and missed during reviews.
 
 Please open an issue if you find something missing from the instructions below or the book's instructions.
-
-### Postman Collection
-
-If you know Postman, or if you want to learn it, we have a collection of HTTP requests to query the various REST APIs created throughout the book.
-
-Link: https://net5.link/postman
-
-The structure is as follow:
-
-![Postman Collection](.assets/postman-collection.png)
-
-The author built that collection to test the code himself while writing the book.
-Since he needed it, we concluded that you could also find these requests useful during your journey.
-
-If you think a request is missing or find an error, please open an issue to let us know.
 
 ### UML Diagrams
 
@@ -94,7 +73,6 @@ In the book, we have UML Class diagrams, UML Sequence Diagrams, and some non-UML
 We assumed that most-developers would know about UML, so we decided not to add pages about it.
 
 The author used [diagrams.net (draw.io)](https://draw.io) to draw the diagrams (which is free and open-source).
-You can even load their editor in Visual Studio Code using the [Draw.io Integration](https://net5.link/w32e) extension.
 
 The following two articles should help you get started if you don't know UML:
 
@@ -103,18 +81,18 @@ The following two articles should help you get started if you don't know UML:
 
 ### Getting Started
 
-1. You need a copy of `An Atypical ASP.NET Core 5 Design Patterns Guide` to make sense of the code projects as many projects start with bad code and get refactored into better ones.
+1. You need a copy of `An Atypical ASP.NET Core 6 Design Patterns Guide` to make sense of the code projects as many projects start with bad code and get refactored into better ones.
 
-    - You can find [An Atypical ASP.NET Core 5 Design Patterns Guide](https://net5.link/buy) on Amazon.com
+    - You can find [An Atypical ASP.NET Core 6 Design Patterns Guide](https://www.amazon.com/Atypical-ASP-NET-Design-Patterns-Guide/dp/1803249846) on Amazon.com
 
 1. You need an IDE/Text Editor like Visual Studio or Visual Studio Code, but you could do without (not recommended).
 
     - [Download Visual Studio](https://net5.link/VS)
     - [Download Visual Studio Code](https://net5.link/VSC)
 
-1. You need .NET 5 SDK. If you installed Visual Studio, you should be fine. Otherwise, here is the link:
+1. You need .NET 6 SDK. If you installed Visual Studio, you should be fine. Otherwise, here is the link:
 
-    - [Download .NET 5](https://net5.link/SDK)
+    - [Download .NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 
 With that in place, you should be good to go!
 
@@ -142,12 +120,13 @@ For more information, check out the [Code of conduct](CODE_OF_CONDUCT.md).
 
 ### Related products <Other books you may enjoy>
 
--   ASP.NET Core 3 and React [[Packt]](https://www.packtpub.com/product/asp-net-core-3-and-react/9781789950229?utm_source=github&utm_medium=repository&utm_campaign=9781789950229) [[Amazon]](https://www.amazon.com/dp/1789950228)
+-   C# 10 and .NET 6 – Modern Cross-Platform Development, Sixth Edition [[Packt]](https://www.packtpub.com/product/c-10-and-net-6-modern-cross-platform-development-sixth-edition/9781801077361) [[Amazon]](https://www.amazon.com/10-NET-Cross-Platform-Development-websites/dp/1801077363)
 
--   Introducing .NET 5 - Architecture, Migration, and New Features [[Packt]](https://www.packtpub.com/product/introducing-net-5-architecture-migration-and-new-features/9781800560567?utm_source=github&utm_medium=repository&utm_campaign=9781800560567) [[Amazon]](https://www.amazon.com/dp/1800560567)
+-   Software Architecture with C# 10 and .NET 6, Third Edition [[Packt]](https://www.packtpub.com/product/software-architecture-with-c-10-and-net-6-third-edition/9781803235257) [[Amazon]](https://www.amazon.com/Software-Architecture-NET-solutions-microservices/dp/180323525X)
 
 ## Get to Know the Author
 
 **Carl-Hugo Marcotte**
-has been developing, designing, and architecting web applications professionally since 2005. He wrote his first line of code at about 8 years old and has been a computer enthusiast since. He holds a Bachelor's degree in Computer Science from Université du Québec à Trois-Rivières. After working at a firm for a few years, he became an independent consultant, where he developed projects of different sizes for SMEs and educational institutions. He is passionate about software architecture, C#, ASP.NET Core, and the web.
-He loves to share his knowledge, which led him to teaching programming; blogging; and creating, maintaining, and contributing to multiple open source projects.
+has been developing, designing, and architecting web applications professionally since 2005, wrote his first line of code at about eight years old, and holds a bachelor's degree in computer science.
+After working at a firm for a few years, he became an independent consultant, where he developed projects of different sizes for SMEs and educational institutions. He is now a Senior Solutions Architect at Export Development Canada and is passionate about software architecture, C#, ASP.NET Core, and the Cloud.
+He loves to share his knowledge, which led him to teaching programming, blogging, and creating, maintaining and contributing to multiple open-source projects.

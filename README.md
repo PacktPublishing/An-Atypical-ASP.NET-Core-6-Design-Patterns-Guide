@@ -1,6 +1,6 @@
 # An Atypical ASP.NET Core 6 Design Patterns Guide, Second Edition
 
-<a href="https://www.packtpub.com/product/an-atypical-asp-net-core-5-design-patterns-guide/9781789346091?utm_source=github&utm_medium=repository&utm_campaign=9781789346091"><img src="https://github.com/PacktPublishing/ASP.NET-Core-5-Design-Patterns/blob/main/smaller.png?raw=true" alt="An Atypical ASP.NET Core 5 Design Patterns Guide" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/product/an-atypical-asp-net-core-6-design-patterns-guide-second-edition/9781803249841"><img src="cover.png?raw=true" alt="An Atypical ASP.NET Core 5 Design Patterns Guide" height="256px" align="right"></a>
 
 This is the code repository for [An Atypical ASP.NET Core 6 Design Patterns Guide](https://www.packtpub.com/product/an-atypical-asp-net-core-6-design-patterns-guide-second-edition/9781803249841), published by Packt.
 

@@ -53,7 +53,7 @@ public class BookStore : IBookReader, IBookWriter
 
     public void Replace(Book book)
     {
-        if (_books.Any(x => x.Id == book.Id))
+        if (!_books.Any(x => x.Id == book.Id))
         {
             throw new Exception($"Book {book.Id} does not exist!");
         }
@@ -63,7 +63,7 @@ public class BookStore : IBookReader, IBookWriter
 
     public void Remove(Book book)
     {
-        if (_books.Any(x => x.Id == book.Id))
+        if (!_books.Any(x => x.Id == book.Id))
         {
             throw new Exception($"Book {book.Id} does not exist!");
         }

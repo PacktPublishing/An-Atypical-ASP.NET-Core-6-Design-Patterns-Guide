@@ -39,7 +39,7 @@ public class BookStore
 
     public void Replace(Book book)
     {
-        if (_books.Any(x => x.Id == book.Id))
+        if (!_books.Any(x => x.Id == book.Id))
         {
             throw new Exception($"Book {book.Id} does not exist!");
         }

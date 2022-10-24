@@ -130,3 +130,7 @@ For more information, check out the [Code of conduct](CODE_OF_CONDUCT.md).
 has been developing, designing, and architecting web applications professionally since 2005, wrote his first line of code at about eight years old, and holds a bachelor's degree in computer science.
 After working at a firm for a few years, he became an independent consultant, where he developed projects of different sizes for SMEs and educational institutions. He is now a Senior Solutions Architect at Export Development Canada and is passionate about software architecture, C#, ASP.NET Core, and the Cloud.
 He loves to share his knowledge, which led him to teaching programming, blogging, and creating, maintaining and contributing to multiple open-source projects.
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781803249841">https://packt.link/free-ebook/9781803249841 </a> </p>

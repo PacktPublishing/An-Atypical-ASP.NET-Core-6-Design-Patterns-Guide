@@ -1,3 +1,15 @@
+
+### Get this product for $5
+
+<i>Packt is having its biggest sale of the year. Get this eBook or any other book, video, or course that you like just for $5 each</i>
+
+
+<b><p align='center'>[Buy now](https://packt.link/9781803249841)</p></b>
+
+
+<b><p align='center'>[Buy similar titles for just $5](https://subscription.packtpub.com/search)</p></b>
+
+
 # An Atypical ASP.NET Core 6 Design Patterns Guide, Second Edition
 
 <a href="https://www.packtpub.com/product/an-atypical-asp-net-core-6-design-patterns-guide-second-edition/9781803249841"><img src="cover.png?raw=true" alt="An Atypical ASP.NET Core 5 Design Patterns Guide" height="256px" align="right"></a>
